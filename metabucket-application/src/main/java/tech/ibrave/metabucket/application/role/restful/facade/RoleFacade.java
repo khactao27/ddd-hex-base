@@ -18,7 +18,7 @@ public class RoleFacade {
     private final RoleUseCase roleUsecase;
 
     public SuccessResponse<Long> createRole(CreateRoleReq req) {
-        var roleId = roleUsecase.createRole(req.toDomainModel());
+        var roleId = roleUsecase.create(req.toDomainModel()).getId();
         return new SuccessResponse<>(roleId, "mb.roles.create.success");
     }
 }

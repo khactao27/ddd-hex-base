@@ -14,9 +14,9 @@ import tech.ibrave.metabucket.infra.peristence.mapper.RoleMapper;
  * #YWNA
  */
 @Component
-public class RoleRepositoryAdapter extends BaseJpaRepository<RoleEntity, Role, Long> implements RolePersistence {
+public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, Long> implements RolePersistence {
 
-    protected RoleRepositoryAdapter(RoleJpaRepository repo, RoleMapper mapper) {
+    protected RolePersistenceAdapter(RoleJpaRepository repo, RoleMapper mapper) {
         super(repo, mapper);
     }
 }

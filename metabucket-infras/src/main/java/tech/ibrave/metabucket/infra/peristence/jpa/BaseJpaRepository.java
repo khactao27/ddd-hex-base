@@ -6,7 +6,6 @@ import tech.ibrave.metabucket.shared.domain.BasePersistence;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Author: anct
@@ -44,5 +43,10 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
     @Override
     public Optional<DM> findById(ID id) {
         return repo.findById(id).map(mapper::toDomainModel);
+    }
+
+    @Override
+    public void delete(ID id) {
+        repo.deleteById(id);
     }
 }

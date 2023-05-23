@@ -1,6 +1,7 @@
 package tech.ibrave.metabucket.shared.domain;
 
-import java.util.List;
+import tech.ibrave.metabucket.shared.exception.ErrorCode;
+
 import java.util.Optional;
 
 /**
@@ -8,23 +9,16 @@ import java.util.Optional;
  * Date: 23/05/2023
  * #YWNA
  */
-public abstract class BaseUseCase<DM, ID> {
+public interface BaseUseCase<DM, ID> {
+    DM create(DM model);
 
-    protected final BasePersistence<DM, ID> repo;
+    DM update(ID id, DM model);
 
-    protected BaseUseCase(BasePersistence<DM, ID> repo) {
-        this.repo = repo;
-    }
+    void delete(ID id);
 
-    public DM save(DM model) {
-        return this.repo.save(model);
-    }
+    Optional<DM> getById(ID id);
 
-    public List<DM> saveAll(List<DM> models) {
-        return this.repo.saveAll(models);
-    }
+    DM getOrElseThrow(ID id);
 
-    public Optional<DM> get(ID id) {
-        return this.repo.findById(id);
-    }
+    ErrorCode notFound();
 }

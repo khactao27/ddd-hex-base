@@ -15,4 +15,6 @@ public interface BasePersistence<DM, ID> {
     List<DM> saveAll(List<DM> models);
 
     Optional<DM> findById(ID id);
+
+    void delete(ID id);
 }
