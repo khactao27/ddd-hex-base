@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.infra.peristence.adapter;
 
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.domain.role.Role;
-import tech.ibrave.metabucket.domain.role.port.RolePersistence;
+import tech.ibrave.metabucket.domain.role.persistence.RolePersistence;
 import tech.ibrave.metabucket.infra.peristence.jpa.BaseJpaRepository;
 import tech.ibrave.metabucket.infra.peristence.jpa.entity.RoleEntity;
 import tech.ibrave.metabucket.infra.peristence.jpa.repository.RoleJpaRepository;

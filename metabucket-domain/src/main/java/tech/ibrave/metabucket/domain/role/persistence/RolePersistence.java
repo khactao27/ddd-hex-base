@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.domain.role.port;
+package tech.ibrave.metabucket.domain.role.persistence;
 
 import tech.ibrave.metabucket.domain.role.Role;
 import tech.ibrave.metabucket.shared.domain.BasePersistence;

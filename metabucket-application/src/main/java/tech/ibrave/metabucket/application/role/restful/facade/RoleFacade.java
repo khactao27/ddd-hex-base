@@ -3,7 +3,7 @@ package tech.ibrave.metabucket.application.role.restful.facade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.role.restful.request.CreateRoleReq;
-import tech.ibrave.metabucket.domain.role.service.RoleService;
+import tech.ibrave.metabucket.domain.role.usecase.RoleUseCase;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 
 /**
@@ -15,10 +15,10 @@ import tech.ibrave.metabucket.shared.response.SuccessResponse;
 @RequiredArgsConstructor
 public class RoleFacade {
 
-    private final RoleService roleService;
+    private final RoleUseCase roleUsecase;
 
     public SuccessResponse<Long> createRole(CreateRoleReq req) {
-        var roleId = roleService.createRole(req.toDomainModel());
+        var roleId = roleUsecase.createRole(req.toDomainModel());
         return new SuccessResponse<>(roleId, "mb.roles.create.success");
     }
 }

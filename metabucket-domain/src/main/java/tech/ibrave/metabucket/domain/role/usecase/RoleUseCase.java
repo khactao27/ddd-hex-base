@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.domain.role.service;
+package tech.ibrave.metabucket.domain.role.usecase;
 
 import tech.ibrave.metabucket.domain.role.Role;
 
@@ -7,6 +7,6 @@ import tech.ibrave.metabucket.domain.role.Role;
  * Date: 23/05/2023
  * #YWNA
  */
-public interface RoleService {
+public interface RoleUseCase {
     Long createRole(Role role);
 }
