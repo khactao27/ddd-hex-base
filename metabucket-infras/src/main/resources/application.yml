@@ -1,0 +1,52 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: bucket-api
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 25MB
+      max-request-size: 101MB
+      file-size-threshold: 2KB
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        event:
+          merge:
+            entity_copy_observer: allow
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: false
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://34.124.211.138:5431/metabucket_dev?useUnicode=yes&characterEncoding=UTF-8
+    username: postgres
+    password: mysecretpassword
+    hikari:
+      connectionTimeout: 30000
+      minimumIdle: 1
+      maximumPoolSize: 50
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      autoCommit: true
+      leakDetectionThreshold: 10000
+      poolName: bucketConnectionPool
+
+logging:
+  org:
+    hibernate:
+      SQL: DEBUG
+  level:
+    org.springframework.security: DEBUG
