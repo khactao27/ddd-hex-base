@@ -1,7 +1,10 @@
 package tech.ibrave.metabucket.shared.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
+import tech.ibrave.metabucket.shared.message.Message;
 
 /**
  * Author: anct
@@ -9,19 +12,24 @@ import org.apache.commons.lang3.RandomStringUtils;
  * #YWNA
  */
 @Getter
-public class ErrorResp extends MessageCodeResp {
-    private final String id;
-    private final String errorCode;
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ErrorResp {
+    private String id;
+    private String errorCode;
+    private String message;
+    private String messageCode;
 
     public ErrorResp(String errorCode, String messageCode) {
-        super(messageCode);
         this.id = RandomStringUtils.randomAlphabetic(6);
         this.errorCode = errorCode;
+        this.messageCode = messageCode;
     }
 
-    public ErrorResp(String id, String errorCode, String messageCode) {
-        super(messageCode);
+    public ErrorResp(String id, String errorCode, Message message) {
         this.id = id;
         this.errorCode = errorCode;
+        this.messageCode = message.messageCode();
+        this.message = message.content();
     }
 }

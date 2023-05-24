@@ -50,3 +50,7 @@ logging:
       SQL: DEBUG
   level:
     org.springframework.security: DEBUG
+
+security:
+  cors:
+    enabled: false

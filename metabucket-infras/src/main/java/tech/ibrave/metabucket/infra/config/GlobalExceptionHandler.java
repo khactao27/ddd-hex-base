@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
+import tech.ibrave.metabucket.shared.message.MessageSource;
 import tech.ibrave.metabucket.shared.response.ErrorResp;
 
 import java.io.IOException;
@@ -25,6 +26,9 @@ import java.util.Optional;
 @ControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
+
+    private final MessageSource messageSource;
+
     @ExceptionHandler(ErrorCodeException.class)
     public ResponseEntity<ErrorResp> handleErrorCodeException(ErrorCodeException ex) {
         return toErrorResp(ex);
@@ -70,15 +74,9 @@ public class GlobalExceptionHandler {
             messageCode = String.format(errorCode.messageCode(), fieldError.getField());
         }
 
-        var errorResp = new ErrorResp(RandomStringUtils.randomAlphabetic(5), errorCode.code(), messageCode);
+        var message = messageSource.getMessage(messageCode);
+        var errorResp = new ErrorResp(RandomStringUtils.randomAlphabetic(5), errorCode.code(), message);
         return toResponseEntity(errorResp, errorCode.status());
-    }
-
-    public ResponseEntity<ErrorResp> toErrorResp(String id,
-                                                 String error,
-                                                 String message,
-                                                 HttpStatus status) {
-        return toResponseEntity(new ErrorResp(id, error, message), status);
     }
 
     @SuppressWarnings("all")

@@ -3,8 +3,8 @@ package tech.ibrave.metabucket.infra.config;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-import tech.ibrave.metabucket.shared.annotation.ApplicationService;
-import tech.ibrave.metabucket.shared.annotation.DomainService;
+import tech.ibrave.metabucket.shared.architecture.annotation.ApplicationService;
+import tech.ibrave.metabucket.shared.architecture.annotation.DomainService;
 
 @Configuration
 @ComponentScan(

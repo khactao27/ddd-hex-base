@@ -1,12 +1,12 @@
 package tech.ibrave.metabucket.infra.peristence.adapter;
 
 import org.springframework.stereotype.Component;
-import tech.ibrave.metabucket.domain.role.Role;
-import tech.ibrave.metabucket.domain.role.persistence.RolePersistence;
+import tech.ibrave.metabucket.domain.user.Role;
+import tech.ibrave.metabucket.domain.user.persistence.RolePersistence;
 import tech.ibrave.metabucket.infra.peristence.jpa.BaseJpaRepository;
 import tech.ibrave.metabucket.infra.peristence.jpa.entity.RoleEntity;
 import tech.ibrave.metabucket.infra.peristence.jpa.repository.RoleJpaRepository;
-import tech.ibrave.metabucket.infra.peristence.mapper.RoleMapper;
+import tech.ibrave.metabucket.infra.peristence.mapper.RoleEntityMapper;
 
 /**
  * Author: anct
@@ -16,7 +16,7 @@ import tech.ibrave.metabucket.infra.peristence.mapper.RoleMapper;
 @Component
 public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, Long> implements RolePersistence {
 
-    protected RolePersistenceAdapter(RoleJpaRepository repo, RoleMapper mapper) {
+    protected RolePersistenceAdapter(RoleJpaRepository repo, RoleEntityMapper mapper) {
         super(repo, mapper);
     }
 }

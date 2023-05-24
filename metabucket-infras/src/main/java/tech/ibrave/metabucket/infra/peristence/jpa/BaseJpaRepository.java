@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.infra.peristence.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import tech.ibrave.metabucket.infra.peristence.mapper.BaseEntityMapper;
-import tech.ibrave.metabucket.shared.domain.BasePersistence;
+import tech.ibrave.metabucket.shared.architecture.BasePersistence;
 
 import java.util.List;
 import java.util.Optional;
