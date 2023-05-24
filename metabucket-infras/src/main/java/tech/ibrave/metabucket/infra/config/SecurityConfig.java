@@ -27,6 +27,9 @@ public class SecurityConfig {
     @Value("${security.cors.enabled}")
     private boolean corsEnabled;
 
+    @Value("${security.permit_all_for_dev}")
+    private boolean permitAllForDev;
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
@@ -34,15 +37,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/",
-                        "/v1/public/**",
-                        "/swagger-ui.html",
-                        "/swagger-ui/**",
-                        "/v3/api-docs",
-                        "/v3/api-docs/**")
-                .permitAll()
-                .anyRequest().authenticated();
+        if (permitAllForDev) {
+            http.authorizeRequests().anyRequest().permitAll();
+        } else {
+            http.authorizeRequests()
+                    .antMatchers("/",
+                            "/v1/public/**",
+                            "/swagger-ui.html",
+                            "/swagger-ui/**",
+                            "/v3/api-docs",
+                            "/v3/api-docs/**")
+                    .permitAll()
+                    .anyRequest().authenticated();
+        }
+
+        // Set exception handling
         http.exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

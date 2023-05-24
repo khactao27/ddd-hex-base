@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.codec.DecodingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +16,8 @@ import tech.ibrave.metabucket.shared.exception.ErrorCode;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
 import tech.ibrave.metabucket.shared.response.ErrorResp;
+import tech.ibrave.metabucket.shared.response.ValidationErrorResp;
+import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -65,29 +65,32 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResp> handleMethodArgNotValid(MethodArgumentNotValidException ex) {
-        var fieldError = ex.getBindingResult().getFieldError();
+    public ResponseEntity<ValidationErrorResp> handleMethodArgNotValid(MethodArgumentNotValidException ex) {
         var errorCode = ErrorCodes.INVALID_ARG;
-        var messageCode = errorCode.messageCode();
-        if (fieldError != null && ObjectUtils.isEmpty(fieldError.getRejectedValue())) {
-            errorCode = ErrorCodes.MISSING_REQUIRED_FIELD;
-            messageCode = String.format(errorCode.messageCode(), fieldError.getField());
+
+        var errorResp = new ValidationErrorResp(errorCode.code(), messageSource.getMessage(errorCode.messageCode()));
+        var fieldErrors = ex.getBindingResult().getFieldErrors();
+        if (CollectionUtils.isNotEmpty(fieldErrors)) {
+            for (var fieldError: fieldErrors) {
+                errorResp.addFieldError(ValidationErrorResp.FieldDetailError.of(fieldError.getField(),
+                        fieldError.getDefaultMessage()));
+            }
         }
 
-        var message = messageSource.getMessage(messageCode);
-        var errorResp = new ErrorResp(RandomStringUtils.randomAlphabetic(5), errorCode.code(), message);
         return toResponseEntity(errorResp, errorCode.status());
     }
 
     @SuppressWarnings("all")
     public ResponseEntity<ErrorResp> toErrorResp(ErrorCodeException ex) {
         var errorCode = ex.getErrorCode();
-        var errorResp = new ErrorResp(errorCode.code(), errorCode.messageCode());
+        var errorResp = new ErrorResp(errorCode.code(), messageSource.getMessage(errorCode.messageCode()));
         return toResponseEntity(errorResp, errorCode.status());
     }
 
     public ResponseEntity<ErrorResp> toErrorResp(ErrorCode errorCode, Throwable ex) {
-        var errorResp = new ErrorResp(errorCode.code(), ex.getMessage());
+        log.error(ex.getMessage(), ex);
+
+        var errorResp = new ErrorResp(errorCode.code(), messageSource.getMessage(errorCode.messageCode()));
         return toResponseEntity(errorResp, errorCode.status());
     }
 

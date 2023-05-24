@@ -10,7 +10,7 @@ public class MessageSourceConfig {
     @Bean
     public MessageSource messageSource() {
         var rs = new MessageSource();
-        rs.setBasenames("i18n/message");
+        rs.setBasenames("i18n/message", "i18n/validations");
         rs.setDefaultEncoding("UTF-8");
         rs.setUseCodeAsDefaultMessage(true);
         return rs;

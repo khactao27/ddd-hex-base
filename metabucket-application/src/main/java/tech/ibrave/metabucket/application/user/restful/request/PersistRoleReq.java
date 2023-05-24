@@ -17,10 +17,9 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersistRoleReq {
 
-    @NotBlank
+    @NotBlank(message = "{mb.roles.create.name_empty}")
     private String name;
 
-    @NotBlank
     private String description;
     private List<String> userIds;
 }

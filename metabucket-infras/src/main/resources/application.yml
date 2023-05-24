@@ -26,7 +26,6 @@ spring:
             entity_copy_observer: allow
     hibernate:
       ddl-auto: update
-      dialect: org.hibernate.dialect.PostgreSQLDialect
   flyway:
     enabled: false
   datasource:
@@ -45,12 +44,10 @@ spring:
       poolName: bucketConnectionPool
 
 logging:
-  org:
-    hibernate:
-      SQL: DEBUG
   level:
     org.springframework.security: DEBUG
 
 security:
+  permit_all_for_dev: true #only open for dev purpose
   cors:
     enabled: false

@@ -20,10 +20,11 @@ public class ErrorResp {
     private String message;
     private String messageCode;
 
-    public ErrorResp(String errorCode, String messageCode) {
+    public ErrorResp(String errorCode, Message message) {
         this.id = RandomStringUtils.randomAlphabetic(6);
         this.errorCode = errorCode;
-        this.messageCode = messageCode;
+        this.messageCode = message.messageCode();
+        this.message = message.content();
     }
 
     public ErrorResp(String id, String errorCode, Message message) {
