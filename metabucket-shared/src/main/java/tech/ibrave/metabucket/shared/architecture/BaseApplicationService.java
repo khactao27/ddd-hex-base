@@ -4,6 +4,7 @@ import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * Author: anct
@@ -19,13 +20,15 @@ public abstract class BaseApplicationService<DM, ID> implements BaseUseCase<DM,I
     }
 
     @Override
-    public DM create(DM model) {
+    public DM save(DM model) {
         return this.repo.save(model);
     }
 
     @Override
-    public DM update(ID id, DM model) {
-        return null;
+    public DM update(ID id, Consumer<DM> consumerModel) {
+        var entity = getOrElseThrow(id);
+        consumerModel.accept(entity);
+        return this.repo.save(entity);
     }
 
     @Override

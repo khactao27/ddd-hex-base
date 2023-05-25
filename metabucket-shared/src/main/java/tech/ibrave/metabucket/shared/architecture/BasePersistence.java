@@ -17,4 +17,6 @@ public interface BasePersistence<DM, ID> {
     Optional<DM> findById(ID id);
 
     void delete(ID id);
+
+    List<DM> findAllById(List<ID> ids);
 }

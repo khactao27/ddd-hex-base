@@ -3,6 +3,7 @@ package tech.ibrave.metabucket.shared.architecture;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 /**
  * Author: anct
@@ -10,9 +11,9 @@ import java.util.Optional;
  * #YWNA
  */
 public interface BaseUseCase<DM, ID> {
-    DM create(DM model);
+    DM save(DM model);
 
-    DM update(ID id, DM model);
+    DM update(ID id, Consumer<DM> consumerModel);
 
     void delete(ID id);
 

@@ -22,7 +22,7 @@ public class RoleFacade {
     private final MessageSource messageSource;
 
     public SuccessResponse createRole(PersistRoleReq req) {
-        var roleId = roleUsecase.create(mapper.fromRequest(req)).getId();
+        var roleId = roleUsecase.save(mapper.fromRequest(req)).getId();
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.create.success"));
     }
 }

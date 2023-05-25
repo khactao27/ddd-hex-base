@@ -1,0 +1,28 @@
+package tech.ibrave.metabucket.infra.peristence.jpa.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * author: anct
+ * date: 5/25/2023
+ * YNWA
+ */
+@Entity
+@Getter
+@Setter
+@Table(name = "tbl_setting")
+public class EmailQueueEntity {
+
+    @Id
+    private String id;
+
+    private String name;
+
+    private String code;
+
+    private String value;
+}

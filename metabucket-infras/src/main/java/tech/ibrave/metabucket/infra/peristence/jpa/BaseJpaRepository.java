@@ -3,6 +3,7 @@ package tech.ibrave.metabucket.infra.peristence.jpa;
 import org.springframework.data.jpa.repository.JpaRepository;
 import tech.ibrave.metabucket.infra.peristence.mapper.BaseEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.BasePersistence;
+import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,14 +31,8 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
 
     @Override
     public List<DM> saveAll(List<DM> models) {
-        var entities = models.stream()
-                .map(mapper::fromDomainModel)
-                .toList();
-
-        return repo.saveAll(entities)
-                .stream()
-                .map(mapper::toDomainModel)
-                .toList();
+        var entities = CollectionUtils.toList(models, mapper::fromDomainModel);
+        return CollectionUtils.toList(repo.saveAll(entities), mapper::toDomainModel);
     }
 
     @Override
@@ -48,5 +43,10 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
     @Override
     public void delete(ID id) {
         repo.deleteById(id);
+    }
+
+    @Override
+    public List<DM> findAllById(List<ID> ids) {
+        return CollectionUtils.toList(repo.findAllById(ids), mapper::toDomainModel);
     }
 }
