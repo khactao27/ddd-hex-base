@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.application.user.restful.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class PersistUserReq {
     private String location;
     @NotEmpty(message = "mb.users.create.required_email")
     private String email;
+    @JsonIgnore
     private UserSource source = UserSource.SELF_REGISTER;
     private List<Role> roles;
     private List<UserGroup> groupIds;

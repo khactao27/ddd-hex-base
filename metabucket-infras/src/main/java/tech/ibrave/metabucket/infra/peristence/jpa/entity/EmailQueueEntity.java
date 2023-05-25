@@ -14,15 +14,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "tbl_setting")
+@Table(name = "tbl_email_queue")
 public class EmailQueueEntity {
 
     @Id
     private String id;
-
-    private String name;
-
-    private String code;
-
-    private String value;
 }

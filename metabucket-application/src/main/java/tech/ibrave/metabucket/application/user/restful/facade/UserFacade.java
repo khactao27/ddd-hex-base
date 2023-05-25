@@ -25,7 +25,6 @@ public class UserFacade {
     private final UserMapper userMapper;
     private final UserUseCase userUseCase;
     private final MessageSource messageSource;
-    private final PasswordEncoder passwordEncoder;
 
     public SuccessResponse createUser(PersistUserReq req) {
         var user = userMapper.toUser(req);

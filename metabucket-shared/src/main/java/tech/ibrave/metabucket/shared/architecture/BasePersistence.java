@@ -1,5 +1,7 @@
 package tech.ibrave.metabucket.shared.architecture;
 
+import tech.ibrave.metabucket.shared.request.PageReq;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +18,11 @@ public interface BasePersistence<DM, ID> {
 
     Optional<DM> findById(ID id);
 
-    void delete(ID id);
+    void deleteById(ID id);
 
     List<DM> findAllById(List<ID> ids);
+
+    Page<DM> findAll(PageReq pageRequest);
+
+    boolean existsById(ID id);
 }

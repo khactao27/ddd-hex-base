@@ -1,6 +1,7 @@
 package tech.ibrave.metabucket.shared.architecture;
 
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
+import tech.ibrave.metabucket.shared.request.PageReq;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -15,11 +16,21 @@ public interface BaseUseCase<DM, ID> {
 
     DM update(ID id, Consumer<DM> consumerModel);
 
-    void delete(ID id);
+    void deleteById(ID id);
 
     Optional<DM> getById(ID id);
 
     DM getOrElseThrow(ID id);
 
     ErrorCode notFound();
+
+    Page<DM> findAll(PageReq pageRequest);
+
+    Page<DM> findAll(int pageIndex, int pageSize);
+
+    void existByIdOrElseThrow(ID id);
+
+    boolean existById(ID id);
+
+     DM deleteIfExist(ID id);
 }

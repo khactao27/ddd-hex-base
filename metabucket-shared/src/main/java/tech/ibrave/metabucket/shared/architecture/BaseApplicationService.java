@@ -1,6 +1,7 @@
 package tech.ibrave.metabucket.shared.architecture;
 
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
+import tech.ibrave.metabucket.shared.request.PageReq;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +33,8 @@ public abstract class BaseApplicationService<DM, ID> implements BaseUseCase<DM,I
     }
 
     @Override
-    public void delete(ID id) {
-        this.repo.delete(id);
+    public void deleteById(ID id) {
+        this.repo.deleteById(id);
     }
 
     public List<DM> saveAll(List<DM> models) {
@@ -48,5 +49,34 @@ public abstract class BaseApplicationService<DM, ID> implements BaseUseCase<DM,I
     @Override
     public DM getOrElseThrow(ID id) {
         return this.getById(id).orElseThrow(() -> new ErrorCodeException(this.notFound()));
+    }
+
+    @Override
+    public Page<DM> findAll(PageReq pageRequest) {
+        return this.repo.findAll(pageRequest);
+    }
+
+    @Override
+    public Page<DM> findAll(int pageIndex, int pageSize) {
+        return this.repo.findAll(new PageReq(Math.max(pageIndex - 1, 0), pageSize));
+    }
+
+    @Override
+    public void existByIdOrElseThrow(ID id) {
+        if (!existById(id)) {
+            throw new ErrorCodeException(this.notFound());
+        }
+    }
+
+    @Override
+    public boolean existById(ID id) {
+        return this.repo.existsById(id);
+    }
+
+    @Override
+    public DM deleteIfExist(ID id) {
+        var model = getOrElseThrow(id);
+        deleteById(id);
+        return model;
     }
 }

@@ -1,8 +1,11 @@
 package tech.ibrave.metabucket.infra.peristence.jpa;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import tech.ibrave.metabucket.infra.peristence.mapper.BaseEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.BasePersistence;
+import tech.ibrave.metabucket.shared.architecture.Page;
+import tech.ibrave.metabucket.shared.request.PageReq;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.List;
@@ -41,12 +44,28 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
     }
 
     @Override
-    public void delete(ID id) {
+    public void deleteById(ID id) {
         repo.deleteById(id);
     }
 
     @Override
     public List<DM> findAllById(List<ID> ids) {
         return CollectionUtils.toList(repo.findAllById(ids), mapper::toDomainModel);
+    }
+
+    @Override
+    public Page<DM> findAll(PageReq pageRequest) {
+        var pageable = PageRequest.of(pageRequest.getPageIndex(), pageRequest.getPageSize());
+        var page = repo.findAll(pageable);
+        return new Page<>(pageRequest.getPageIndex(),
+                pageRequest.getPageSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                CollectionUtils.toList(page.getContent(), mapper::toDomainModel));
+    }
+
+    @Override
+    public boolean existsById(ID id) {
+        return repo.existsById(id);
     }
 }
