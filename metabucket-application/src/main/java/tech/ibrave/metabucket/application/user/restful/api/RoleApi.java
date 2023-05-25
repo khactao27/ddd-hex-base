@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.application.user.restful.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,7 +10,6 @@ import tech.ibrave.metabucket.application.user.restful.facade.RoleFacade;
 import tech.ibrave.metabucket.application.user.restful.request.PersistRoleReq;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 
-import javax.validation.Valid;
 
 /**
  * Author: anct

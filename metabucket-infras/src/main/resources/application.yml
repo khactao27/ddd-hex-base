@@ -4,6 +4,8 @@ server:
     context-path: /api
 
 spring:
+  profiles:
+    active: redis
   application:
     name: bucket-api
   main:
@@ -21,9 +23,12 @@ spring:
     show-sql: true
     properties:
       hibernate:
+        jdbc:
+          time_zone: UTC
         event:
           merge:
             entity_copy_observer: allow
+        format_sql: true
     hibernate:
       ddl-auto: update
   flyway:
@@ -45,6 +50,9 @@ spring:
 
 logging:
   level:
+    org:
+      hibernate:
+        SQL: DEBUG
     org.springframework.security: DEBUG
 
 security:
