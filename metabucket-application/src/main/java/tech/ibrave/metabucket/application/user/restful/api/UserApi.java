@@ -32,7 +32,7 @@ public class UserApi {
     }
 
     @PutMapping("/{id}")
-    public SuccessResponse update(@PathVariable String id, @Valid @RequestBody PersistUserReq req) {
+    public SuccessResponse update(@PathVariable String id, @RequestBody PersistUserReq req) {
         return userFacade.updateUser(id, req);
     }
 

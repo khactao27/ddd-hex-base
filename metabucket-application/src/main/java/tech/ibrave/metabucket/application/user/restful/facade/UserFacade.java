@@ -4,12 +4,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.user.restful.mapper.UserMapper;
 import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
 import tech.ibrave.metabucket.application.user.restful.response.ResetPasswordResp;
+import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.user.usecase.UserUseCase;
+import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 
@@ -27,6 +28,7 @@ public class UserFacade {
     private final MessageSource messageSource;
 
     public SuccessResponse createUser(PersistUserReq req) {
+        validateNewUser(req);
         var user = userMapper.toUser(req);
         return new SuccessResponse(userUseCase.save(user).getId(),
                 messageSource.getMessage("mb.users.create.success"));
@@ -50,5 +52,15 @@ public class UserFacade {
         return new ResetPasswordResp(updatedUser.getId(),
                 messageSource.getMessage("mb.users.reset_pw.success"),
                 newPassword);
+    }
+
+    private void validateNewUser(PersistUserReq persistUserReq) {
+        if (userUseCase.existByEmail(persistUserReq.getEmail())) {
+            throw new ErrorCodeException(ErrorCodes.EXISTED_EMAIL);
+        }
+
+        if (userUseCase.existByUsername(persistUserReq.getUsername())) {
+            throw new ErrorCodeException(ErrorCodes.EXISTED_USERNAME);
+        }
     }
 }

@@ -15,7 +15,10 @@ public enum ErrorCodes implements ErrorCode {
     ACCESS_DENIED("MB0004", HttpStatus.UNAUTHORIZED, "mb.access_denied"),
     INVALID_ARG("MB0005", HttpStatus.BAD_REQUEST, "mb.invalid_arg"),
     MISSING_REQUIRED_FIELD("MB0006", HttpStatus.BAD_REQUEST, "mb.missing_required_field"),
-    NOT_FOUND("MB0007", HttpStatus.NOT_FOUND, "mb.not_found");
+    NOT_FOUND("MB0007", HttpStatus.NOT_FOUND, "mb.not_found"),
+    EXISTED_EMAIL("MB0008", HttpStatus.BAD_REQUEST, "mb.users.create.duplicated_username"),
+    EXISTED_USERNAME("MB0009", HttpStatus.BAD_REQUEST, "mb.users.create.duplicated_email")
+    ;
 
     private final String code;
     private final HttpStatus status;

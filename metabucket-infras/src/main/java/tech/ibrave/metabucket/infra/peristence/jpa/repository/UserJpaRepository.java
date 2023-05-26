@@ -10,4 +10,6 @@ import tech.ibrave.metabucket.infra.peristence.jpa.entity.UserEntity;
  */
 @Repository
 public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
+    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
 }

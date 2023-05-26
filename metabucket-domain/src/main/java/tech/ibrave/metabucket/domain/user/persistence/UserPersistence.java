@@ -8,4 +8,6 @@ import tech.ibrave.metabucket.shared.architecture.BasePersistence;
  * Date: 25/05/2023
  */
 public interface UserPersistence extends BasePersistence<User, String> {
+    boolean existByUsername(String username);
+    boolean existByEmail(String email);
 }

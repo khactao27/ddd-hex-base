@@ -14,6 +14,7 @@ import tech.ibrave.metabucket.shared.exception.ErrorCode;
  */
 @ApplicationService
 public class UserService extends BaseApplicationService<User, String> implements UserUseCase {
+    protected UserPersistence repo;
 
     protected UserService(UserPersistence repo) {
         super(repo);
@@ -22,5 +23,15 @@ public class UserService extends BaseApplicationService<User, String> implements
     @Override
     public ErrorCode notFound() {
         return ErrorCodes.NOT_FOUND;
+    }
+
+    @Override
+    public boolean existByUsername(String username) {
+        return repo.existByUsername(username);
+    }
+
+    @Override
+    public boolean existByEmail(String email) {
+        return repo.existByEmail(email);
     }
 }
