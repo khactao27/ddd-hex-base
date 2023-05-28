@@ -8,7 +8,7 @@ import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleR
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleIdBulkReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleLiteReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
@@ -17,12 +17,8 @@ import tech.ibrave.metabucket.domain.user.usecase.UserUseCase;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
-import tech.ibrave.metabucket.shared.response.SuccessListResp;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: anct
@@ -40,8 +36,8 @@ public class RoleFacade {
     private final MessageSource messageSource;
 
     public SuccessResponse createRole(PersistRoleReq req) {
-        validateCreateRole(req.getName(), req.getUserIds());
-        var users = CollectionUtils.toList(req.getUserIds(), userUseCase::getOrElseThrow);
+        validateName(req.getName());
+        var users = userUseCase.findByIdsOrElseThrow(req.getUserIds());
         var roleId = roleUsecase.save(mapper.toRole(req, users)).getId();
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.create.success"));
     }
@@ -50,68 +46,29 @@ public class RoleFacade {
         var role = roleUsecase.getOrElseThrow(roleId);
         validateName(role.getName(), req.getName());
         role.setUsers(null);
-        var users = CollectionUtils.toList(req.getUserIds(), userUseCase::getOrElseThrow);
+        var users = userUseCase.findByIdsOrElseThrow(req.getUserIds());
         mapper.toRole(role, req, users);
         roleUsecase.save(role);
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.update.success"));
     }
 
-    public SuccessListResp updateRoleStatus(RoleStatusBulkReq req) {
-        var numberOfSuccesses = 0;
-        var numberOfFailures = 0;
-        var idFailure = 0L;
-        List<SuccessResponse> successResponses = new ArrayList<>();
-        try {
-            for (int i = 0; i < req.getRoleStatusReqs().size(); i++) {
-                var statusReq = req.getRoleStatusReqs().get(i);
-                idFailure = statusReq.getId();
-                var role = roleUsecase.getOrElseThrow(statusReq.getId());
-                role.setStatus(statusReq.isStatus());
-                roleUsecase.save(role);
-                numberOfSuccesses += 1;
-                successResponses.add(new SuccessResponse(
-                        idFailure,
-                        messageSource.getMessage("mb.roles.update.success"))
-                );
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            numberOfFailures += 1;
-            successResponses.add(
-                    new SuccessResponse(
-                            idFailure,
-                            messageSource.getMessage("mb.roles.delete.failure"))
-            );
-        }
-        return new SuccessListResp(numberOfSuccesses, numberOfFailures, successResponses);
+    public SuccessResponse updateRoleStatus(RoleStatusReq req) {
+        roleUsecase.updateStatus(req.getIds(), req.isEnable());
+        return new SuccessResponse(
+                req.getIds(),
+                messageSource.getMessage("mb.roles.update.success"));
     }
 
     public SuccessResponse deleteRole(Long roleId) {
-        validateDeleteRole(roleId);
         roleUsecase.deleteIfExist(roleId);
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.delete.success"));
     }
 
-    public SuccessListResp deleteRoles(RoleIdBulkReq req) {
-        var numberOfSuccesses = 0;
-        var numberOfFailures = 0;
-        var idFailure = 0L;
-        List<SuccessResponse> successResponses = new ArrayList<>();
-        try {
-            for (int i = 0; i < req.getIds().size(); i++) {
-                idFailure = req.getIds().get(i);
-                var successResponse = deleteRole(idFailure);
-                numberOfSuccesses += 1;
-                successResponses.add(successResponse);
-            }
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            numberOfFailures += 1;
-            successResponses.add(new SuccessResponse(
-                    idFailure,
-                    messageSource.getMessage("mb.roles.delete.failure")));
-        }
-        return new SuccessListResp(numberOfSuccesses, numberOfFailures, successResponses);
+    public SuccessResponse deleteRoles(RoleIdBulkReq req) {
+        roleUsecase.deleteByIds(req.getIds());
+        return new SuccessResponse(
+                req.getIds(),
+                messageSource.getMessage("mb.roles.delete.failure"));
     }
 
     public Page<RoleDto> getAllRole(RoleSearchReq req) {
@@ -130,7 +87,7 @@ public class RoleFacade {
     }
 
     public Page<RoleLiteDto> getRoleShortInfo(RoleLiteReq req) {
-        var roles = roleUsecase.findAllByName(req.getQuery(), req.getPageIndex(), req.getPageSize());
+        var roles = roleUsecase.search(req.getQuery(), req.getPageIndex(), req.getPageSize());
         var result = CollectionUtils.toList(roles.getData(), mapper::toRoleLiteResp);
         return new Page<>(
                 req.getPageIndex(),
@@ -141,25 +98,19 @@ public class RoleFacade {
         );
     }
 
-    private void validateName(String oldName, String newName) {
-        if (!oldName.equals(newName) || roleUsecase.existsByName(newName)) {
-            throw new ErrorCodeException(ErrorCodes.ROLE_NAME_EXISTED);
-        }
-    }
-
-    private void validateCreateRole(String name, List<String> userIds) {
+    private void validateName(String name) {
         if (roleUsecase.existsByName(name)) {
             throw new ErrorCodeException(ErrorCodes.ROLE_NAME_EXISTED);
         }
-
-        userIds.forEach(i -> {
-            if (userUseCase.existById(i)) {
-                throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
-            }
-        });
     }
 
-    private void validateDeleteRole(Long roleId) {
-        roleUsecase.getOrElseThrow(roleId);
+    private void validateName(String oldName, String newName) {
+        if (!oldName.equals(newName)) {
+            throw new ErrorCodeException(ErrorCodes.ROLE_NAME_EXISTED);
+        }
+
+        if (roleUsecase.existsByName(newName)) {
+            throw new ErrorCodeException(ErrorCodes.ROLE_NAME_EXISTED);
+        }
     }
 }

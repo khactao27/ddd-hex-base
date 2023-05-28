@@ -22,7 +22,7 @@ public class Role {
     private Long id;
     private String name;
     private String description;
-    private boolean status;
+    private boolean enable;
     private List<Permission> permissions;
     private List<User> users;
 }

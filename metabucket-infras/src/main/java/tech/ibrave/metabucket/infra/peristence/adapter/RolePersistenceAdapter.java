@@ -1,6 +1,5 @@
 package tech.ibrave.metabucket.infra.peristence.adapter;
 
-import io.micrometer.common.util.StringUtils;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.domain.user.Role;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
@@ -11,6 +10,7 @@ import tech.ibrave.metabucket.infra.peristence.jpa.repository.RoleJpaRepository;
 import tech.ibrave.metabucket.infra.peristence.mapper.RoleEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -37,16 +37,26 @@ public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, 
 
     @Override
     public Page<Role> findAllByName(String name, int pageIndex, int pageSize) {
-        if (StringUtils.isEmpty(name)) {
-            return toPage(repo().findAll(), mapper::toDomainModel, pageIndex, pageSize);
-        } else {
-            return toPage(repo().findAllByNameContaining(name), mapper::toDomainModel, pageIndex, pageSize);
-        }
+//        if (StringUtils.isEmpty(name)) {
+//            return toPage(repo().findAll(), mapper::toDomainModel, pageIndex, pageSize);
+//        } else {
+//            return toPage(repo().findAllByNameContaining(name), mapper::toDomainModel, pageIndex, pageSize);
+//        }
+        return null; // fixme: use pageable
     }
 
     @Override
     public Optional<RoleDto> findByIdUseDto(Long id) {
         return Optional.ofNullable(mapper().toDto(repo().findById(id).orElse(null)));
+    }
+    @Override
+    public void deleteByIds(List<Long> ids) {
+        repo().deleteAllByIdIn(ids);
+    }
+
+    @Override
+    public void updateStatus(List<Long> ids, boolean enable) {
+        repo().updateStatus(ids, enable);
     }
 
     @Override

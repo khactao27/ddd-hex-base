@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * Author: nguyendinhthi
  * Date: 27/05/2023
@@ -13,6 +15,6 @@ import lombok.Setter;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleStatusReq {
 
-    private Long id;
-    private boolean status;
+    private List<Long> ids;
+    private boolean enable;
 }

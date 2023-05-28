@@ -3,6 +3,8 @@ package tech.ibrave.metabucket.infra.peristence.jpa.repository;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import tech.ibrave.metabucket.infra.peristence.jpa.entity.RoleEntity;
 
@@ -27,4 +29,9 @@ public interface RoleJpaRepository extends JpaRepository<RoleEntity, Long> {
     @Override
     @EntityGraph("Role.users")
     Optional<RoleEntity> findById(@NonNull Long id);
+
+    void deleteAllByIdIn(List<Long> ids);
+
+    @Query(value = "UPDATE RoleEntity t SET t.enable = :status WHERE t.id in :ids")
+    void updateStatus(@Param("ids") List<Long> ids, @Param("status") boolean enable);
 }

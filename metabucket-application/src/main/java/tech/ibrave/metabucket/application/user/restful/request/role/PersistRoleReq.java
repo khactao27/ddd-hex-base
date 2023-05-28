@@ -21,7 +21,7 @@ public class PersistRoleReq {
     @NotBlank(message = "{mb.roles.create.name_empty}")
     private String name;
     private String description;
-    private boolean status;
+    private boolean enable;
     private List<Permission> permissions;
     private List<String> userIds;
 }

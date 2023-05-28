@@ -11,6 +11,8 @@ import tech.ibrave.metabucket.shared.architecture.annotation.ApplicationService;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 
+import java.util.List;
+
 /**
  * Author: anct
  * Date: 23/05/2023
@@ -40,8 +42,13 @@ public class RoleService extends BaseApplicationService<Role, Long, RolePersiste
     }
 
     @Override
-    public Page<Role> findAllByName(String name, int pageIndex, int pageSize) {
-        return repo.findAllByName(name, pageIndex, pageSize);
+    public void deleteByIds(List<Long> ids) {
+        repo.deleteByIds(ids);
+    }
+
+    @Override
+    public void updateStatus(List<Long> ids, boolean enable) {
+        repo.updateStatus(ids, enable);
     }
 
     @Override

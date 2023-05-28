@@ -18,11 +18,10 @@ import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleR
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleIdBulkReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleLiteReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusReq;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.shared.architecture.Page;
-import tech.ibrave.metabucket.shared.response.SuccessListResp;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 
 /**
@@ -44,44 +43,37 @@ public class RoleApi {
     }
 
     @PutMapping("/{roleId}")
-    @ResponseStatus(HttpStatus.OK)
     public SuccessResponse updateRole(@PathVariable("roleId") Long roleId,
                                       @Valid @RequestBody PersistRoleReq req) {
         return roleFacade.updateRole(roleId, req);
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.OK)
-    public SuccessListResp updateRoleStatus(@ModelAttribute RoleStatusBulkReq req) {
+    public SuccessResponse updateRoleStatus(@ModelAttribute RoleStatusReq req) {
         return roleFacade.updateRoleStatus(req);
     }
 
     @DeleteMapping("/{roleId}")
-    @ResponseStatus(HttpStatus.OK)
     public SuccessResponse deleteRole(@PathVariable("roleId") Long roleId) {
         return roleFacade.deleteRole(roleId);
     }
 
     @DeleteMapping
-    @ResponseStatus(HttpStatus.OK)
-    public SuccessListResp deleteRoles(@ModelAttribute RoleIdBulkReq ids) {
+    public SuccessResponse deleteRoles(@ModelAttribute RoleIdBulkReq ids) {
         return roleFacade.deleteRoles(ids);
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
     public Page<RoleDto> getAllRole(@ModelAttribute RoleSearchReq req) {
         return roleFacade.getAllRole(req);
     }
 
     @GetMapping("/{roleId}")
-    @ResponseStatus(HttpStatus.OK)
     public RoleDto getRoleById(@PathVariable("roleId") Long roleId) {
         return roleFacade.getRoleById(roleId);
     }
 
     @GetMapping("/short-info")
-    @ResponseStatus(HttpStatus.OK)
     public Page<RoleLiteDto> getRoleShortInfo(@ModelAttribute RoleLiteReq req) {
         return roleFacade.getRoleShortInfo(req);
     }

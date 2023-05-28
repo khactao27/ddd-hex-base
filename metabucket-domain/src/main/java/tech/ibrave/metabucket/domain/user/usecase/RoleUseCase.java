@@ -5,6 +5,8 @@ import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.shared.architecture.BaseUseCase;
 import tech.ibrave.metabucket.shared.architecture.Page;
 
+import java.util.List;
+
 /**
  * Author: anct
  * Date: 23/05/2023
@@ -16,7 +18,7 @@ public interface RoleUseCase extends BaseUseCase<Role, Long> {
 
     Page<Role> search(String name, int pageIndex, int pageSize);
 
-    Page<Role> findAllByName(String name, int pageIndex, int pageSize);
-
     RoleDto findByIdUseDto(Long id);
+    void deleteByIds(List<Long> ids);
+    void updateStatus(List<Long> ids, boolean status);
 }

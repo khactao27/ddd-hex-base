@@ -7,6 +7,8 @@ import tech.ibrave.metabucket.shared.architecture.Page;
 
 import java.util.Optional;
 
+import java.util.List;
+
 /**
  * Author: anct
  * Date: 23/05/2023
@@ -23,4 +25,8 @@ public interface RolePersistence extends BasePersistence<Role, Long> {
     Page<Role> findAllByName(String name, int pageIndex, int pageSize);
 
     Optional<RoleDto> findByIdUseDto(Long id);
+
+    void deleteByIds(List<Long> ids);
+
+    void updateStatus(List<Long> ids, boolean status);
 }

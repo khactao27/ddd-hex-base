@@ -8,6 +8,8 @@ import tech.ibrave.metabucket.shared.architecture.BaseApplicationService;
 import tech.ibrave.metabucket.shared.architecture.annotation.ApplicationService;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 
+import java.util.List;
+
 /**
  * Author: hungnm
  * Date: 25/05/2023
@@ -32,5 +34,10 @@ public class UserService extends BaseApplicationService<User, String, UserPersis
     @Override
     public boolean existByEmail(String email) {
         return repo.existByEmail(email);
+    }
+
+    @Override
+    public List<User> findByIdsOrElseThrow(List<String> ids) {
+        return repo.findByIdsOrElseThrow(ids);
     }
 }
