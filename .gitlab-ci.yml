@@ -3,7 +3,7 @@ variables:
   SERVER_IP: 34.124.211.138
   SERVER_USER: deployer
   CONTAINER_NAME: metabucket-main-service
-  PORT: 8080
+  EXPOSE_PORT: 8080
 
 image: docker:20.10.16
 
@@ -14,7 +14,7 @@ stages:
   - build
   - deploy
 
-buil:
+build_uat:
   stage: build
   before_script:
     - docker info
@@ -28,13 +28,13 @@ buil:
   only:
     - dev
 
-deploy:
+deploy_uat:
   stage: deploy
   script:
     - chmod og= $ID_RSA
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "gcloud auth print-access-token | sudo docker login -u oauth2accesstoken --password-stdin https://gcr.io"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker pull $IMAGE_TAG"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker container rm -f $CONTAINER_NAME || true"
-      - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p $PORT:8080 --name $CONTAINER_NAME $IMAGE_TAG"
+      - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p $EXPOSE_PORT:8080 --name $CONTAINER_NAME $IMAGE_TAG"
   only:
     - dev
