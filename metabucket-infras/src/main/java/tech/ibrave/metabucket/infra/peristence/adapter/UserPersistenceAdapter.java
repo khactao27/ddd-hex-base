@@ -13,8 +13,8 @@ import tech.ibrave.metabucket.infra.peristence.mapper.UserEntityMapper;
  * Date: 25/05/2023
  */
 @Component
+@SuppressWarnings("all")
 public class UserPersistenceAdapter extends BaseJpaRepository<UserEntity, User, String> implements UserPersistence {
-    protected UserJpaRepository repo;
 
     protected UserPersistenceAdapter(UserJpaRepository repo, UserEntityMapper mapper) {
         super(repo, mapper);
@@ -22,11 +22,19 @@ public class UserPersistenceAdapter extends BaseJpaRepository<UserEntity, User, 
 
     @Override
     public boolean existByUsername(String username) {
-        return repo.existsByUsername(username);
+        return repo().existsByUsername(username);
     }
 
     @Override
     public boolean existByEmail(String email) {
-        return repo.existsByEmail(email);
+        return repo().existsByEmail(email);
+    }
+
+    public UserJpaRepository repo() {
+        return super.repo();
+    }
+
+    public UserEntityMapper mapper() {
+        return super.mapper();
     }
 }

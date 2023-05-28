@@ -19,8 +19,8 @@ import tech.ibrave.metabucket.application.user.restful.request.role.RoleIdBulkRe
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleLiteReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
-import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
+import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.response.SuccessListResp;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
@@ -74,7 +74,7 @@ public class RoleApi {
         return roleFacade.getAllRole(req);
     }
 
-    @GetMapping("/id/{roleId}")
+    @GetMapping("/{roleId}")
     @ResponseStatus(HttpStatus.OK)
     public RoleDto getRoleById(@PathVariable("roleId") Long roleId) {
         return roleFacade.getRoleById(roleId);

@@ -18,7 +18,7 @@ public class Page<DM> {
 
     private List<DM> data;
     private long totalElement;
-    private long totalPage;
+    private int totalPage;
     private int pageIndex;
     private int pageSize;
 

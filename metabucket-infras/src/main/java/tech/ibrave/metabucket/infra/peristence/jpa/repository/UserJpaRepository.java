@@ -9,7 +9,10 @@ import tech.ibrave.metabucket.infra.peristence.jpa.entity.UserEntity;
  * Date: 25/05/2023
  */
 @Repository
+@SuppressWarnings("all")
 public interface UserJpaRepository extends JpaRepository<UserEntity, String> {
+
     boolean existsByUsername(String username);
+
     boolean existsByEmail(String email);
 }

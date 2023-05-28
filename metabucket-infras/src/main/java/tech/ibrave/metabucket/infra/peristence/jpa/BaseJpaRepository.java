@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.infra.peristence.jpa;
 
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import tech.ibrave.metabucket.infra.peristence.mapper.BaseEntityMapper;
@@ -10,21 +11,31 @@ import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Author: anct
  * Date: 23/05/2023
  * #YWNA
  */
+@SuppressWarnings("all")
 public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM, ID> {
 
-    protected JpaRepository<E, ID> repo;
-    protected BaseEntityMapper<E, DM> mapper;
+    protected final JpaRepository<E, ID> repo;
+    protected final BaseEntityMapper<E, DM> mapper;
 
     protected BaseJpaRepository(JpaRepository<E, ID> repo,
                                 BaseEntityMapper<E, DM> mapper) {
         this.repo = repo;
         this.mapper = mapper;
+    }
+
+    public <R> R repo() {
+        return (R) repo;
+    }
+
+    public <M> M mapper() {
+        return (M) mapper;
     }
 
     @Override
@@ -67,5 +78,34 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
     @Override
     public boolean existsById(ID id) {
         return repo.existsById(id);
+    }
+
+    public <T, R> Page<R> toPage(List<T> content,
+                                 Function<T, R> function,
+                                 int pageIndex,
+                                 int pageSize) {
+        var result = CollectionUtils.toList(content, function);
+        var page = new PageImpl<>(result);
+        return new Page<>(
+                pageIndex,
+                pageSize,
+                page.getTotalElements(),
+                page.getTotalPages(),
+                result
+        );
+    }
+
+    public <T, R> Page<R> toPage(List<T> content,
+                                 Function<T, R> function,
+                                 PageReq pageRequest) {
+        var result = CollectionUtils.toList(content, function);
+        var page = new PageImpl<>(result);
+        return new Page<>(
+                pageRequest.getPageIndex(),
+                pageRequest.getPageSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                result
+        );
     }
 }

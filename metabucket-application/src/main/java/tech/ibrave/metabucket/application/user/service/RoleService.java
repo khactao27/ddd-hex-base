@@ -2,12 +2,14 @@ package tech.ibrave.metabucket.application.user.service;
 
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.user.Role;
+import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.persistence.RolePersistence;
 import tech.ibrave.metabucket.domain.user.usecase.RoleUseCase;
 import tech.ibrave.metabucket.shared.architecture.BaseApplicationService;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.architecture.annotation.ApplicationService;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
+import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 
 /**
  * Author: anct
@@ -40,5 +42,10 @@ public class RoleService extends BaseApplicationService<Role, Long, RolePersiste
     @Override
     public Page<Role> findAllByName(String name, int pageIndex, int pageSize) {
         return repo.findAllByName(name, pageIndex, pageSize);
+    }
+
+    @Override
+    public RoleDto findByIdUseDto(Long id) {
+        return repo.findByIdUseDto(id).orElseThrow(() -> new ErrorCodeException(notFound()));
     }
 }

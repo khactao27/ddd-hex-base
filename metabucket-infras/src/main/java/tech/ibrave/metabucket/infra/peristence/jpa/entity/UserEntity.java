@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.infra.peristence.jpa.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -11,8 +12,6 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import tech.ibrave.metabucket.domain.shared.UserSource;
 import tech.ibrave.metabucket.infra.peristence.jpa.constant.TableConstants;
 
@@ -26,7 +25,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "tbl_user")
-@Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserEntity extends AbstractAuditingUserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -39,13 +38,13 @@ public class UserEntity extends AbstractAuditingUserEntity {
     private String phone;
     private String email;
     private UserSource source = UserSource.SELF_REGISTER;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = TableConstants.TBL_USER_ROLE_MAPPING,
             joinColumns = @JoinColumn(name = TableConstants.Default.USER_ID),
             inverseJoinColumns = @JoinColumn(name = TableConstants.Default.ROLE_ID)
     )
     private List<RoleEntity> roles;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = TableConstants.TBL_USER_GROUP_MAPPING,
             joinColumns = @JoinColumn(name = TableConstants.Default.USER_ID),
             inverseJoinColumns = @JoinColumn(name = TableConstants.Default.GROUP_ID)

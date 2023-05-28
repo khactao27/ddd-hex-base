@@ -125,12 +125,9 @@ public class RoleFacade {
                 roleResponses);
     }
 
-
     public RoleDto getRoleById(Long roleId) {
-        var role = roleUsecase.getOrElseThrow(roleId);
-        return mapper.toRoleResp(role);
+        return roleUsecase.findByIdUseDto(roleId);
     }
-
 
     public Page<RoleLiteDto> getRoleShortInfo(RoleLiteReq req) {
         var roles = roleUsecase.findAllByName(req.getQuery(), req.getPageIndex(), req.getPageSize());
@@ -139,7 +136,7 @@ public class RoleFacade {
                 req.getPageIndex(),
                 req.getPageSize(),
                 roles.getTotalElement(),
-                (int) roles.getTotalPage(),
+                roles.getTotalPage(),
                 result
         );
     }

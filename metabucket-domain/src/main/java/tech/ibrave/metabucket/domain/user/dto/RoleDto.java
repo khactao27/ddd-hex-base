@@ -1,11 +1,12 @@
 package tech.ibrave.metabucket.domain.user.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
+import tech.ibrave.metabucket.domain.shared.BaseDto;
+import tech.ibrave.metabucket.shared.constant.Permission;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Author: nguyendinhthi
@@ -14,23 +15,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleDto {
+public class RoleDto extends BaseDto {
 
-    private int id;
+    private Long id;
     private String name;
     private String description;
-
-    private String createdBy;
-    private String updatedBy;
-
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdDate;
-
-    @JsonFormat(
-            shape = JsonFormat.Shape.STRING,
-            pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedDate;
-
+    private boolean status;
+    private List<Permission> permissions;
+    private List<UserLiteDto> users;
 }

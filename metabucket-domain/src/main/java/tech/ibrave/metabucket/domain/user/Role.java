@@ -25,9 +25,4 @@ public class Role {
     private boolean status;
     private List<Permission> permissions;
     private List<User> users;
-
-    public Role(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }
