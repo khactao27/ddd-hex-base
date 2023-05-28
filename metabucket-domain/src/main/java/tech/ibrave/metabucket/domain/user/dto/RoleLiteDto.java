@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.application.user.restful.response.role.single;
+package tech.ibrave.metabucket.domain.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleLiteResp {
+public class RoleLiteDto {
 
     private Integer id;
     private String name;

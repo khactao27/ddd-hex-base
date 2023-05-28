@@ -41,9 +41,4 @@ public class RoleService extends BaseApplicationService<Role, Long, RolePersiste
     public Page<Role> findAllByName(String name, int pageIndex, int pageSize) {
         return repo.findAllByName(name, pageIndex, pageSize);
     }
-
-    @Override
-    public Role findByName(String name) {
-        return repo.findByName(name);
-    }
 }

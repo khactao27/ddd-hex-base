@@ -16,6 +16,4 @@ public interface RoleUseCase extends BaseUseCase<Role, Long> {
     Page<Role> search(String name, int pageIndex, int pageSize);
 
     Page<Role> findAllByName(String name, int pageIndex, int pageSize);
-
-    Role findByName(String name);
 }

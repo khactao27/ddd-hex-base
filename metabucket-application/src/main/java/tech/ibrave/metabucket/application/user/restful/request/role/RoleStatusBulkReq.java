@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PersistRoleIdsReq {
+public class RoleStatusBulkReq {
 
-    private List<Long> ids;
+    private List<RoleStatusReq> roleStatusReqs;
 }

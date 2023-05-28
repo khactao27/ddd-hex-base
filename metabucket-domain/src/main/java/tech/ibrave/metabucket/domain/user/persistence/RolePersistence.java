@@ -18,6 +18,4 @@ public interface RolePersistence extends BasePersistence<Role, Long> {
                       int pageSize);
 
     Page<Role> findAllByName(String name, int pageIndex, int pageSize);
-
-    Role findByName(String name);
 }

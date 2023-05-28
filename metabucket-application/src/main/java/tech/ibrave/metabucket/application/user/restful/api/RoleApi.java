@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.user.restful.facade.RoleFacade;
-import tech.ibrave.metabucket.application.user.restful.request.role.PersistListRoleStatusReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleIdsReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleLiteReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.PersistSearchRoleReq;
-import tech.ibrave.metabucket.application.user.restful.response.role.multi.PageRoleLiteResp;
-import tech.ibrave.metabucket.application.user.restful.response.role.multi.PageRoleResp;
-import tech.ibrave.metabucket.application.user.restful.response.role.single.RoleResp;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleIdBulkReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleLiteReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
+import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
+import tech.ibrave.metabucket.domain.user.dto.RoleDto;
+import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.response.SuccessListResp;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 
@@ -46,13 +46,13 @@ public class RoleApi {
     @PutMapping("/{roleId}")
     @ResponseStatus(HttpStatus.OK)
     public SuccessResponse updateRole(@PathVariable("roleId") Long roleId,
-                                      @RequestBody @Valid PersistRoleReq req) {
+                                      @Valid @RequestBody PersistRoleReq req) {
         return roleFacade.updateRole(roleId, req);
     }
 
-    @PutMapping("")
+    @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public SuccessListResp updateRoleStatus(@ModelAttribute PersistListRoleStatusReq req) {
+    public SuccessListResp updateRoleStatus(@ModelAttribute RoleStatusBulkReq req) {
         return roleFacade.updateRoleStatus(req);
     }
 
@@ -62,33 +62,27 @@ public class RoleApi {
         return roleFacade.deleteRole(roleId);
     }
 
-    @DeleteMapping("/{roleId}")
+    @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public SuccessListResp deleteRoles(@ModelAttribute PersistRoleIdsReq ids) {
+    public SuccessListResp deleteRoles(@ModelAttribute RoleIdBulkReq ids) {
         return roleFacade.deleteRoles(ids);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public PageRoleResp getAllRole(@ModelAttribute PersistSearchRoleReq req) {
+    public Page<RoleDto> getAllRole(@ModelAttribute RoleSearchReq req) {
         return roleFacade.getAllRole(req);
     }
 
     @GetMapping("/id/{roleId}")
     @ResponseStatus(HttpStatus.OK)
-    public RoleResp getRoleById(@PathVariable("roleId") Long roleId) {
+    public RoleDto getRoleById(@PathVariable("roleId") Long roleId) {
         return roleFacade.getRoleById(roleId);
-    }
-
-    @GetMapping("/name/{roleName}")
-    @ResponseStatus(HttpStatus.OK)
-    public RoleResp getRoleByName(@PathVariable("roleName") String roleName) {
-        return roleFacade.getRoleByName(roleName);
     }
 
     @GetMapping("/short-info")
     @ResponseStatus(HttpStatus.OK)
-    public PageRoleLiteResp getRoleShortInfo(@ModelAttribute PersistRoleLiteReq req) {
+    public Page<RoleLiteDto> getRoleShortInfo(@ModelAttribute RoleLiteReq req) {
         return roleFacade.getRoleShortInfo(req);
     }
 }

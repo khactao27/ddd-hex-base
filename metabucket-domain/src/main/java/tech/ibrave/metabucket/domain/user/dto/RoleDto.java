@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.application.user.restful.response.role.single;
+package tech.ibrave.metabucket.domain.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleResp {
+public class RoleDto {
 
     private int id;
     private String name;

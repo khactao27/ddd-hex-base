@@ -51,11 +51,6 @@ public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, 
         }
     }
 
-    @Override
-    public Role findByName(String name) {
-        return mapper.toDomainModel(repo.findByName(name));
-    }
-
     private static <T, R> Page<R> toPage(List<T> list,
                                          Function<T, R> function,
                                          int pageIndex,

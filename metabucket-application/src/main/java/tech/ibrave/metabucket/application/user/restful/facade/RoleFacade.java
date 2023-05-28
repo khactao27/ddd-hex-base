@@ -4,23 +4,22 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.user.restful.mapper.RoleMapper;
-import tech.ibrave.metabucket.application.user.restful.request.role.PersistListRoleStatusReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleIdsReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleLiteReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.PersistSearchRoleReq;
-import tech.ibrave.metabucket.application.user.restful.response.role.multi.PageRoleLiteResp;
-import tech.ibrave.metabucket.application.user.restful.response.role.multi.PageRoleResp;
-import tech.ibrave.metabucket.application.user.restful.response.role.single.RoleResp;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleIdBulkReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleLiteReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
+import tech.ibrave.metabucket.domain.user.dto.RoleDto;
+import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.domain.user.usecase.RoleUseCase;
 import tech.ibrave.metabucket.domain.user.usecase.UserUseCase;
+import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
 import tech.ibrave.metabucket.shared.response.SuccessListResp;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
-import tech.ibrave.metabucket.shared.utils.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +56,7 @@ public class RoleFacade {
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.update.success"));
     }
 
-    public SuccessListResp updateRoleStatus(PersistListRoleStatusReq req) {
+    public SuccessListResp updateRoleStatus(RoleStatusBulkReq req) {
         var numberOfSuccesses = 0;
         var numberOfFailures = 0;
         var idFailure = 0L;
@@ -79,8 +78,9 @@ public class RoleFacade {
             log.error(e.getMessage());
             numberOfFailures += 1;
             successResponses.add(
-                    new SuccessResponse(idFailure,
-                    messageSource.getMessage("mb.roles.delete.failure"))
+                    new SuccessResponse(
+                            idFailure,
+                            messageSource.getMessage("mb.roles.delete.failure"))
             );
         }
         return new SuccessListResp(numberOfSuccesses, numberOfFailures, successResponses);
@@ -92,7 +92,7 @@ public class RoleFacade {
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.delete.success"));
     }
 
-    public SuccessListResp deleteRoles(PersistRoleIdsReq req) {
+    public SuccessListResp deleteRoles(RoleIdBulkReq req) {
         var numberOfSuccesses = 0;
         var numberOfFailures = 0;
         var idFailure = 0L;
@@ -107,15 +107,17 @@ public class RoleFacade {
         } catch (Exception e) {
             log.error(e.getMessage());
             numberOfFailures += 1;
-            successResponses.add(new SuccessResponse(idFailure, messageSource.getMessage("mb.roles.delete.failure")));
+            successResponses.add(new SuccessResponse(
+                    idFailure,
+                    messageSource.getMessage("mb.roles.delete.failure")));
         }
         return new SuccessListResp(numberOfSuccesses, numberOfFailures, successResponses);
     }
 
-    public PageRoleResp getAllRole(PersistSearchRoleReq req) {
+    public Page<RoleDto> getAllRole(RoleSearchReq req) {
         var roles = roleUsecase.search(req.getName(), req.getPageIndex(), req.getPageSize());
         var roleResponses = CollectionUtils.toList(roles.getData(), mapper::toRoleResp);
-        return new PageRoleResp(
+        return new Page<>(
                 req.getPageIndex(),
                 req.getPageSize(),
                 roles.getTotalElement(),
@@ -124,21 +126,16 @@ public class RoleFacade {
     }
 
 
-    public RoleResp getRoleById(Long roleId) {
+    public RoleDto getRoleById(Long roleId) {
         var role = roleUsecase.getOrElseThrow(roleId);
         return mapper.toRoleResp(role);
     }
 
-    public RoleResp getRoleByName(String roleName) {
-        var role = roleUsecase.findByName(roleName);
-        return ObjectUtils.isNullOrEmpty(role) ? null : mapper.toRoleResp(role);
-    }
 
-
-    public PageRoleLiteResp getRoleShortInfo(PersistRoleLiteReq req) {
+    public Page<RoleLiteDto> getRoleShortInfo(RoleLiteReq req) {
         var roles = roleUsecase.findAllByName(req.getQuery(), req.getPageIndex(), req.getPageSize());
         var result = CollectionUtils.toList(roles.getData(), mapper::toRoleLiteResp);
-        return new PageRoleLiteResp(
+        return new Page<>(
                 req.getPageIndex(),
                 req.getPageSize(),
                 roles.getTotalElement(),

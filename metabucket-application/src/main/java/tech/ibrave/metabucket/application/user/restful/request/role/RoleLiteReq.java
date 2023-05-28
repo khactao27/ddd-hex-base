@@ -12,7 +12,7 @@ import tech.ibrave.metabucket.shared.request.PageReq;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PersistRoleLiteReq extends PageReq {
+public class RoleLiteReq extends PageReq {
 
     private String query;
 }

@@ -3,16 +3,16 @@ package tech.ibrave.metabucket.application.user.restful.request.role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
+import tech.ibrave.metabucket.shared.request.PageReq;
 
 /**
  * Author: nguyendinhthi
- * Date: 27/05/2023
+ * Date: 25/05/2023
  */
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PersistRoleStatusReq {
+public class RoleSearchReq extends PageReq {
 
-    private Long id;
-    private boolean status;
+    private String name;
 }

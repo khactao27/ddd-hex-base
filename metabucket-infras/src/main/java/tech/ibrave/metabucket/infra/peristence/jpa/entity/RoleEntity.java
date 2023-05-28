@@ -2,9 +2,13 @@ package tech.ibrave.metabucket.infra.peristence.jpa.entity;
 
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +27,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@SuppressWarnings("all")
 @Table(name = "tbl_role")
 @Cache(region = "roleCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RoleEntity extends AbstractAuditingUserEntity {
@@ -36,4 +41,11 @@ public class RoleEntity extends AbstractAuditingUserEntity {
 
     @Convert(converter = Permissions2StringConverter.class)
     private List<Permission> permissions;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tbl_user_role_mapping",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<UserEntity> users;
 }
