@@ -1,8 +1,8 @@
-package tech.ibrave.metabucket.infra.peristence.mapper;
+package tech.ibrave.metabucket.infra.persistence.mapper;
 
 import org.mapstruct.Mapper;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.infra.peristence.jpa.entity.UserEntity;
+import tech.ibrave.metabucket.infra.persistence.jpa.entity.UserEntity;
 
 /**
  * Author: hungnm

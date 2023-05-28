@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.entity.converter;
+package tech.ibrave.metabucket.infra.persistence.jpa.entity.converter;
 
 import tech.ibrave.metabucket.shared.constant.Permission;
 

@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.entity;
+package tech.ibrave.metabucket.infra.persistence.jpa.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;

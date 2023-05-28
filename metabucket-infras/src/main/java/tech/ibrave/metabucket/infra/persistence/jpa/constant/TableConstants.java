@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.constant;
+package tech.ibrave.metabucket.infra.persistence.jpa.constant;
 
 /**
  * Author: hungnm

@@ -1,13 +1,13 @@
-package tech.ibrave.metabucket.infra.peristence.adapter;
+package tech.ibrave.metabucket.infra.persistence.adapter;
 
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.user.User;
 import tech.ibrave.metabucket.domain.user.persistence.UserPersistence;
-import tech.ibrave.metabucket.infra.peristence.jpa.BaseJpaRepository;
-import tech.ibrave.metabucket.infra.peristence.jpa.entity.UserEntity;
-import tech.ibrave.metabucket.infra.peristence.jpa.repository.UserJpaRepository;
-import tech.ibrave.metabucket.infra.peristence.mapper.UserEntityMapper;
+import tech.ibrave.metabucket.infra.persistence.jpa.BaseJpaRepository;
+import tech.ibrave.metabucket.infra.persistence.jpa.entity.UserEntity;
+import tech.ibrave.metabucket.infra.persistence.jpa.repository.UserJpaRepository;
+import tech.ibrave.metabucket.infra.persistence.mapper.UserEntityMapper;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 

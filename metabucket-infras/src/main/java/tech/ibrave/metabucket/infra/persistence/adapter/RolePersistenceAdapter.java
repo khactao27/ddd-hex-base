@@ -1,13 +1,13 @@
-package tech.ibrave.metabucket.infra.peristence.adapter;
+package tech.ibrave.metabucket.infra.persistence.adapter;
 
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.domain.user.Role;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.persistence.RolePersistence;
-import tech.ibrave.metabucket.infra.peristence.jpa.BaseJpaRepository;
-import tech.ibrave.metabucket.infra.peristence.jpa.entity.RoleEntity;
-import tech.ibrave.metabucket.infra.peristence.jpa.repository.RoleJpaRepository;
-import tech.ibrave.metabucket.infra.peristence.mapper.RoleEntityMapper;
+import tech.ibrave.metabucket.infra.persistence.jpa.BaseJpaRepository;
+import tech.ibrave.metabucket.infra.persistence.jpa.entity.RoleEntity;
+import tech.ibrave.metabucket.infra.persistence.jpa.repository.RoleJpaRepository;
+import tech.ibrave.metabucket.infra.persistence.mapper.RoleEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.Page;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.entity;
+package tech.ibrave.metabucket.infra.persistence.jpa.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Convert;
@@ -14,7 +14,9 @@ import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.infra.peristence.jpa.entity.converter.Permissions2StringConverter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import tech.ibrave.metabucket.infra.persistence.jpa.entity.converter.Permissions2StringConverter;
 import tech.ibrave.metabucket.shared.constant.Permission;
 
 import java.util.List;
@@ -32,7 +34,7 @@ import java.util.List;
         @NamedAttributeNode("users")
 })
 @Table(name = "tbl_role")
-//@Cache(region = "roleCache", usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(region = "roleCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class RoleEntity extends AbstractAuditingUserEntity {
 
     @Id

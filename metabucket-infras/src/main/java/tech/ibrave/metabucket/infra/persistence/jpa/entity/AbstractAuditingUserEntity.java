@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.entity;
+package tech.ibrave.metabucket.infra.persistence.jpa.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

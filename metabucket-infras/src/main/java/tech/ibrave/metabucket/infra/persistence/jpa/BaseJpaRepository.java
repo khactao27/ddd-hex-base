@@ -1,9 +1,9 @@
-package tech.ibrave.metabucket.infra.peristence.jpa;
+package tech.ibrave.metabucket.infra.persistence.jpa;
 
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
-import tech.ibrave.metabucket.infra.peristence.mapper.BaseEntityMapper;
+import tech.ibrave.metabucket.infra.persistence.mapper.BaseEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.BasePersistence;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.request.PageReq;

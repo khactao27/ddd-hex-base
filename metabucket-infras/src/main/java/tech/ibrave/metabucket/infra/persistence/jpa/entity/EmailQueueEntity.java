@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.entity;
+package tech.ibrave.metabucket.infra.persistence.jpa.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

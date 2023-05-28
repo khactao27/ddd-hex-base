@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.mapper;
+package tech.ibrave.metabucket.infra.persistence.mapper;
 
 /**
  * Author: anct

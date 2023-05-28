@@ -1,8 +1,8 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.repository;
+package tech.ibrave.metabucket.infra.persistence.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import tech.ibrave.metabucket.infra.peristence.jpa.entity.UserEntity;
+import tech.ibrave.metabucket.infra.persistence.jpa.entity.UserEntity;
 
 import java.util.List;
 

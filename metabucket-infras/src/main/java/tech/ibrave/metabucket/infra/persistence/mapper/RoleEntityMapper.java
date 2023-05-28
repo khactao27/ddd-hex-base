@@ -1,9 +1,9 @@
-package tech.ibrave.metabucket.infra.peristence.mapper;
+package tech.ibrave.metabucket.infra.persistence.mapper;
 
 import org.mapstruct.Mapper;
 import tech.ibrave.metabucket.domain.user.Role;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
-import tech.ibrave.metabucket.infra.peristence.jpa.entity.RoleEntity;
+import tech.ibrave.metabucket.infra.persistence.jpa.entity.RoleEntity;
 
 /**
  * Author: anct

@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.config;
+package tech.ibrave.metabucket.infra.persistence.jpa.config;
 
 import org.springframework.context.annotation.Configuration;
 

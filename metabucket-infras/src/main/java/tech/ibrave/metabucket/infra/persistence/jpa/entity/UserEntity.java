@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.entity;
+package tech.ibrave.metabucket.infra.persistence.jpa.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -12,8 +12,10 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import tech.ibrave.metabucket.domain.shared.UserSource;
-import tech.ibrave.metabucket.infra.peristence.jpa.constant.TableConstants;
+import tech.ibrave.metabucket.infra.persistence.jpa.constant.TableConstants;
 
 import java.util.List;
 
@@ -25,7 +27,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "tbl_user")
-//@Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserEntity extends AbstractAuditingUserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

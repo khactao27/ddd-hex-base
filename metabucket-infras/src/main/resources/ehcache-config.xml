@@ -1,0 +1,25 @@
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="
+        https://www.ehcache.org/v3/ http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+
+    <cache alias="roleCache">
+        <key-type>java.lang.Long</key-type>
+        <value-type>tech.ibrave.metabucket.infra.persistence.jpa.entity.RoleEntity</value-type>
+        <heap unit="entries">10000</heap>
+    </cache>
+
+    <cache alias="userCache">
+        <key-type>java.lang.String</key-type>
+        <value-type>tech.ibrave.metabucket.infra.persistence.jpa.entity.UserEntity</value-type>
+        <heap unit="entries">10000</heap>
+    </cache>
+
+    <cache alias="userGroupCache">
+        <key-type>java.lang.String</key-type>
+        <value-type>tech.ibrave.metabucket.infra.persistence.jpa.entity.UserGroupEntity</value-type>
+        <heap unit="entries">10000</heap>
+    </cache>
+
+
+</config>

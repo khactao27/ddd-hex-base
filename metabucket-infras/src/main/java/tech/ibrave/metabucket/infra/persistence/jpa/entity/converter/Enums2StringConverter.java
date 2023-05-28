@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.entity.converter;
+package tech.ibrave.metabucket.infra.persistence.jpa.entity.converter;
 
 import jakarta.persistence.AttributeConverter;
 import org.apache.commons.lang3.StringUtils;

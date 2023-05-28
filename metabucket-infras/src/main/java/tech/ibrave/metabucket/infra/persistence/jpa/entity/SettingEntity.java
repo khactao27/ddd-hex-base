@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.peristence.jpa.entity;
+package tech.ibrave.metabucket.infra.persistence.jpa.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,18 +11,21 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * Author: hungnm
+ * Author: anct
  * Date: 25/05/2023
+ * #YWNA
  */
 @Entity
 @Getter
 @Setter
-@Table(name = "tbl_user_group")
-@Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
-public class UserGroupEntity extends AbstractAuditingUserEntity {
+@Table(name = "tbl_setting")
+@Cache(region = "settingCache", usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+public class SettingEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-    private String description;
+    private String code;
+    private String value;
 }
