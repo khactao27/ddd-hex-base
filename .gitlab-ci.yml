@@ -35,6 +35,6 @@ deploy_uat:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "gcloud auth print-access-token | sudo docker login -u oauth2accesstoken --password-stdin https://gcr.io"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker pull $IMAGE_TAG"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker container rm -f $CONTAINER_NAME || true"
-      - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p $EXPOSE_PORT:8080 --name $CONTAINER_NAME $IMAGE_TAG"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p $EXPOSE_PORT:8080 --name $CONTAINER_NAME $IMAGE_TAG"
   only:
     - dev
