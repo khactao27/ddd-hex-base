@@ -3,7 +3,7 @@ variables:
   SERVER_IP: 34.124.211.138
   SERVER_USER: deployer
   CONTAINER_NAME: metabucket-main-service
-  EXPOSE_PORT: 8080
+  EXPOSE_PORT: 8081
 
 image: docker:20.10.16
 
