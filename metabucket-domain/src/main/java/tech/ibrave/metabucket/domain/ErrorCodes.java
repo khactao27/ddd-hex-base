@@ -17,8 +17,8 @@ public enum ErrorCodes implements ErrorCode {
     MISSING_REQUIRED_FIELD("MB0006", HttpStatus.BAD_REQUEST, "mb.missing_required_field"),
     NOT_FOUND("MB0007", HttpStatus.NOT_FOUND, "mb.not_found"),
     EXISTED_EMAIL("MB0008", HttpStatus.BAD_REQUEST, "mb.users.create.duplicated_username"),
-    EXISTED_USERNAME("MB0009", HttpStatus.BAD_REQUEST, "mb.users.create.duplicated_email")
-    ;
+    EXISTED_USERNAME("MB0009", HttpStatus.BAD_REQUEST, "mb.users.create.duplicated_email"),
+    ROLE_NAME_EXISTED("MB0008", HttpStatus.BAD_REQUEST, "mb.roles.name.existed");
 
     private final String code;
     private final HttpStatus status;

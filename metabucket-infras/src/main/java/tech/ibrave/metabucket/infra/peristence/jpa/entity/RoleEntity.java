@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.infra.peristence.jpa.entity;
 
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,7 +10,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import tech.ibrave.metabucket.infra.peristence.jpa.entity.converter.Permissions2StringConverter;
+import tech.ibrave.metabucket.shared.constant.Permission;
 
+import java.util.List;
 
 /**
  * Author: anct
@@ -28,4 +32,8 @@ public class RoleEntity extends AbstractAuditingUserEntity {
     private Long id;
     private String name;
     private String description;
+    private boolean enable;
+
+    @Convert(converter = Permissions2StringConverter.class)
+    private List<Permission> permissions;
 }

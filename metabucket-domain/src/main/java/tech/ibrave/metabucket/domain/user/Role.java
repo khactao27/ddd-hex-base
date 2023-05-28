@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tech.ibrave.metabucket.shared.constant.Permission;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class Role {
     private Long id;
     private String name;
     private String description;
+    private boolean status;
+    private List<Permission> permissions;
     private List<User> users;
 
     public Role(String name, String description) {
