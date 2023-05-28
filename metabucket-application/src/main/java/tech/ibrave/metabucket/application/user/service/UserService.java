@@ -13,8 +13,7 @@ import tech.ibrave.metabucket.shared.exception.ErrorCode;
  * Date: 25/05/2023
  */
 @ApplicationService
-public class UserService extends BaseApplicationService<User, String> implements UserUseCase {
-    protected UserPersistence repo;
+public class UserService extends BaseApplicationService<User, String, UserPersistence> implements UserUseCase {
 
     protected UserService(UserPersistence repo) {
         super(repo);

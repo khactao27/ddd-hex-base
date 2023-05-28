@@ -15,13 +15,10 @@ import tech.ibrave.metabucket.shared.exception.ErrorCode;
  * #YWNA
  */
 @ApplicationService
-public class RoleService extends BaseApplicationService<Role, Long> implements RoleUseCase {
-
-    private RolePersistence repo;
+public class RoleService extends BaseApplicationService<Role, Long, RolePersistence> implements RoleUseCase {
 
     protected RoleService(RolePersistence repo) {
         super(repo);
-        this.repo = repo;
     }
 
     @Override

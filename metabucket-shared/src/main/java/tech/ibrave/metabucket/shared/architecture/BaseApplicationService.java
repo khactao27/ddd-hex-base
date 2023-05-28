@@ -12,11 +12,11 @@ import java.util.function.Consumer;
  * Date: 23/05/2023
  * #YWNA
  */
-public abstract class BaseApplicationService<DM, ID> implements BaseUseCase<DM,ID> {
+public abstract class BaseApplicationService<DM, ID, R extends BasePersistence<DM, ID>> implements BaseUseCase<DM, ID> {
 
-    protected final BasePersistence<DM, ID> repo;
+    protected final R repo;
 
-    protected BaseApplicationService(BasePersistence<DM, ID> repo) {
+    protected BaseApplicationService(R repo) {
         this.repo = repo;
     }
 
