@@ -1,0 +1,40 @@
+variables:
+  IMAGE_TAG: gcr.io/$GCP_PROJECT_ID/$CI_PROJECT_NAMESPACE/metabucket-main-service:latest
+  SERVER_IP: 34.124.211.138
+  SERVER_USER: deployer
+  CONTAINER_NAME: metabucket-main-service
+  PORT: 8080
+
+image: docker:20.10.16
+
+services:
+  - docker:20.10.16-dind
+
+stages:
+  - build
+  - deploy
+
+buil:
+  stage: build
+  before_script:
+    - docker info
+    # Login to Google Container Registry
+    - base64 -d $GCP_Service_Account_Key | docker login -u _json_key --password-stdin https://gcr.io
+  script:
+    # Build and tag image
+    - docker build -t $IMAGE_TAG .
+    # Push image to GCR
+    - docker push $IMAGE_TAG
+  only:
+    - dev
+
+deploy:
+  stage: deploy
+  script:
+    - chmod og= $ID_RSA
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "gcloud auth print-access-token | sudo docker login -u oauth2accesstoken --password-stdin https://gcr.io"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker pull $IMAGE_TAG"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker container rm -f $CONTAINER_NAME || true"
+      - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p $PORT:8080 --name $CONTAINER_NAME $IMAGE_TAG"
+  only:
+    - dev
