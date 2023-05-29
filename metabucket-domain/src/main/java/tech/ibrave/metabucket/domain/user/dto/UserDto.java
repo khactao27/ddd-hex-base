@@ -1,22 +1,22 @@
-package tech.ibrave.metabucket.domain.user;
+package tech.ibrave.metabucket.domain.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 import tech.ibrave.metabucket.domain.shared.UserSource;
+import tech.ibrave.metabucket.domain.user.Role;
+import tech.ibrave.metabucket.domain.user.UserGroup;
 
 import java.util.List;
 
 /**
- * Author: anct
- * Date: 23/05/2023
- * #YWNA
+ * Author: hungnm
+ * Date: 28/05/2023
  */
 @Getter
 @Setter
-public class User {
+public class UserDto {
     private String id;
     private String username;
-    private String password;
     private String firstName;
     private String lastName;
     private String fullName;
@@ -25,7 +25,7 @@ public class User {
     private String phone;
     private String email;
     private UserSource source = UserSource.SELF_REGISTER;
-    private List<Role> roles;
-    private List<UserGroup> groups;
+    private List<RoleLiteDto> roles;
+    private List<UserGroupLiteDto> groups;
     private boolean enable;
 }

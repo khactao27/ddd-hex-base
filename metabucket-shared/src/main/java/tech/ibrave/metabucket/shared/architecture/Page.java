@@ -3,8 +3,11 @@ package tech.ibrave.metabucket.shared.architecture;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.PageImpl;
+import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Author: anct
@@ -47,5 +50,13 @@ public class Page<DM> {
         this.pageSize = pageSize;
         this.data = data;
         this.totalPage = totalPage;
+    }
+
+    public Page(org.springframework.data.domain.Page<DM> originPage) {
+        this.totalElement = originPage.getTotalElements();
+        this.pageIndex = originPage.getPageable().getPageNumber();
+        this.pageSize = originPage.getPageable().getPageSize();
+        this.data = originPage.getContent();
+        this.totalPage = originPage.getTotalPages();
     }
 }

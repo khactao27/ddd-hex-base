@@ -28,4 +28,12 @@ public class PageReq {
         this.pageIndex = pageIndex;
         this.pageSize = pageSize;
     }
+
+    public String getFieldOrdered() {
+        return sort.split(":")[0];
+    }
+
+    public String getOrder() {
+        return sort.split(":")[1];
+    }
 }

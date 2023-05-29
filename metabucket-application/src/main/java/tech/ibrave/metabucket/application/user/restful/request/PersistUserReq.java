@@ -29,6 +29,7 @@ public class PersistUserReq {
     @NotEmpty(message = "mb.users.create.required_lastname")
     @Length( max = 32, message = "mb.users.create.invalid_lastname")
     private String lastName;
+    private String fullName;
     private String title;
     private String phone;
     private String location;
@@ -39,4 +40,8 @@ public class PersistUserReq {
     private List<Role> roles;
     private List<UserGroup> groups;
     private boolean enable;
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }

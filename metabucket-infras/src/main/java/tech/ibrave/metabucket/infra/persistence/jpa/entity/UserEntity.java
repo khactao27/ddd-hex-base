@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +29,10 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "tbl_user")
-@Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
+@NamedEntityGraph(name = "User.roles", attributeNodes = {
+        @NamedAttributeNode("roles")
+})
+//@Cache(region = "userCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserEntity extends AbstractAuditingUserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,17 +41,18 @@ public class UserEntity extends AbstractAuditingUserEntity {
     private String password;
     private String firstName;
     private String lastName;
+    private String fullName;
     private String title;
     private String phone;
     private String email;
     private UserSource source = UserSource.SELF_REGISTER;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = TableConstants.TBL_USER_ROLE_MAPPING,
             joinColumns = @JoinColumn(name = TableConstants.Default.USER_ID),
             inverseJoinColumns = @JoinColumn(name = TableConstants.Default.ROLE_ID)
     )
     private List<RoleEntity> roles;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = TableConstants.TBL_USER_GROUP_MAPPING,
             joinColumns = @JoinColumn(name = TableConstants.Default.USER_ID),
             inverseJoinColumns = @JoinColumn(name = TableConstants.Default.GROUP_ID)
