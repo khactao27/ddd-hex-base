@@ -47,10 +47,6 @@ public class RoleEntity extends AbstractAuditingUserEntity {
     @Convert(converter = Permissions2StringConverter.class)
     private List<Permission> permissions;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "tbl_user_role_mapping",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
+    @ManyToMany(mappedBy = "roles")
     private List<UserEntity> users;
 }

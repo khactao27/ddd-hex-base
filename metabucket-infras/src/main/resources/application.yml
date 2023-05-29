@@ -51,11 +51,18 @@ spring:
 logging:
   level:
     org:
+      springframework: INFO
       hibernate:
         SQL: DEBUG
     org.springframework.security: DEBUG
 
 security:
-  permit_all_for_dev: true #only open for dev purpose
+  request-log: true
+  permit-all-for-dev: false #only open for dev purpose
   cors:
     enabled: false
+  jwt:
+    secret: v9y$B&E)H@MbQeThWmZq4t7w!z%C*F-JaNdRfUjXn2r775u8x/A?D(G+KbPeShVkYp
+    expire-in-minutes: 3000
+    issuer: ibrave
+    audience: metabucket

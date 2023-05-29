@@ -8,10 +8,9 @@ import com.querydsl.core.types.dsl.Expressions;
 import jakarta.persistence.EntityManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
+import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.UserDto;
 import tech.ibrave.metabucket.domain.user.persistence.UserPersistence;
 import tech.ibrave.metabucket.infra.persistence.jpa.BaseDslRepository;
@@ -93,7 +92,7 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
     /**
      * fieldName - name of field from User entity
      */
-    private OrderSpecifier<?> getSortedColumn(Order order, String fieldName){
+    private OrderSpecifier<?> getSortedColumn(Order order, String fieldName) {
         Path<Object> fieldPath = Expressions.path(Object.class, QUserEntity.userEntity, fieldName);
         return new OrderSpecifier(order, fieldPath);
     }

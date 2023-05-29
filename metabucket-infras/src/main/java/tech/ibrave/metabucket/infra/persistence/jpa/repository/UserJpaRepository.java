@@ -1,12 +1,14 @@
 package tech.ibrave.metabucket.infra.persistence.jpa.repository;
 
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import tech.ibrave.metabucket.infra.persistence.jpa.entity.UserEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Author: hungnm
@@ -27,4 +29,7 @@ public interface UserJpaRepository extends DslRepository<UserEntity, String> {
     @Transactional
     @Query("UPDATE UserEntity SET enable = :enable where id in :userIds")
     void updateStatusBulkUser(List<String> userIds, boolean enable);
+
+    @EntityGraph(value = "User.group_roles", type = EntityGraph.EntityGraphType.LOAD)
+    Optional<UserEntity> findByUsername(String username);
 }

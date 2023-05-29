@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.persistence;
+package tech.ibrave.metabucket.infra;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

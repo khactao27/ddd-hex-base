@@ -6,7 +6,6 @@ import org.mapstruct.MappingTarget;
 import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
 import tech.ibrave.metabucket.domain.user.User;
 import tech.ibrave.metabucket.domain.user.dto.UserDto;
-import tech.ibrave.metabucket.shared.architecture.Page;
 
 /**
  * Author: hungnm

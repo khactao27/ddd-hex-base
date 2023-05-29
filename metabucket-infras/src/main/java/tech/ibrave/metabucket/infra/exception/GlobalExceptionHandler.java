@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.infra.config;
+package tech.ibrave.metabucket.infra.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;

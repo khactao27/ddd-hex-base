@@ -34,7 +34,7 @@ public class Enums2StringConverter<E extends Enum<E>> implements AttributeConver
             return null;
         }
         return enums.stream()
-                .map(E::toString)
+                .map(this::getValue)
                 .collect(Collectors.joining(splitter));
     }
 
@@ -45,7 +45,15 @@ public class Enums2StringConverter<E extends Enum<E>> implements AttributeConver
         }
 
         return Arrays.stream(str.split(splitter))
-                .map(e -> E.valueOf(clazz, e))
-                .collect(Collectors.toList());
+                .map(this::toEnum)
+                .toList();
+    }
+
+    public E toEnum(String value) {
+        return E.valueOf(clazz, value);
+    }
+
+    public String getValue(E e) {
+        return e.toString();
     }
 }
