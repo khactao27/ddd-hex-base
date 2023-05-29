@@ -4,6 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Author: anct
@@ -29,11 +35,18 @@ public class PageReq {
         this.pageSize = pageSize;
     }
 
-    public String getFieldOrdered() {
-        return sort.split(":")[0];
-    }
+    public Map<String, Boolean> getSorts() {
+        var sorts = new HashMap<String, Boolean>(3);
+        try {
+            if (StringUtils.hasLength(sort)) {
+                var splits = sort.split(",");
+                for (var sortStr : splits) {
+                    var values = sortStr.split(":");
+                    sorts.put(values[0], values[1].equals("asc"));
+                }
+            }
+        } catch (Exception ignored) {}
 
-    public String getOrder() {
-        return sort.split(":")[1];
+        return sorts;
     }
 }

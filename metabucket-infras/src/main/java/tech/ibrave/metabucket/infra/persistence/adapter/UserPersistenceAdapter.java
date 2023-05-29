@@ -1,10 +1,6 @@
 package tech.ibrave.metabucket.infra.persistence.adapter;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
-import com.querydsl.core.types.dsl.Expressions;
 import jakarta.persistence.EntityManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -23,7 +19,6 @@ import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 /**
@@ -84,17 +79,9 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
         }
         query.where(whereBuilder);
         if (StringUtils.isNotEmpty(req.getSort())) {
-            query.orderBy(getSortedColumn(Order.valueOf(req.getOrder().toUpperCase(Locale.ROOT)), req.getFieldOrdered()));
+            query.orderBy(getSortSpecifiers(req));
         }
         return new Page(getDomainResultAsPage(query, mapper()::toDto, req));
-    }
-
-    /**
-     * fieldName - name of field from User entity
-     */
-    private OrderSpecifier<?> getSortedColumn(Order order, String fieldName) {
-        Path<Object> fieldPath = Expressions.path(Object.class, QUserEntity.userEntity, fieldName);
-        return new OrderSpecifier(order, fieldPath);
     }
 
 
@@ -108,5 +95,10 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
     @SuppressWarnings("all")
     public UserEntityMapper mapper() {
         return super.mapper();
+    }
+
+    @Override
+    public QUserEntity entityPath() {
+        return QUserEntity.userEntity;
     }
 }

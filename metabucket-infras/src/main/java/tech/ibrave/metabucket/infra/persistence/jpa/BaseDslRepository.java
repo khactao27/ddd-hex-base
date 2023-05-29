@@ -1,9 +1,16 @@
 package tech.ibrave.metabucket.infra.persistence.jpa;
 
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -14,23 +21,34 @@ import tech.ibrave.metabucket.infra.persistence.mapper.BaseEntityMapper;
 import tech.ibrave.metabucket.shared.request.PageReq;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Author: hungnm
  * Date: 28/05/2023
  */
+@Slf4j
 public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, DM, ID> {
     protected final JPAQueryFactory queryFactory;
 
+    @PersistenceContext
+    private EntityManager em;
+
     protected BaseDslRepository(DslRepository<E, ID> repo,
-                                BaseEntityMapper<E, DM> mapper ,
+                                BaseEntityMapper<E, DM> mapper) {
+        super(repo, mapper);
+        this.queryFactory = new JPAQueryFactory(em);
+    }
+
+    protected BaseDslRepository(DslRepository<E, ID> repo,
+                                BaseEntityMapper<E, DM> mapper,
                                 EntityManager em) {
         super(repo, mapper);
-        this.queryFactory = new JPAQueryFactory(em);;
+        this.em = em;
+        this.queryFactory = new JPAQueryFactory(em);
     }
 
     public Page<E> query(Sort.Order... orders) {
@@ -88,7 +106,7 @@ public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, 
                 .stream()
                 .skip(skip)
                 .limit(limit)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public <T> List<T> fetch(JPQLQuery<T> query, int pageIndex, int pageSize) {
@@ -96,7 +114,7 @@ public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, 
                 .stream()
                 .skip(Math.max((pageIndex - 1) * pageSize, 0))
                 .limit(pageSize)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<E> fetch(JPQLQuery<E> query, Pageable pageable) {
@@ -104,12 +122,12 @@ public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, 
                 .stream()
                 .skip(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    public  Page<E> getResultAsPage(JPQLQuery<E> query,
-                                        int pageSize,
-                                        int pageIndex) {
+    public Page<E> getResultAsPage(JPQLQuery<E> query,
+                                   int pageSize,
+                                   int pageIndex) {
         // build pageable, count
         var pageable = PageRequest.of(Math.max(pageIndex - 1, 0), pageSize);
         var result = fetch(query, pageable);
@@ -118,9 +136,9 @@ public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, 
         return new PageImpl<>(result, pageable, total);
     }
 
-    public <T>  Page<T> getDomainResultAsPage(JPQLQuery<E> query,
-                                              Function<E, T> function,
-                                              PageReq pageReq) {
+    public <T> Page<T> getDomainResultAsPage(JPQLQuery<E> query,
+                                             Function<E, T> function,
+                                             PageReq pageReq) {
         // build pageable, count
         var pageable = PageRequest.of(Math.max(pageReq.getPageIndex() - 1, 0), pageReq.getPageSize());
         var result = CollectionUtils.toList(fetch(query, pageable), function);
@@ -131,6 +149,24 @@ public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, 
     public <T> long fetchCount(JPQLQuery<T> query) {
         return query.fetchCount();
     }
+
+    @SuppressWarnings("all")
+    public OrderSpecifier<?>[] getSortSpecifiers(PageReq req) {
+        var orders = new ArrayList<OrderSpecifier<?>>(req.getSorts().size());
+
+        try {
+            for (var sort: req.getSorts().entrySet()) {
+                Path<Object> fieldPath = Expressions.path(Object.class, entityPath(), sort.getKey());
+                orders.add(new OrderSpecifier(sort.getValue() ? Order.ASC : Order.DESC, fieldPath));
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+        return orders.toArray(new OrderSpecifier[]{});
+    }
+
+    public abstract <EP extends EntityPathBase<E>>  EP entityPath();
 
     @SuppressWarnings("all")
     public DslRepository<E, ID> dslRepo() {

@@ -1,7 +1,9 @@
 package tech.ibrave.metabucket.infra.persistence.jpa;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import tech.ibrave.metabucket.infra.persistence.mapper.BaseEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.BasePersistence;
@@ -9,6 +11,7 @@ import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.request.PageReq;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -18,6 +21,7 @@ import java.util.function.Function;
  * Date: 23/05/2023
  * #YWNA
  */
+@Slf4j
 @SuppressWarnings("all")
 public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM, ID> {
 
@@ -107,5 +111,24 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
                 page.getTotalPages(),
                 result
         );
+    }
+
+    public Sort getSort(PageReq req) {
+        try {
+            var orders = new ArrayList<Sort.Order>();
+            for (var sort : req.getSorts().entrySet()) {
+                if (sort.getValue()) {//if sort asc
+                    orders.add(Sort.Order.asc(sort.getKey()));
+                } else {
+                    orders.add(Sort.Order.desc(sort.getKey()));
+                }
+            }
+            return Sort.by(orders);
+
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+        return Sort.unsorted();
     }
 }
