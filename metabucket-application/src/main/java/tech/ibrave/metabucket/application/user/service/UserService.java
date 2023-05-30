@@ -52,6 +52,11 @@ public class UserService extends BaseApplicationService<User, String, UserPersis
     }
 
     @Override
+    public User findByEmail(String email) {
+        return repo.findByEmail(email).orElseThrow(() -> new ErrorCodeException(notFound()));
+    }
+
+    @Override
     public void updateStatusBulkUser(List<String> userIds, boolean enable) {
         repo.updateStatusBulkUser(userIds, enable);
     }

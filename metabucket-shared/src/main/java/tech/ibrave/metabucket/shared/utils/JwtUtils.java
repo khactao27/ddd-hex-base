@@ -5,9 +5,12 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import tech.ibrave.metabucket.shared.constant.JwtTarget;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -20,7 +23,14 @@ public class JwtUtils {
     private final String jwtIssuer;
     private final String jwtAudience;
     private final String jwtSecret;
+    private byte[] signingKey;
     private final long jwtExpirationMinutes;
+    public static final String TARGET = "target";
+
+    @PostConstruct
+    private void initKey() {
+        signingKey = jwtSecret.getBytes();
+    }
 
     public JwtUtils(String jwtIssuer,
                     String jwtAudience,
@@ -34,9 +44,6 @@ public class JwtUtils {
 
     public String generate(Authentication authentication) {
         var userDetails = (UserDetails) authentication.getPrincipal();
-
-        byte[] signingKey = jwtSecret.getBytes();
-
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
@@ -50,8 +57,6 @@ public class JwtUtils {
     }
 
     public String generateWithExpiredTime(String username, Date expiredDate) {
-        byte[] signingKey = jwtSecret.getBytes();
-
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
@@ -61,6 +66,38 @@ public class JwtUtils {
                 .setIssuer(jwtIssuer)
                 .setAudience(jwtAudience)
                 .setSubject(username)
+                .compact();
+    }
+
+    @SneakyThrows
+    public String generateRegisterUserJwt(String email) {
+        return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setHeaderParam(TARGET, JwtTarget.CREATE_USER)
+                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
+                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(jwtExpirationMinutes).toInstant()))
+                .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
+                .setId(UUID.randomUUID().toString())
+                .claim("email", email)
+                .setIssuer(jwtIssuer)
+                .setAudience(jwtAudience)
+                .setSubject(email)
+                .compact();
+    }
+
+    @SneakyThrows
+    public String generateForgotPasswordJwt(String email) {
+        return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setHeaderParam(TARGET, JwtTarget.FORGOT_PASSWORD)
+                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
+                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(jwtExpirationMinutes).toInstant()))
+                .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
+                .setId(UUID.randomUUID().toString())
+                .claim("email", email)
+                .setIssuer(jwtIssuer)
+                .setAudience(jwtAudience)
+                .setSubject(email)
                 .compact();
     }
 

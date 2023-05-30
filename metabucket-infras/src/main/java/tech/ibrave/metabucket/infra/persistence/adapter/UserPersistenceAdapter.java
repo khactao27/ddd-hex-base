@@ -61,6 +61,11 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(mapper.toDomainModel(repo().findByEmail(email).orElse(null)));
+    }
+
+    @Override
     public void updateStatusBulkUser(List<String> userIds, boolean enable) {
         repo().updateStatusBulkUser(userIds, enable);
     }

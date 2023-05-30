@@ -9,7 +9,11 @@ import tech.ibrave.metabucket.shared.exception.ErrorCode;
  * #YWNA
  */
 public enum AuthErrorCodes implements ErrorCode {
-    INVALID_USERNAME_OR_PW("MB1001",  HttpStatus.BAD_REQUEST, "mb.auth.invalid_credential");
+    INVALID_USERNAME_OR_PW("MB1001",  HttpStatus.BAD_REQUEST, "mb.auth.invalid_credential"),
+    TOKEN_INVALID("MB1002", HttpStatus.BAD_REQUEST, "mb.auth.invalid_token"),
+    INVALID_PASSWORD("MB1003", HttpStatus.BAD_REQUEST, "mb.auth.invalid_password"),
+
+    ;
 
     private final String code;
     private final HttpStatus status;
