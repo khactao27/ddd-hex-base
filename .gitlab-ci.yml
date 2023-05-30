@@ -1,6 +1,6 @@
 variables:
   IMAGE_TAG: asia-southeast1-docker.pkg.dev/$GCP_PROJECT_ID/$CI_PROJECT_NAMESPACE/metabucket-main-service:latest
-  SERVER_IP: 34.124.211.138
+  SERVER_IP: 34.126.96.249
   SERVER_USER: deployer
   CONTAINER_NAME: metabucket-main-service
   EXPOSE_PORT: 8081
@@ -26,7 +26,7 @@ build_uat:
     # Push image to GCR
     - docker push $IMAGE_TAG
   only:
-    - dev
+    - uat
 
 deploy_uat:
   stage: deploy
@@ -37,4 +37,4 @@ deploy_uat:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker container rm -f $CONTAINER_NAME || true"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "sudo docker run -d -p $EXPOSE_PORT:8080 --name $CONTAINER_NAME $IMAGE_TAG"
   only:
-    - dev
+    - uat
