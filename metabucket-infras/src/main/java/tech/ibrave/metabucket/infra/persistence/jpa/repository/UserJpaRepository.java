@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import tech.ibrave.metabucket.infra.persistence.jpa.QueryDslRepository;
 import tech.ibrave.metabucket.infra.persistence.jpa.entity.UserEntity;
 
 import java.util.List;
@@ -16,13 +17,14 @@ import java.util.Optional;
  */
 @Repository
 @SuppressWarnings("all")
-public interface UserJpaRepository extends DslRepository<UserEntity, String> {
+public interface UserJpaRepository extends QueryDslRepository<UserEntity, String> {
 
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
 
     boolean existsAllByIdIn(List<String> ids);
+
     List<UserEntity> findByIdIn(List<String> ids);
 
     @Modifying

@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import tech.ibrave.metabucket.infra.persistence.jpa.repository.DslRepository;
 import tech.ibrave.metabucket.infra.persistence.mapper.BaseEntityMapper;
 import tech.ibrave.metabucket.shared.request.PageReq;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
@@ -32,18 +31,19 @@ import java.util.function.Function;
  */
 @Slf4j
 public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, DM, ID> {
+
     protected final JPAQueryFactory queryFactory;
 
     @PersistenceContext
     private EntityManager em;
 
-    protected BaseDslRepository(DslRepository<E, ID> repo,
+    protected BaseDslRepository(QueryDslRepository<E, ID> repo,
                                 BaseEntityMapper<E, DM> mapper) {
         super(repo, mapper);
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    protected BaseDslRepository(DslRepository<E, ID> repo,
+    protected BaseDslRepository(QueryDslRepository<E, ID> repo,
                                 BaseEntityMapper<E, DM> mapper,
                                 EntityManager em) {
         super(repo, mapper);
@@ -155,7 +155,7 @@ public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, 
         var orders = new ArrayList<OrderSpecifier<?>>(req.getSorts().size());
 
         try {
-            for (var sort: req.getSorts().entrySet()) {
+            for (var sort : req.getSorts().entrySet()) {
                 Path<Object> fieldPath = Expressions.path(Object.class, entityPath(), sort.getKey());
                 orders.add(new OrderSpecifier(sort.getValue() == PageReq.Order.ASC ? Order.ASC : Order.DESC, fieldPath));
             }
@@ -166,10 +166,10 @@ public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, 
         return orders.toArray(new OrderSpecifier[]{});
     }
 
-    public abstract <EP extends EntityPathBase<E>>  EP entityPath();
+    public abstract <EP extends EntityPathBase<E>> EP entityPath();
 
     @SuppressWarnings("all")
-    public DslRepository<E, ID> dslRepo() {
+    public QueryDslRepository<E, ID> dslRepo() {
         return super.repo();
     }
 }

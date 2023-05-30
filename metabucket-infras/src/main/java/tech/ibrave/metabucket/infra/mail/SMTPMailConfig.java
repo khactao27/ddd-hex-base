@@ -24,7 +24,19 @@ public class SMTPMailConfig {
 
     private boolean tls;
 
-    private long timeout;
+    private long timeout = 10000; // milliseconds
 
     private String emailPrefix;
+
+    private boolean debug;
+
+    private String transportProtocol = "smtp";
+
+    private boolean auth = true;
+
+    private boolean starttls = true;
+
+    private String sslProtocol = "TLSv1.2";
+
+    private boolean checkserveridentity = true;
 }
