@@ -19,16 +19,16 @@ public enum Permission {
     DELETE_USER("", "mb.users.delete"),
 
     // manage group
-    VIEW_GROUP("", ""),
-    CREATE_GROUP("", ""),
-    UPDATE_GROUP("", ""),
-    DELETE_GROUP("", ""),
+    VIEW_GROUP("", "mb.groups.view"),
+    CREATE_GROUP("", "mb.groups.create"),
+    UPDATE_GROUP("", "mb.groups.update"),
+    DELETE_GROUP("", "mb.groups.delete"),
 
     // manage role
-    VIEW_ROLE("", ""),
-    CREATE_ROLE("", ""),
-    UPDATE_ROLE("", ""),
-    DELETE_ROLE("", "");
+    VIEW_ROLE("", "mb.roles.view"),
+    CREATE_ROLE("", "mb.roles.create"),
+    UPDATE_ROLE("", "mb.roles.update"),
+    DELETE_ROLE("", "mb.roles.delete");
 
     private final String name;
     private final String value;

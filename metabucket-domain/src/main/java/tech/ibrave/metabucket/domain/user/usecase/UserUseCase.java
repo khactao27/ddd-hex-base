@@ -17,7 +17,7 @@ public interface UserUseCase extends BaseUseCase<User, String> {
 
     boolean existByEmail(String email);
 
-    List<User> findByIdsOrElseThrow(List<String> ids);
+    List<UserDto> findByIdsOrElseThrow(List<String> ids);
 
     UserDto findByIdUseDto(String id);
 

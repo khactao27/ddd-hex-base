@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.application.user.service;
 
+import org.springframework.data.domain.Pageable;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.user.Role;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
@@ -35,10 +36,8 @@ public class RoleService extends BaseApplicationService<Role, Long, RolePersiste
     }
 
     @Override
-    public Page<Role> search(String name,
-                             int pageIndex,
-                             int pageSize) {
-        return repo.search(name, pageIndex, pageSize);
+    public Page<Role> search(String name, Pageable pageable) {
+        return repo.search(name, pageable);
     }
 
     @Override

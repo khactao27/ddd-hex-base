@@ -18,6 +18,6 @@ public interface UserPersistence extends BasePersistence<User, String> {
     boolean existByEmail(String email);
     void updateStatusBulkUser(List<String> userIds, boolean enable);
     Optional<UserDto> findByIdUseDto(String id);
-    List<User> findByIdsOrElseThrow(List<String> ids);
+    List<UserDto> findByIdsOrElseThrow(List<String> ids);
     Page<UserDto> searchUser(SearchUserReq req);
 }

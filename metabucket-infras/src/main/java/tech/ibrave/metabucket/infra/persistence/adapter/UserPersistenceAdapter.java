@@ -46,13 +46,13 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
     }
 
     @Override
-    public List<User> findByIdsOrElseThrow(List<String> ids) {
+    public List<UserDto> findByIdsOrElseThrow(List<String> ids) {
         if (!repo().existsAllByIdIn(ids)) {
             throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
         }
 
         var userEntities = repo().findByIdIn(ids);
-        return CollectionUtils.toList(userEntities, mapper::toDomainModel);
+        return CollectionUtils.toList(userEntities, mapper()::toDto);
     }
 
     @Override

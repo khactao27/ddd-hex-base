@@ -2,6 +2,7 @@ package tech.ibrave.metabucket.application.user.restful.facade;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.user.restful.mapper.RoleMapper;
 import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
@@ -38,7 +39,8 @@ public class RoleFacade {
     public SuccessResponse createRole(PersistRoleReq req) {
         validateName(req.getName());
         var users = userUseCase.findByIdsOrElseThrow(req.getUserIds());
-        var roleId = roleUsecase.save(mapper.toRole(req, users)).getId();
+        var role = mapper.toRole(req, users);
+        var roleId = roleUsecase.save(role).getId();
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.create.success"));
     }
 
@@ -68,11 +70,12 @@ public class RoleFacade {
         roleUsecase.deleteByIds(req.getIds());
         return new SuccessResponse(
                 req.getIds(),
-                messageSource.getMessage("mb.roles.delete.failure"));
+                messageSource.getMessage("mb.roles.delete.success"));
     }
 
     public Page<RoleDto> getAllRole(RoleSearchReq req) {
-        var roles = roleUsecase.search(req.getName(), req.getPageIndex(), req.getPageSize());
+        var pageable = PageRequest.of(req.getPageIndex(), req.getPageSize());
+        var roles = roleUsecase.search(req.getName(), pageable);
         var roleResponses = CollectionUtils.toList(roles.getData(), mapper::toRoleResp);
         return new Page<>(
                 req.getPageIndex(),
@@ -87,7 +90,8 @@ public class RoleFacade {
     }
 
     public Page<RoleLiteDto> getRoleShortInfo(RoleLiteReq req) {
-        var roles = roleUsecase.search(req.getQuery(), req.getPageIndex(), req.getPageSize());
+        var pageable = PageRequest.of(req.getPageIndex(), req.getPageSize());
+        var roles = roleUsecase.search(req.getQuery(), pageable);
         var result = CollectionUtils.toList(roles.getData(), mapper::toRoleLiteResp);
         return new Page<>(
                 req.getPageIndex(),

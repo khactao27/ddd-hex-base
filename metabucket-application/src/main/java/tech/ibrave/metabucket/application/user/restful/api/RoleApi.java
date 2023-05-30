@@ -48,7 +48,7 @@ public class RoleApi {
         return roleFacade.updateRole(roleId, req);
     }
 
-    @PutMapping
+    @PutMapping("/status")
     public SuccessResponse updateRoleStatus(@ModelAttribute RoleStatusReq req) {
         return roleFacade.updateRoleStatus(req);
     }

@@ -3,6 +3,7 @@ package tech.ibrave.metabucket.infra.persistence.jpa;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import tech.ibrave.metabucket.infra.persistence.mapper.BaseEntityMapper;
@@ -130,5 +131,19 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
         }
 
         return Sort.unsorted();
+    }
+
+    public <T, R> Page<R> toPage(List<T> content,
+                                 Function<T, R> function,
+                                 Pageable pageable) {
+        var result = CollectionUtils.toList(content, function);
+        var page = new PageImpl<>(result);
+        return new Page<>(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                result
+        );
     }
 }

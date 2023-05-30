@@ -20,7 +20,7 @@ public class RoleDto extends BaseDto {
     private Long id;
     private String name;
     private String description;
-    private boolean status;
+    private boolean enable;
     private List<Permission> permissions;
     private List<UserLiteDto> users;
 }

@@ -42,7 +42,7 @@ public class UserService extends BaseApplicationService<User, String, UserPersis
     }
 
     @Override
-    public List<User> findByIdsOrElseThrow(List<String> ids) {
+    public List<UserDto> findByIdsOrElseThrow(List<String> ids) {
         return repo.findByIdsOrElseThrow(ids);
     }
 

@@ -1,5 +1,7 @@
 package tech.ibrave.metabucket.infra.persistence.adapter;
 
+import io.micrometer.common.util.StringUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.domain.user.Role;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
@@ -31,18 +33,23 @@ public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, 
     }
 
     @Override
-    public Page<Role> search(String name, int pageIndex, int pageSize) {
-        return findAllByName(name, pageIndex, pageSize); // fixme: upgrade
+    public Page<Role> search(String name, Pageable pageable) {
+        return findAllByName(name, pageable); // fixme: upgrade
     }
 
     @Override
-    public Page<Role> findAllByName(String name, int pageIndex, int pageSize) {
-//        if (StringUtils.isEmpty(name)) {
-//            return toPage(repo().findAll(), mapper::toDomainModel, pageIndex, pageSize);
-//        } else {
-//            return toPage(repo().findAllByNameContaining(name), mapper::toDomainModel, pageIndex, pageSize);
-//        }
-        return null; // fixme: use pageable
+    public Page<Role> findAllByName(String name, Pageable pageable) {
+        if (StringUtils.isEmpty(name)) {
+            return toPage(
+                    repo().findAll(),
+                    mapper::toDomainModel,
+                    pageable);
+        } else {
+            return toPage(
+                    repo().findAllByNameContaining(name),
+                    mapper::toDomainModel,
+                    pageable);
+        }
     }
 
     @Override
