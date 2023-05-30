@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,18 +33,24 @@ public class PageReq {
         this.pageSize = pageSize;
     }
 
-    public Map<String, Boolean> getSorts() {
-        var sorts = new HashMap<String, Boolean>(3);
+    public Map<String, Order> getSorts() {
+        var sorts = new HashMap<String, Order>(3);
         try {
             if (StringUtils.hasLength(sort)) {
                 var splits = sort.split(",");
                 for (var sortStr : splits) {
                     var values = sortStr.split(":");
-                    sorts.put(values[0], values[1].equals("asc"));
+                    sorts.put(values[0], values[1].equals("asc") ? Order.ASC : Order.DESC);
                 }
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         return sorts;
+    }
+
+    public enum Order {
+        ASC,
+        DESC
     }
 }

@@ -1,5 +1,5 @@
 variables:
-  IMAGE_TAG: gcr.io/$GCP_PROJECT_ID/$CI_PROJECT_NAMESPACE/metabucket-main-service:latest
+  IMAGE_TAG: asia-southeast1-docker.pkg.dev/$GCP_PROJECT_ID/$CI_PROJECT_NAMESPACE/metabucket-main-service:latest
   SERVER_IP: 34.124.211.138
   SERVER_USER: deployer
   CONTAINER_NAME: metabucket-main-service
@@ -19,7 +19,7 @@ build_uat:
   before_script:
     - docker info
     # Login to Google Container Registry
-    - base64 -d $GCP_Service_Account_Key | docker login -u _json_key --password-stdin https://gcr.io
+    - base64 -d $GCP_Service_Account_Key | docker login -u _json_key --password-stdin https://asia-southeast1-docker.pkg.dev
   script:
     # Build and tag image
     - docker build -t $IMAGE_TAG .

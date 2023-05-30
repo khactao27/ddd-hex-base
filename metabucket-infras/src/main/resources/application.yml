@@ -4,8 +4,8 @@ server:
     context-path: /api
 
 spring:
-#  profiles:
-#    active: ehcache
+  profiles:
+    active: redis
   application:
     name: bucket-api
   main:
@@ -35,7 +35,7 @@ spring:
     enabled: false
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://34.124.211.138:5431/metabucket_dev?useUnicode=yes&characterEncoding=UTF-8
+    url: jdbc:postgresql://34.126.96.249:5431/metabucket_dev?useUnicode=yes&characterEncoding=UTF-8
     username: postgres
     password: mysecretpassword
     hikari:
@@ -58,7 +58,7 @@ logging:
 
 security:
   request-log: true
-  permit-all-for-dev: false #only open for dev purpose
+  permit-all-for-dev: true #only open for dev purpose
   cors:
     enabled: false
   jwt:

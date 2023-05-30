@@ -157,7 +157,7 @@ public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, 
         try {
             for (var sort: req.getSorts().entrySet()) {
                 Path<Object> fieldPath = Expressions.path(Object.class, entityPath(), sort.getKey());
-                orders.add(new OrderSpecifier(sort.getValue() ? Order.ASC : Order.DESC, fieldPath));
+                orders.add(new OrderSpecifier(sort.getValue() == PageReq.Order.ASC ? Order.ASC : Order.DESC, fieldPath));
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);

@@ -117,7 +117,7 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
         try {
             var orders = new ArrayList<Sort.Order>();
             for (var sort : req.getSorts().entrySet()) {
-                if (sort.getValue()) {//if sort asc
+                if (sort.getValue() == PageReq.Order.ASC) {
                     orders.add(Sort.Order.asc(sort.getKey()));
                 } else {
                     orders.add(Sort.Order.desc(sort.getKey()));
