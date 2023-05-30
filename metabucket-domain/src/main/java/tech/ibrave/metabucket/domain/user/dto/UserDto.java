@@ -3,8 +3,6 @@ package tech.ibrave.metabucket.domain.user.dto;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ibrave.metabucket.domain.shared.UserSource;
-import tech.ibrave.metabucket.domain.user.Role;
-import tech.ibrave.metabucket.domain.user.UserGroup;
 
 import java.util.List;
 

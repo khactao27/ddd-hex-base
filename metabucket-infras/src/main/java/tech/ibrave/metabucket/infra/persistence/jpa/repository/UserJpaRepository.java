@@ -25,6 +25,7 @@ public interface UserJpaRepository extends QueryDslRepository<UserEntity, String
 
     boolean existsAllByIdIn(List<String> ids);
 
+    @EntityGraph(value = "User.group_roles", type = EntityGraph.EntityGraphType.LOAD)
     List<UserEntity> findByIdIn(List<String> ids);
 
     @Modifying
