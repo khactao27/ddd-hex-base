@@ -5,7 +5,7 @@ server:
 
 spring:
   profiles:
-    active: redis
+    active: #redis
   application:
     name: bucket-api
   main:
@@ -20,7 +20,7 @@ spring:
   jpa:
     open-in-view: false
     generate-ddl: true
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         jdbc:
@@ -53,8 +53,8 @@ logging:
     org:
       springframework: INFO
       hibernate:
-        SQL: DEBUG
-    org.springframework.security: DEBUG
+        SQL: INFO
+    org.springframework.security: INFO
 
 security:
   request-log: true

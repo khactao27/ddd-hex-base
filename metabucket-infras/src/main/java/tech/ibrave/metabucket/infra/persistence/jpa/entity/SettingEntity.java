@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.infra.persistence.jpa.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,8 +25,9 @@ public class SettingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String name;
     private String code;
+    @Column(length = 10000)
     private String value;
 }

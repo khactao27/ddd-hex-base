@@ -7,6 +7,7 @@ package tech.ibrave.metabucket.infra.mail;
  */
 public enum MailStatus {
     NEW,
+    TAKEN,
     SENT,
     ERROR
 }
