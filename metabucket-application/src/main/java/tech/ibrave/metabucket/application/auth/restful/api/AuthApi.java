@@ -48,7 +48,7 @@ public class AuthApi {
     }
 
     @PostMapping("/recover-password/{token}")
-    public SuccessResponse recoverPassword(@Valid RecoverPasswordReq req,
+    public SuccessResponse recoverPassword(@Valid @RequestBody RecoverPasswordReq req,
                                            @PathVariable String token) {
         return facade.recoverPassword(req, token);
     }

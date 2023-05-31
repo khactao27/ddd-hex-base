@@ -31,8 +31,6 @@ import tech.ibrave.metabucket.shared.message.MessageSource;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 import tech.ibrave.metabucket.shared.utils.JwtUtils;
 
-import java.util.regex.Pattern;
-
 /**
  * Author: anct
  * Date: 29/05/2023
@@ -50,7 +48,7 @@ public class AuthFacade {
     private final EmailSender emailSender;
     private final UserMapper userMapper;
     private final MessageSource messageSource;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     @Value("${base-url.confirm-register}")
     private String baseRegisterPasswordUrl;
     @Value("${base-url.recover-password}")
@@ -97,17 +95,19 @@ public class AuthFacade {
         }
         var email = jws.get().getBody().getSubject();
         validateExistedEmail(email);
-        validatePasswordPattern(req.getPassword());
         validateExistedUsername(req.getUsername());
         var encodedPassword = passwordEncoder.encode(req.getPassword());
         var user = userMapper.toUser(req, encodedPassword);
         user.setEmail(email);
-        var userId = userUseCase.save(user);
+        user.setEnable(true);
+        var userId = userUseCase.save(user).getId();
         return new SuccessResponse(userId, messageSource.getMessage("mb.users.create.success"));
     }
 
     public ForgotPasswordSuccessResp forgotPassword(ForgotPasswordReq req) {
-        validateExistedEmail(req.getEmail());
+        if (!userUseCase.existByEmail(req.getEmail())) {
+            throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
+        }
         var jwtToken = jwtUtils.generateForgotPasswordJwt(req.getEmail());
         var recoverUrl = baseRecoverPasswordUrl + jwtToken;
         var email = new Email();
@@ -124,12 +124,11 @@ public class AuthFacade {
         if (jws.isEmpty() || !jws.get().getHeader().get("target").equals(JwtTarget.FORGOT_PASSWORD.name())) {
             throw new ErrorCodeException(AuthErrorCodes.TOKEN_INVALID);
         }
-        validatePasswordPattern(req.getNewPassword());
         var email = jws.get().getBody().getSubject();
         var user = userUseCase.findByEmail(email);
 
         user.setPassword(passwordEncoder.encode(req.getNewPassword()));
-        var userId = userUseCase.save(user);
+        var userId = userUseCase.save(user).getId();
         return new SuccessResponse(userId, messageSource.getMessage("mb.users.recover_password.success"));
 
     }
@@ -143,14 +142,6 @@ public class AuthFacade {
     private void validateExistedUsername(String username) {
         if (userUseCase.existByUsername(username)) {
             throw new ErrorCodeException(ErrorCodes.EXISTED_USERNAME);
-        }
-    }
-
-    private void validatePasswordPattern(String password) {
-        var passwordPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]+$", Pattern.CASE_INSENSITIVE);
-        var matcher = passwordPattern.matcher(password);
-        if (!matcher.find()) {
-            throw new ErrorCodeException(AuthErrorCodes.INVALID_PASSWORD);
         }
     }
 }

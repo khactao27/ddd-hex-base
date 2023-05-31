@@ -17,12 +17,13 @@ public class ConfirmRegisterReq {
     @NotEmpty(message = "mb.users.create.required_username")
     @Length(min = 6, max = 32, message = "mb.users.create.invalid_username")
     private String username;
-    @NotEmpty(message = "mb.users.create.required_firstname")
-    @Length(max = 32, message = "mb.users.create.invalid_firstname")
+    @NotEmpty(message = "{mb.users.create.required_firstname}")
+    @Length(max = 32, message = "{mb.users.create.invalid_firstname}")
     private String firstName;
-    @NotEmpty(message = "mb.users.create.required_lastname")
-    @Length( max = 32, message = "mb.users.create.invalid_lastname")
+    @NotEmpty(message = "{mb.users.create.required_lastname}")
+    @Length( max = 32, message = "{mb.users.create.invalid_lastname}")
     private String lastName;
+    @Length(min = 8, max = 32, message = "{mb.auth.invalid_password}")
     private String password;
     private String fullName;
     private String phone;
