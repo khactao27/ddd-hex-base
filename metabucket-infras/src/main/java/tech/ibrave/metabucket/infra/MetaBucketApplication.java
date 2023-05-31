@@ -3,6 +3,7 @@ package tech.ibrave.metabucket.infra;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
+import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
 
 /**
  * Author: anct
@@ -12,7 +13,8 @@ import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 @SpringBootApplication(
         scanBasePackages = "tech.ibrave.metabucket",
         exclude = {
-                MailSenderAutoConfiguration.class
+                MailSenderAutoConfiguration.class,
+                ThymeleafAutoConfiguration.class
         })
 public class MetaBucketApplication {
 

@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.infra.mail;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
@@ -8,8 +9,11 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import tech.ibrave.metabucket.domain.setting.SMTPMailSetting;
 import tech.ibrave.metabucket.infra.persistence.jpa.entity.EmailQueueEntity;
 import tech.ibrave.metabucket.infra.persistence.jpa.repository.EmailQueueJpaRepository;
@@ -35,6 +39,7 @@ public class SMTPMailSender implements DisposableBean {
     private boolean active;
     private ScheduledExecutorService scheduler;
     private final LockManager lockManager;
+    private final TemplateEngine emailTemplateEngine;
     private static final int MAX_QUEUE = 50;
     private final Queue<EmailQueueEntity> temporaryQueue = new PriorityQueue<>(MAX_QUEUE,
             Comparator.comparing(EmailQueueEntity::getCreatedTime));
@@ -103,7 +108,11 @@ public class SMTPMailSender implements DisposableBean {
             var mail = temporaryQueue.poll();
             if (mail == null) return;
             try {
-                this.sendSimpleMessage(mail.getTo(), mail.getSubject(), mail.getBody());
+                if (mail.isTemplatedEmail()) {
+                    this.sendTemplateMail(mail);
+                } else {
+                    this.sendSimpleMessage(mail.getTo(), mail.getSubject(), mail.getBody());
+                }
 
                 emailQueueJpaRepo.sent(Collections.singletonList(mail.getId()), LocalDateTime.now());
             } catch (Exception e) {
@@ -112,6 +121,23 @@ public class SMTPMailSender implements DisposableBean {
                 emailQueueJpaRepo.error(Collections.singletonList(mail.getId()));
             }
         }
+    }
+
+    private void sendTemplateMail(EmailQueueEntity mail) throws MessagingException {
+        var ctx = new Context();
+        ctx.setVariables(mail.getVariables());
+
+        var mimeMessage = this.mailSender.createMimeMessage();
+        var message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+        message.setSubject(getSubjectWithPrefix(mail.getSubject()));
+        message.setFrom(smtpConfig.getFromAddress());
+        message.setTo(mail.getTo());
+
+        var htmlContent = this.emailTemplateEngine.process(mail.getTemplate(), ctx);
+        message.setText(htmlContent, true);
+
+        // Send mail
+        this.mailSender.send(mimeMessage);
     }
 
     public void loadNew() {
@@ -137,7 +163,7 @@ public class SMTPMailSender implements DisposableBean {
         }
     }
 
-    public void sendSimpleMessage(String to, String subject, String body) {
+    private void sendSimpleMessage(String to, String subject, String body) {
         if (active) {
             var message = new SimpleMailMessage();
             message.setFrom(smtpConfig.getFromAddress());
