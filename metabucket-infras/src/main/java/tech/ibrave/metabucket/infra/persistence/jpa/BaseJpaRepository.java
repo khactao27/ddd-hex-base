@@ -146,4 +146,15 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
                 result
         );
     }
+
+    public <T> Page<T> toPage(List<T> content, Pageable pageable) {
+        var page = new PageImpl<>(content);
+        return new Page<>(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                page.getTotalElements(),
+                page.getTotalPages(),
+                content
+        );
+    }
 }

@@ -1,10 +1,11 @@
 package tech.ibrave.metabucket.infra.persistence.jpa.repository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNull;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import tech.ibrave.metabucket.infra.persistence.jpa.entity.RoleEntity;
 
@@ -32,6 +33,8 @@ public interface RoleJpaRepository extends JpaRepository<RoleEntity, Long> {
 
     void deleteAllByIdIn(List<Long> ids);
 
-    @Query(value = "UPDATE RoleEntity t SET t.enable = :status WHERE t.id in :ids")
-    void updateStatus(@Param("ids") List<Long> ids, @Param("status") boolean enable);
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE RoleEntity t SET t.enable = :enable WHERE t.id in :ids")
+    void updateStatus(List<Long> ids, boolean enable);
 }

@@ -5,16 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.user.restful.mapper.RoleMapper;
+import tech.ibrave.metabucket.application.user.restful.request.role.DeleteRoleIdBulkReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.RoleIdBulkReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleLiteReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.domain.user.usecase.RoleUseCase;
-import tech.ibrave.metabucket.domain.user.usecase.UserUseCase;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
@@ -32,14 +31,12 @@ import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 public class RoleFacade {
 
     private final RoleMapper mapper;
-    private final UserUseCase userUseCase;
     private final RoleUseCase roleUsecase;
     private final MessageSource messageSource;
 
     public SuccessResponse createRole(PersistRoleReq req) {
         validateName(req.getName());
-        var users = userUseCase.findByIdsOrElseThrow(req.getUserIds());
-        var role = mapper.toRole(req, users);
+        var role = mapper.toRole(req);
         var roleId = roleUsecase.save(role).getId();
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.create.success"));
     }
@@ -48,13 +45,12 @@ public class RoleFacade {
         var role = roleUsecase.getOrElseThrow(roleId);
         validateName(role.getName(), req.getName());
         role.setUsers(null);
-        var users = userUseCase.findByIdsOrElseThrow(req.getUserIds());
-        mapper.toRole(role, req, users);
+        mapper.toRole(role, req);
         roleUsecase.save(role);
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.update.success"));
     }
 
-    public SuccessResponse updateRoleStatus(RoleStatusReq req) {
+    public SuccessResponse updateRoleStatus(RoleStatusBulkReq req) {
         roleUsecase.updateStatus(req.getIds(), req.isEnable());
         return new SuccessResponse(
                 req.getIds(),
@@ -66,7 +62,7 @@ public class RoleFacade {
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.delete.success"));
     }
 
-    public SuccessResponse deleteRoles(RoleIdBulkReq req) {
+    public SuccessResponse deleteRoles(DeleteRoleIdBulkReq req) {
         roleUsecase.deleteByIds(req.getIds());
         return new SuccessResponse(
                 req.getIds(),
@@ -75,14 +71,7 @@ public class RoleFacade {
 
     public Page<RoleDto> getAllRole(RoleSearchReq req) {
         var pageable = PageRequest.of(req.getPageIndex(), req.getPageSize());
-        var roles = roleUsecase.search(req.getName(), pageable);
-        var roleResponses = CollectionUtils.toList(roles.getData(), mapper::toRoleResp);
-        return new Page<>(
-                req.getPageIndex(),
-                req.getPageSize(),
-                roles.getTotalElement(),
-                roles.getPageSize(),
-                roleResponses);
+        return roleUsecase.search(req.getName(), pageable);
     }
 
     public RoleDto getRoleById(Long roleId) {

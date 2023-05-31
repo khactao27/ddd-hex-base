@@ -15,6 +15,7 @@ import tech.ibrave.metabucket.infra.persistence.jpa.entity.RoleEntity;
 @Mapper
 public interface RoleEntityMapper extends BaseEntityMapper<RoleEntity, Role> {
 
+    @Mapping(target = "users", ignore = true)
     RoleDto toDto(RoleEntity entity);
 
     @Named("roleLazy")

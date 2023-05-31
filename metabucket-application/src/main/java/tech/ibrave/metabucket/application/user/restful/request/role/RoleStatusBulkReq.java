@@ -13,7 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RoleIdBulkReq {
+public class RoleStatusBulkReq {
 
     private List<Long> ids;
+    private boolean enable;
 }

@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.user.restful.facade.RoleFacade;
 import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.RoleIdBulkReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.DeleteRoleIdBulkReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleLiteReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.shared.architecture.Page;
@@ -49,7 +49,7 @@ public class RoleApi {
     }
 
     @PutMapping("/status")
-    public SuccessResponse updateRoleStatus(@ModelAttribute RoleStatusReq req) {
+    public SuccessResponse updateRoleStatus(@ModelAttribute RoleStatusBulkReq req) {
         return roleFacade.updateRoleStatus(req);
     }
 
@@ -59,7 +59,7 @@ public class RoleApi {
     }
 
     @DeleteMapping
-    public SuccessResponse deleteRoles(@ModelAttribute RoleIdBulkReq ids) {
+    public SuccessResponse deleteRoles(@ModelAttribute DeleteRoleIdBulkReq ids) {
         return roleFacade.deleteRoles(ids);
     }
 

@@ -36,7 +36,7 @@ public class RoleService extends BaseApplicationService<Role, Long, RolePersiste
     }
 
     @Override
-    public Page<Role> search(String name, Pageable pageable) {
+    public Page<RoleDto> search(String name, Pageable pageable) {
         return repo.search(name, pageable);
     }
 

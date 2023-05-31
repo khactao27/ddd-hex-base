@@ -18,9 +18,9 @@ public interface RolePersistence extends BasePersistence<Role, Long> {
 
     boolean existsByName(String name);
 
-    Page<Role> search(String name, Pageable pageable);
+    Page<RoleDto> search(String name, Pageable pageable);
 
-    Page<Role> findAllByName(String name, Pageable pageable);
+    Page<RoleDto> findAllByName(String name, Pageable pageable);
 
     Optional<RoleDto> findByIdUseDto(Long id);
 

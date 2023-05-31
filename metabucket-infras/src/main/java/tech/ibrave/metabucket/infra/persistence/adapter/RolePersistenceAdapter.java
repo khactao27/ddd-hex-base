@@ -1,6 +1,7 @@
 package tech.ibrave.metabucket.infra.persistence.adapter;
 
 import io.micrometer.common.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.domain.user.Role;
@@ -10,10 +11,12 @@ import tech.ibrave.metabucket.infra.persistence.jpa.BaseJpaRepository;
 import tech.ibrave.metabucket.infra.persistence.jpa.entity.RoleEntity;
 import tech.ibrave.metabucket.infra.persistence.jpa.repository.RoleJpaRepository;
 import tech.ibrave.metabucket.infra.persistence.mapper.RoleEntityMapper;
+import tech.ibrave.metabucket.infra.persistence.mapper.UserEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.Page;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Author: anct
@@ -23,8 +26,10 @@ import java.util.Optional;
 @Component
 public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, Long> implements RolePersistence {
 
-    protected RolePersistenceAdapter(RoleJpaRepository repo, RoleEntityMapper mapper) {
+    private final UserEntityMapper userEntityMapper;
+    protected RolePersistenceAdapter(RoleJpaRepository repo, RoleEntityMapper mapper, UserEntityMapper userEntityMapper) {
         super(repo, mapper);
+        this.userEntityMapper = userEntityMapper;
     }
 
     @Override
@@ -33,22 +38,26 @@ public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, 
     }
 
     @Override
-    public Page<Role> search(String name, Pageable pageable) {
+    public Page<RoleDto> search(String name, Pageable pageable) {
         return findAllByName(name, pageable); // fixme: upgrade
     }
 
     @Override
-    public Page<Role> findAllByName(String name, Pageable pageable) {
+    public Page<RoleDto> findAllByName(String name, Pageable pageable) {
         if (StringUtils.isEmpty(name)) {
-            return toPage(
-                    repo().findAll(),
-                    mapper::toDomainModel,
-                    pageable);
+            var roleDtos = repo.findAll().stream().map(t -> {
+                var roleDto = mapper().toDto(t);
+                roleDto.setUsers(userEntityMapper.toUserRoleLazy(t.getUsers()));
+                return roleDto;
+            }).collect(Collectors.toList());
+            return toPage(roleDtos, pageable);
         } else {
-            return toPage(
-                    repo().findAllByNameContaining(name),
-                    mapper::toDomainModel,
-                    pageable);
+            var roleDtos = repo().findAllByNameContaining(name).stream().map(t -> {
+                var roleDto = mapper().toDto(t);
+                roleDto.setUsers(userEntityMapper.toUserRoleLazy(t.getUsers()));
+                return roleDto;
+            }).collect(Collectors.toList());
+            return toPage(roleDtos, pageable);
         }
     }
 

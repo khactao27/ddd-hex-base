@@ -6,9 +6,6 @@ import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleR
 import tech.ibrave.metabucket.domain.user.Role;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
-import tech.ibrave.metabucket.domain.user.dto.UserDto;
-
-import java.util.List;
 
 /**
  * author: anct
@@ -18,11 +15,11 @@ import java.util.List;
 @Mapper
 public interface RoleMapper {
 
-    Role toRole(PersistRoleReq req, List<UserDto> users);
+    Role toRole(PersistRoleReq req);
 
-    void toRole(@MappingTarget Role role, PersistRoleReq req, List<UserDto> users);
+    void toRole(@MappingTarget Role role, PersistRoleReq req);
 
     RoleDto toRoleResp(Role role);
 
-    RoleLiteDto toRoleLiteResp(Role role);
+    RoleLiteDto toRoleLiteResp(RoleDto role);
 }
