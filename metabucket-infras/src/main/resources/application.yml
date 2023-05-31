@@ -66,3 +66,7 @@ security:
     expire-in-minutes: 3000
     issuer: ibrave
     audience: metabucket
+
+base-url:
+  confirm-register: http://localhost:8080/api/users/confirm-register/
+  recover-password: http://localhost:8080/api/users/recover-password/

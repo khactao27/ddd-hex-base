@@ -2,6 +2,7 @@ package tech.ibrave.metabucket.application.auth.restful.facade;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,8 +51,10 @@ public class AuthFacade {
     private final UserMapper userMapper;
     private final MessageSource messageSource;
     private PasswordEncoder passwordEncoder;
-    private final String baseRecoverPasswordUrl;
-    private final String baseRegisterPasswordUrl;
+    @Value("${base-url.confirm-register}")
+    private String baseRegisterPasswordUrl;
+    @Value("${base-url.recover-password}")
+    private String baseRecoverPasswordUrl;
 
     private static final String CREATE_USER_SUBJECT = "Create user confirm email";
 
