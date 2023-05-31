@@ -95,9 +95,13 @@ public class AuthFacade {
         if (jws.isEmpty() || !jws.get().getHeader().get("target").equals(JwtTarget.CREATE_USER.name())) {
             throw new ErrorCodeException(AuthErrorCodes.TOKEN_INVALID);
         }
+        var email = jws.get().getBody().getSubject();
+        validateExistedEmail(email);
         validatePasswordPattern(req.getPassword());
+        validateExistedUsername(req.getUsername());
         var encodedPassword = passwordEncoder.encode(req.getPassword());
         var user = userMapper.toUser(req, encodedPassword);
+        user.setEmail(email);
         var userId = userUseCase.save(user);
         return new SuccessResponse(userId, messageSource.getMessage("mb.users.create.success"));
     }

@@ -33,7 +33,9 @@ public class EmailQueueEntity extends AbstractAuditingTimeEntity {
     private String from;
     @Column(name = "toAddress")
     private String to;
+    @Column(length = 1000)
     private String subject;
+    @Column(length = 10000)
     private String body;
     @Enumerated(EnumType.STRING)
     private MailStatus status = MailStatus.NEW;
