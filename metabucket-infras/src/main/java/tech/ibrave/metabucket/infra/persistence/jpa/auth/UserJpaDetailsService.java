@@ -3,9 +3,13 @@ package tech.ibrave.metabucket.infra.persistence.jpa.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import tech.ibrave.metabucket.application.auth.base.AuthErrorCodes;
+import tech.ibrave.metabucket.application.auth.base.UserRepoDetails;
+import tech.ibrave.metabucket.infra.persistence.jpa.entity.UserEntity;
 import tech.ibrave.metabucket.infra.persistence.jpa.repository.UserJpaRepository;
 import tech.ibrave.metabucket.infra.persistence.mapper.UserEntityMapper;
-import tech.ibrave.metabucket.application.auth.base.UserRepoDetails;
+
+import java.util.regex.Pattern;
 
 /**
  * Author: anct
@@ -21,10 +25,21 @@ public class UserJpaDetailsService implements UserDetailsService {
 
     @Override
     public UserRepoDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = repository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-
+        UserEntity user;
+        if (isEmail(username)) {
+            user = repository.findByEmail(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(AuthErrorCodes.EMAIL_NOT_FOUND.messageCode()));
+        } else {
+            user = repository.findByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(AuthErrorCodes.USERNAME_NOT_FOUND.messageCode()));
+        }
         return new UserRepoDetails(userEntityMapper.toDomainModel(user));
+    }
+
+    private boolean isEmail(String username) {
+        var emailPattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        var matcher = emailPattern.matcher(username);
+        return matcher.find();
     }
 
     @Autowired

@@ -1,6 +1,8 @@
 package tech.ibrave.metabucket.infra.persistence.mapper;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import tech.ibrave.metabucket.domain.shared.mail.Email;
 import tech.ibrave.metabucket.domain.shared.mail.TemplateEmail;
 import tech.ibrave.metabucket.infra.persistence.jpa.entity.EmailQueueEntity;
@@ -16,5 +18,17 @@ public interface EmailQueueEntityMapper extends BaseEntityMapper<EmailQueueEntit
 
     EmailQueueEntity fromTemplateEmail(TemplateEmail templateEmail);
 
-    EmailQueueEntity fromTemplateEmail(TemplateEmail templateEmail, Map<String, Object> variables);
+    default EmailQueueEntity fromTemplateEmail(TemplateEmail templateEmail, Map<String, Object> variables) {
+        var entity = fromVariables(variables);
+        updateEmailEntity(entity, templateEmail);
+        return entity;
+    }
+
+    default EmailQueueEntity fromVariables(Map<String, Object> variables) {
+        var objectMapper = new ObjectMapper();
+        return objectMapper.convertValue(variables, EmailQueueEntity.class);
+    }
+
+    void updateEmailEntity(@MappingTarget EmailQueueEntity emailQueueEntity, TemplateEmail templateEmail);
+
 }

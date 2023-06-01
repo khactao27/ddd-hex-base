@@ -68,5 +68,5 @@ security:
     audience: metabucket
 
 base-url:
-  confirm-register: http://localhost:8080/api/auth/confirm-register/
-  recover-password: http://localhost:8080/api/auth/recover-password/
+  confirm-register: metabucket-uat-api.trustdatas.com/api/auth/confirm-register/
+  recover-password: metabucket-uat-api.trustdatas.com/api/auth/recover-password/
