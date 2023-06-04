@@ -11,30 +11,28 @@ import java.util.Optional;
  */
 @Getter
 public enum Permission {
-    NONE("", "none"),
+    NONE("none"),
     // manage user
-    VIEW_USER("", "mb.users.view"),
-    CREATE_USER("", "mb.users.create"),
-    UPDATE_USER("", "mb.users.update"),
-    DELETE_USER("", "mb.users.delete"),
+    VIEW_USER("mb.users.view"),
+    CREATE_USER("mb.users.create"),
+    UPDATE_USER("mb.users.update"),
+    DELETE_USER("mb.users.delete"),
 
     // manage group
-    VIEW_GROUP("", "mb.groups.view"),
-    CREATE_GROUP("", "mb.groups.create"),
-    UPDATE_GROUP("", "mb.groups.update"),
-    DELETE_GROUP("", "mb.groups.delete"),
+    VIEW_GROUP("mb.groups.view"),
+    CREATE_GROUP("mb.groups.create"),
+    UPDATE_GROUP("mb.groups.update"),
+    DELETE_GROUP("mb.groups.delete"),
 
     // manage role
-    VIEW_ROLE("", "mb.roles.view"),
-    CREATE_ROLE("", "mb.roles.create"),
-    UPDATE_ROLE("", "mb.roles.update"),
-    DELETE_ROLE("", "mb.roles.delete");
+    VIEW_ROLE("mb.roles.view"),
+    CREATE_ROLE("mb.roles.create"),
+    UPDATE_ROLE("mb.roles.update"),
+    DELETE_ROLE("mb.roles.delete");
 
-    private final String name;
     private final String value;
 
-    Permission(String name, String value) {
-        this.name = name;
+    Permission(String value) {
         this.value = value;
     }
 
