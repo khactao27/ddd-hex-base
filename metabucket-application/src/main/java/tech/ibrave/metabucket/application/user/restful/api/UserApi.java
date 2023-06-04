@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.application.user.restful.api;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,11 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import tech.ibrave.metabucket.application.user.restful.facade.UserFacade;
 import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
 import tech.ibrave.metabucket.application.user.restful.request.UpdateBulkUserReq;
+import tech.ibrave.metabucket.application.user.restful.response.ImportUserResp;
 import tech.ibrave.metabucket.application.user.restful.response.ResetPasswordResp;
 import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
 import tech.ibrave.metabucket.domain.user.dto.UserDto;
@@ -60,5 +64,10 @@ public class UserApi {
     @GetMapping("/{userId}")
     public UserDto getUser(@PathVariable("userId") String userId) {
         return userFacade.getUser(userId);
+    }
+
+    @PostMapping("/import")
+    public ImportUserResp importUser(@RequestParam("file") MultipartFile file, HttpServletResponse response) {
+        return userFacade.importUser(file, response);
     }
 }
