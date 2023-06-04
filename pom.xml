@@ -24,6 +24,7 @@
         <module>metabucket-application</module>
         <module>metabucket-domain</module>
         <module>metabucket-shared</module>
+        <module>metabucket-integration</module>
     </modules>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
