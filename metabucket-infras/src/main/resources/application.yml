@@ -5,7 +5,7 @@ server:
 
 spring:
   profiles:
-    active: #redis
+    active: ehcache
   application:
     name: bucket-api
   main:

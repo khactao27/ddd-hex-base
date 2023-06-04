@@ -1,7 +1,11 @@
 package tech.ibrave.metabucket.infra;
 
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.ldap.LdapRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration;
+import org.springframework.boot.autoconfigure.ldap.LdapAutoConfiguration;
 import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
 import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
 
@@ -14,7 +18,11 @@ import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfigurati
         scanBasePackages = "tech.ibrave.metabucket",
         exclude = {
                 MailSenderAutoConfiguration.class,
-                ThymeleafAutoConfiguration.class
+                ThymeleafAutoConfiguration.class,
+                LdapRepositoriesAutoConfiguration.class,
+                RedisRepositoriesAutoConfiguration.class,
+                LdapAutoConfiguration.class,
+                RedissonAutoConfiguration.class
         })
 public class MetaBucketApplication {
 
