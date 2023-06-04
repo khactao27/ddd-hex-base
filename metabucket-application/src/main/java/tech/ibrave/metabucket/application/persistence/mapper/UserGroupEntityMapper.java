@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.UserGroupEntity;
 import tech.ibrave.metabucket.domain.user.UserGroup;
+import tech.ibrave.metabucket.domain.user.dto.UserGroupDto;
 
 /**
  * Author: hungnm
@@ -12,6 +13,8 @@ import tech.ibrave.metabucket.domain.user.UserGroup;
  */
 @Mapper
 public interface UserGroupEntityMapper extends BaseEntityMapper<UserGroupEntity, UserGroup> {
+
+    UserGroupDto toDto(UserGroupEntity entity);
 
     @Named("groupLazy")
     @Mapping(target = "users", ignore = true)

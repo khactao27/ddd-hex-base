@@ -20,4 +20,5 @@ public interface RoleUseCase extends BaseUseCase<Role, Long> {
     RoleDto findByIdUseDto(Long id);
     void deleteByIds(List<Long> ids);
     void updateStatus(List<Long> ids, boolean status);
+    boolean existsByNameAndIdNot(String name, Long id);
 }

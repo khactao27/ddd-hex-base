@@ -17,14 +17,10 @@ import java.util.Optional;
 public interface RolePersistence extends BasePersistence<Role, Long> {
 
     boolean existsByName(String name);
-
     Page<RoleDto> search(String name, Pageable pageable);
-
     Page<RoleDto> findAllByName(String name, Pageable pageable);
-
     Optional<RoleDto> findByIdUseDto(Long id);
-
     void deleteByIds(List<Long> ids);
-
     void updateStatus(List<Long> ids, boolean status);
+    boolean existsByNameAndIdNot(String name, Long id);
 }

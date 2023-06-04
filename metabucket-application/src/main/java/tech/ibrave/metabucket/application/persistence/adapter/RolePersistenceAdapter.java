@@ -75,6 +75,11 @@ public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, 
     }
 
     @Override
+    public boolean existsByNameAndIdNot(String name, Long id) {
+        return repo().existsByNameAndIdNot(name, id);
+    }
+
+    @Override
     @SuppressWarnings("all")
     public RoleJpaRepository repo() {
         return super.repo();

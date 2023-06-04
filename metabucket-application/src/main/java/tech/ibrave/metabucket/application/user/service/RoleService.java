@@ -51,6 +51,11 @@ public class RoleService extends BaseApplicationService<Role, Long, RolePersiste
     }
 
     @Override
+    public boolean existsByNameAndIdNot(String name, Long id) {
+        return repo.existsByNameAndIdNot(name, id);
+    }
+
+    @Override
     public RoleDto findByIdUseDto(Long id) {
         return repo.findByIdUseDto(id).orElseThrow(() -> new ErrorCodeException(notFound()));
     }

@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +15,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.List;
 
+
 /**
  * Author: hungnm
  * Date: 25/05/2023
@@ -20,6 +23,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NamedEntityGraph(name = "Group.users", attributeNodes = {
+        @NamedAttributeNode("users")
+})
 @Table(name = "tbl_user_group")
 @Cache(region = "userGroupCache", usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserGroupEntity extends AbstractAuditingUserEntity {
@@ -28,7 +34,8 @@ public class UserGroupEntity extends AbstractAuditingUserEntity {
     private String id;
     private String name;
     private String description;
-
+    private boolean enable;
     @ManyToMany(mappedBy = "groups")
     private List<UserEntity> users;
 }
+

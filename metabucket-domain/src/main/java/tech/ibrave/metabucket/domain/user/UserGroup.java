@@ -14,6 +14,7 @@ import java.util.List;
 public class UserGroup {
     private String id;
     private String name;
+    private boolean enable;
     private String description;
     private List<User> users;
 }
