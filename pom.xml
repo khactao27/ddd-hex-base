@@ -23,7 +23,6 @@
     <modules>
         <module>metabucket-application</module>
         <module>metabucket-domain</module>
-        <module>metabucket-infras</module>
         <module>metabucket-shared</module>
     </modules>
     <dependencies>

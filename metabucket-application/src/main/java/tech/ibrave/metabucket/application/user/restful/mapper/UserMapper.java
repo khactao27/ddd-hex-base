@@ -14,7 +14,6 @@ import tech.ibrave.metabucket.domain.user.dto.UserDto;
  */
 @Mapper
 public interface UserMapper {
-    User toUser(PersistUserReq req);
 
     @Mapping(target = "password", source = "password")
     User toUser(PersistUserReq req, String password);

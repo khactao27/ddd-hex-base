@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.user.restful.response.PermissionResp;
-import tech.ibrave.metabucket.shared.constant.Permission;
+import tech.ibrave.metabucket.domain.shared.Permission;
 import tech.ibrave.metabucket.shared.message.MessageSource;
 
 import java.util.Arrays;

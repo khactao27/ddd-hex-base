@@ -73,7 +73,7 @@ public class JwtUtils {
     public String generateRegisterUserJwt(String email) {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .setHeaderParam(TARGET, JwtTarget.CREATE_USER)
+                .setHeaderParam(TARGET, JwtTarget.USER_REGISTRATION)
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
                 .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(jwtExpirationMinutes).toInstant()))
                 .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
@@ -103,8 +103,6 @@ public class JwtUtils {
 
     public Optional<Jws<Claims>> validateTokenAndGetJws(String token) {
         try {
-            byte[] signingKey = jwtSecret.getBytes();
-
             Jws<Claims> jws = Jwts.parserBuilder()
                     .setSigningKey(signingKey)
                     .build()

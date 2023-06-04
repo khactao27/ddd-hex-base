@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tech.ibrave.metabucket.shared.constant.Permission;
+import tech.ibrave.metabucket.domain.shared.Permission;
 
 import java.util.List;
 

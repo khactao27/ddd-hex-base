@@ -1,0 +1,24 @@
+<config
+        xmlns='http://www.ehcache.org/v3'
+>
+
+    <cache alias="roleCache">
+        <key-type>java.lang.Long</key-type>
+        <value-type>tech.ibrave.metabucket.application.persistence.jpa.entity.RoleEntity</value-type>
+        <heap unit="entries">10000</heap>
+    </cache>
+
+    <cache alias="userCache">
+        <key-type>java.lang.String</key-type>
+        <value-type>tech.ibrave.metabucket.application.persistence.jpa.entity.UserEntity</value-type>
+        <heap unit="entries">10000</heap>
+    </cache>
+
+    <cache alias="userGroupCache">
+        <key-type>java.lang.String</key-type>
+        <value-type>tech.ibrave.metabucket.application.persistence.jpa.entity.UserGroupEntity</value-type>
+        <heap unit="entries">10000</heap>
+    </cache>
+
+
+</config>

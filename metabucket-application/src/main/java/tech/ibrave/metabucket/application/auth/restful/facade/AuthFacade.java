@@ -90,7 +90,7 @@ public class AuthFacade {
 
     public SuccessResponse confirmRegister(ConfirmRegisterReq req, String token) {
         var jws = jwtUtils.validateTokenAndGetJws(token);
-        if (jws.isEmpty() || !jws.get().getHeader().get("target").equals(JwtTarget.CREATE_USER.name())) {
+        if (jws.isEmpty() || !jws.get().getHeader().get("target").equals(JwtTarget.USER_REGISTRATION.name())) {
             throw new ErrorCodeException(AuthErrorCodes.TOKEN_INVALID);
         }
         var email = jws.get().getBody().getSubject();

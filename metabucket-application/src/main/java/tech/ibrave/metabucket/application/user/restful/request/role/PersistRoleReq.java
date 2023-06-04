@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import tech.ibrave.metabucket.domain.shared.Permission;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.shared.constant.Permission;
 
 import java.util.List;
 

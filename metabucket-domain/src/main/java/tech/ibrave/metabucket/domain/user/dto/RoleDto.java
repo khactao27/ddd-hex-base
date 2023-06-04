@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ibrave.metabucket.domain.shared.BaseDto;
-import tech.ibrave.metabucket.shared.constant.Permission;
+import tech.ibrave.metabucket.domain.shared.Permission;
 
 import java.util.List;
 

@@ -5,5 +5,5 @@ package tech.ibrave.metabucket.shared.constant;
  * Date: 2/10/2023
  */
 public enum JwtTarget {
-    AUTHENTICATE, CREATE_USER, FORGOT_PASSWORD, REFRESH
+    AUTHENTICATE, USER_REGISTRATION, FORGOT_PASSWORD, REFRESH
 }

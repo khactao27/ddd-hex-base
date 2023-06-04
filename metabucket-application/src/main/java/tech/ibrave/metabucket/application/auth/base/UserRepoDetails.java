@@ -2,8 +2,8 @@ package tech.ibrave.metabucket.application.auth.base;
 
 import lombok.Getter;
 import org.springframework.security.core.userdetails.UserDetails;
+import tech.ibrave.metabucket.domain.shared.Permission;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.shared.constant.Permission;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.HashSet;
