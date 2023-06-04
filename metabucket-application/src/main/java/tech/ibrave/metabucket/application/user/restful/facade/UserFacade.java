@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -151,7 +152,7 @@ public class UserFacade {
 
     private CreateUserResult saveAndHandle(ImportedUser importedUser) {
         try {
-            var violations = validator.validate(importedUser, ImportedUser.class);
+            var violations = validator.validate(importedUser, Default.class);
             if (!violations.isEmpty()) {
                 throw new ConstraintViolationException(violations);
             }
