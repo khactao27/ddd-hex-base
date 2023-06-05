@@ -13,6 +13,6 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ForgotPasswordReq {
-    @Email(message = "mb.user.invalid_email")
+    @Email(message = "{mb.users.create.invalid_email}")
     private String email;
 }

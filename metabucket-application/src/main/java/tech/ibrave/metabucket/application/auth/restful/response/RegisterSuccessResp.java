@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tech.ibrave.metabucket.shared.message.Message;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 
 /**
@@ -12,8 +13,12 @@ import tech.ibrave.metabucket.shared.response.SuccessResponse;
  */
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class RegisterSuccessResp extends SuccessResponse {
     private String registerUr;
+
+    public RegisterSuccessResp(String registerUr, Message message) {
+        super(message);
+        this.registerUr = registerUr;
+    }
 }

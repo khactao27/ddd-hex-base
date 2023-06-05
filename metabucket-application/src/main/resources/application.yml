@@ -68,5 +68,5 @@ security:
     audience: metabucket
 
 base-url:
-  confirm-register: metabucket-uat-api.trustdatas.com/api/auth/confirm-register/
-  recover-password: metabucket-uat-api.trustdatas.com/api/auth/recover-password/
+  confirm-register: https://metabucket-uat.trustdatas.com/auth/register
+  recover-password: https://metabucket-uat.trustdatas.com/auth/register

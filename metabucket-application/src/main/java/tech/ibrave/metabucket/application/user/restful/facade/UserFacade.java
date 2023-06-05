@@ -9,6 +9,7 @@ import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -60,7 +61,11 @@ public class UserFacade {
     private static final String DEFAULT_PASSWORD = "abcd@1234";
 
     public SuccessResponse createUser(PersistUserReq req) {
-        validateExistedValue(req.getUsername(), req.getEmail());
+        validateExistEmail(req.getEmail());
+        validateExistUsername(req.getUsername());
+        if (StringUtils.isNotEmpty(req.getPhone())) {
+            validatePhone(req.getPhone());
+        }
         var passwordEncoded = passwordEncoder.encode(DEFAULT_PASSWORD);
         var user = userMapper.toUser(req, passwordEncoded);
         return new SuccessResponse(userUseCase.save(user).getId(),
@@ -68,7 +73,17 @@ public class UserFacade {
     }
 
     public SuccessResponse updateUser(String userId, PersistUserReq req) {
+        if (StringUtils.isNotEmpty(req.getPhone())) {
+            validatePhone(req.getPhone());
+        }
         var user = userUseCase.getOrElseThrow(userId);
+        if (!StringUtils.equals(user.getEmail(), req.getEmail())) {
+            validateExistEmail(req.getEmail());
+        }
+        if (!StringUtils.equals(user.getUsername(), req.getUsername())) {
+            validateExistUsername(req.getUsername());
+        }
+
         userMapper.updateUser(user, req);
         var updatedUser = userUseCase.save(user);
 
@@ -164,7 +179,8 @@ public class UserFacade {
             if (!violations.isEmpty()) {
                 throw new ConstraintViolationException(violations);
             }
-            validateExistedValue(importedUser.getUsername(), importedUser.getEmail());
+            validateExistEmail(importedUser.getEmail());
+            validateExistUsername(importedUser.getUsername());
             var defaultPassword = passwordEncoder.encode(DEFAULT_PASSWORD);
             userUseCase.save(userMapper.toUser(importedUser, defaultPassword));
             return new CreateUserResult(true, "");
@@ -269,12 +285,22 @@ public class UserFacade {
         }
     }
 
-    private void validateExistedValue(String username, String email) {
+    private void validateExistUsername(String username) {
+        if (userUseCase.existByUsername(username)) {
+            throw new ErrorCodeException(ErrorCodes.EXISTED_USERNAME);
+        }
+    }
+
+    private void validateExistEmail(String email) {
         if (userUseCase.existByEmail(email)) {
             throw new ErrorCodeException(ErrorCodes.EXISTED_EMAIL);
         }
-        if (userUseCase.existByUsername(username)) {
-            throw new ErrorCodeException(ErrorCodes.EXISTED_USERNAME);
+    }
+
+    private void validatePhone(String phone) {
+        String regex = "[0-9]+";
+        if (!phone.matches(regex)) {
+            throw new ErrorCodeException(ErrorCodes.INVALID_PHONE);
         }
     }
 }

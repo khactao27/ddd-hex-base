@@ -16,13 +16,14 @@ public enum ErrorCodes implements ErrorCode {
     INVALID_ARG("MB0005", HttpStatus.BAD_REQUEST, "mb.invalid_arg"),
     MISSING_REQUIRED_FIELD("MB0006", HttpStatus.BAD_REQUEST, "mb.missing_required_field"),
     NOT_FOUND("MB0007", HttpStatus.NOT_FOUND, "mb.not_found"),
-    EXISTED_EMAIL("MB0008", HttpStatus.BAD_REQUEST, "mb.users.create.duplicated_username"),
+    EXISTED_EMAIL("MB0008", HttpStatus.BAD_REQUEST, "mb.users.create.duplicated_email"),
     EXISTED_USERNAME("MB0009", HttpStatus.BAD_REQUEST, "mb.users.create.duplicated_username"),
     ROLE_NAME_EXISTED("MB0008", HttpStatus.BAD_REQUEST, "mb.roles.name.existed"),
     READ_FILE_ERROR("MB0009", HttpStatus.BAD_REQUEST, "mb.read_file_error"),
     INVALID_FIELD("MB0010", HttpStatus.BAD_REQUEST, "mb.users.import.invalid_field"),
     TOO_LARGE_FILE("MB.0010", HttpStatus.BAD_REQUEST, "mb.user.import.too_large_file"),
     EXPORT_ERROR("MB0011", HttpStatus.BAD_REQUEST, "mb.users.export.error"),
+    INVALID_PHONE("MB0012", HttpStatus.BAD_REQUEST, "mb.users.create.invalid_phone")
     ;
 
     private final String code;

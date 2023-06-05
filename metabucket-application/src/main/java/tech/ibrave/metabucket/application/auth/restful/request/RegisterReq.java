@@ -21,7 +21,8 @@ import java.util.List;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterReq {
-    @Email(message = "mb.user.invalid_email")
+    @NotEmpty(message = "{mb.users.create.required_email}")
+    @Email(message = "{mb.users.create.invalid_email}")
     private String email;
 
 }

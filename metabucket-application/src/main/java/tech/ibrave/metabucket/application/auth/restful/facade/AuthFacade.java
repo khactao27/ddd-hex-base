@@ -2,6 +2,7 @@ package tech.ibrave.metabucket.application.auth.restful.facade;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -79,13 +80,13 @@ public class AuthFacade {
     public RegisterSuccessResp register(RegisterReq req) {
         validateExistedEmail(req.getEmail());
         var jwtToken = jwtUtils.generateRegisterUserJwt(req.getEmail());
-        var registerUrl = baseRegisterPasswordUrl + "token=" + jwtToken;
+        var registerUrl = baseRegisterPasswordUrl + "?token=" + jwtToken;
         var email = new Email();
         email.setBody(registerUrl);
         email.setTo(req.getEmail());
         email.setSubject(CREATE_USER_SUBJECT);
         emailSender.send(email);
-        return new RegisterSuccessResp(registerUrl);
+        return new RegisterSuccessResp(registerUrl, messageSource.getMessage("mb.users.verifyemail.success"));
     }
 
     public SuccessResponse confirmRegister(ConfirmRegisterReq req, String token) {
@@ -95,9 +96,9 @@ public class AuthFacade {
         }
         var email = jws.get().getBody().getSubject();
         validateExistedEmail(email);
-        validateExistedUsername(req.getUsername());
         var encodedPassword = passwordEncoder.encode(req.getPassword());
         var user = userMapper.toUser(req, encodedPassword);
+        user.setUsername("user" + RandomStringUtils.randomAlphabetic(8));
         user.setEmail(email);
         user.setEnable(true);
         var userId = userUseCase.save(user).getId();
@@ -109,7 +110,7 @@ public class AuthFacade {
             throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
         }
         var jwtToken = jwtUtils.generateForgotPasswordJwt(req.getEmail());
-        var recoverUrl = baseRecoverPasswordUrl + jwtToken + "token=" + jwtToken;
+        var recoverUrl = baseRecoverPasswordUrl + jwtToken + "?token=" + jwtToken;
         var email = new Email();
         email.setBody(recoverUrl);
         email.setTo(req.getEmail());

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.RandomStringUtils;
 import tech.ibrave.metabucket.shared.message.Message;
 
 /**
@@ -35,6 +36,12 @@ public class SuccessResponse {
 
     public SuccessResponse(Object id, Message message) {
         this.id = id;
+        this.message = message.content();
+        this.messageCode = message.messageCode();
+    }
+
+    public SuccessResponse(Message message) {
+        this.id = RandomStringUtils.randomAlphabetic(6);
         this.message = message.content();
         this.messageCode = message.messageCode();
     }
