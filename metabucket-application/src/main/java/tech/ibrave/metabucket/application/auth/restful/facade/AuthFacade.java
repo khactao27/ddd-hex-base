@@ -79,7 +79,7 @@ public class AuthFacade {
     public RegisterSuccessResp register(RegisterReq req) {
         validateExistedEmail(req.getEmail());
         var jwtToken = jwtUtils.generateRegisterUserJwt(req.getEmail());
-        var registerUrl = baseRegisterPasswordUrl + jwtToken;
+        var registerUrl = baseRegisterPasswordUrl + "token=" + jwtToken;
         var email = new Email();
         email.setBody(registerUrl);
         email.setTo(req.getEmail());
@@ -109,7 +109,7 @@ public class AuthFacade {
             throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
         }
         var jwtToken = jwtUtils.generateForgotPasswordJwt(req.getEmail());
-        var recoverUrl = baseRecoverPasswordUrl + jwtToken;
+        var recoverUrl = baseRecoverPasswordUrl + jwtToken + "token=" + jwtToken;
         var email = new Email();
         email.setBody(recoverUrl);
         email.setTo(req.getEmail());

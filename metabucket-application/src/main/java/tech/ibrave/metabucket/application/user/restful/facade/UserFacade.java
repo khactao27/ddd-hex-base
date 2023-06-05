@@ -9,7 +9,6 @@ import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -19,11 +18,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import tech.ibrave.metabucket.application.user.model.CreateUserResult;
+import tech.ibrave.metabucket.application.user.model.ExportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUserResult;
 import tech.ibrave.metabucket.application.user.restful.mapper.UserMapper;
+import tech.ibrave.metabucket.application.user.restful.request.ExportUserReq;
 import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
 import tech.ibrave.metabucket.application.user.restful.request.UpdateBulkUserReq;
+import tech.ibrave.metabucket.application.user.restful.response.GetUserExportFieldsResp;
 import tech.ibrave.metabucket.application.user.restful.response.ImportUserResp;
 import tech.ibrave.metabucket.application.user.restful.response.ResetPasswordResp;
 import tech.ibrave.metabucket.domain.ErrorCodes;
@@ -34,6 +36,8 @@ import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.utils.ExcelUtils;
+import tech.ibrave.metabucket.shared.utils.ObjectUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -138,7 +142,7 @@ public class UserFacade {
                         .email(cellIterator.next().getStringCellValue())
                         .phone(cellIterator.next().getStringCellValue())
                         .location(cellIterator.next().getStringCellValue())
-                        .enable(cellIterator.next().getBooleanCellValue())
+                        .status(cellIterator.next().getStringCellValue())
                         .title(cellIterator.next().getStringCellValue())
                         .build();
                 users.add(user);
@@ -148,6 +152,10 @@ public class UserFacade {
             log.error(e.getMessage());
             throw new ErrorCodeException(ErrorCodes.READ_FILE_ERROR);
         }
+    }
+
+    public GetUserExportFieldsResp getUserExportFields() {
+        return new GetUserExportFieldsResp(ObjectUtils.getFieldsString(ExportedUser.class));
     }
 
     private CreateUserResult saveAndHandle(ImportedUser importedUser) {
@@ -176,56 +184,38 @@ public class UserFacade {
         font.setBold(true);
         font.setFontHeight(16);
         style.setFont(font);
-        createCell(sheet, row, 0, "username", style);
-        createCell(sheet, row, 1, "firstName", style);
-        createCell(sheet, row, 2, "lastName", style);
-        createCell(sheet, row, 3, "email", style);
-        createCell(sheet, row, 4, "phone", style);
-        createCell(sheet, row, 5, "location", style);
-        createCell(sheet, row, 6, "enable", style);
-        createCell(sheet, row, 7, "title", style);
-        createCell(sheet, row, 8, "message", style);
+        ExcelUtils.createCell(sheet, row, 0, "username", style);
+        ExcelUtils.createCell(sheet, row, 1, "firstName", style);
+        ExcelUtils.createCell(sheet, row, 2, "lastName", style);
+        ExcelUtils.createCell(sheet, row, 3, "email", style);
+        ExcelUtils.createCell(sheet, row, 4, "phone", style);
+        ExcelUtils.createCell(sheet, row, 5, "location", style);
+        ExcelUtils.createCell(sheet, row, 6, "status", style);
+        ExcelUtils.createCell(sheet, row, 7, "title", style);
+        ExcelUtils.createCell(sheet, row, 8, "message", style);
     }
 
     private void write(XSSFWorkbook workbook,
                        XSSFSheet sheet,
                        List<ImportedUserResult> importedUserResults) {
         int rowCount = 1;
-        CellStyle style = workbook.createCellStyle();
-        XSSFFont font = workbook.createFont();
+        var style = workbook.createCellStyle();
+        var font = workbook.createFont();
         font.setFontHeight(14);
         style.setFont(font);
-        for (var record: importedUserResults) {
-            Row row = sheet.createRow(rowCount++);
+        for (var record : importedUserResults) {
+            var row = sheet.createRow(rowCount++);
             int columnCount = 0;
-            createCell(sheet, row, columnCount++, record.getUsername(), style);
-            createCell(sheet, row, columnCount++, record.getFirstName(), style);
-            createCell(sheet, row, columnCount++, record.getLastName(), style);
-            createCell(sheet, row, columnCount++, record.getEmail(), style);
-            createCell(sheet, row, columnCount++, record.getPhone(), style);
-            createCell(sheet, row, columnCount++, record.getLocation(), style);
-            createCell(sheet, row, columnCount++, record.getEmail(), style);
-            createCell(sheet, row, columnCount++, record.getTitle(), style);
-            createCell(sheet, row, columnCount, record.getMessage(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, record.getUsername(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, record.getFirstName(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, record.getLastName(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, record.getEmail(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, record.getPhone(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, record.getLocation(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, record.getEmail(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, record.getTitle(), style);
+            ExcelUtils.createCell(sheet, row, columnCount, record.getMessage(), style);
         }
-    }
-    private void createCell(XSSFSheet sheet,
-                            Row row,
-                            int columnCount,
-                            Object valueOfCell,
-                            CellStyle style) {
-        sheet.autoSizeColumn(columnCount);
-        Cell cell = row.createCell(columnCount);
-        if (valueOfCell instanceof Integer) {
-            cell.setCellValue((Integer) valueOfCell);
-        } else if (valueOfCell instanceof Long) {
-            cell.setCellValue((Long) valueOfCell);
-        } else if (valueOfCell instanceof String) {
-            cell.setCellValue((String) valueOfCell);
-        } else {
-            cell.setCellValue((Boolean) valueOfCell);
-        }
-        cell.setCellStyle(style);
     }
 
     public void generateExcelFile(List<ImportedUserResult> importedUserResults, HttpServletResponse response) throws IOException {
@@ -237,6 +227,46 @@ public class UserFacade {
         workbook.write(outputStream);
         workbook.close();
         outputStream.close();
+    }
+
+    public void exportUser(ExportUserReq req, HttpServletResponse response) {
+        validateExportFields(req.getFields());
+        var usersToExport = userUseCase.searchUser(req).getData();
+        try {
+            var workbook = new XSSFWorkbook();
+            var sheet = workbook.createSheet("User");
+            ExcelUtils.createHeader(workbook, sheet, req.getFields());
+            var style = workbook.createCellStyle();
+            var font = workbook.createFont();
+            font.setFontHeight(14);
+            style.setFont(font);
+            int rowCount = 1;
+            for (var user : usersToExport) {
+                var row = sheet.createRow(rowCount++);
+                int columnCount = 0;
+                for (var field : req.getFields()) {
+                    var fieldValue = ObjectUtils.invokeGetMethod(field, user, UserDto.class);
+                    ExcelUtils.createCell(sheet, row, columnCount++, fieldValue, style);
+                }
+            }
+            ServletOutputStream outputStream = response.getOutputStream();
+            workbook.write(outputStream);
+            workbook.close();
+            outputStream.close();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new ErrorCodeException(ErrorCodes.EXPORT_ERROR);
+        }
+    }
+
+
+    private void validateExportFields(List<String> fields) {
+        var listExportFields = ObjectUtils.getFieldsString(ExportedUser.class);
+        for (var field : fields) {
+            if (!listExportFields.contains(field)) {
+                throw new ErrorCodeException(ErrorCodes.INVALID_FIELD);
+            }
+        }
     }
 
     private void validateExistedValue(String username, String email) {

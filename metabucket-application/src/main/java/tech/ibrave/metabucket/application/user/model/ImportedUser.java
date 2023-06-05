@@ -33,5 +33,5 @@ public class ImportedUser {
     private String title;
     private String location;
     private String phone;
-    private boolean enable;
+    private String status;
 }

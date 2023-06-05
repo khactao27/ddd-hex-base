@@ -21,7 +21,8 @@ public enum ErrorCodes implements ErrorCode {
     ROLE_NAME_EXISTED("MB0008", HttpStatus.BAD_REQUEST, "mb.roles.name.existed"),
     READ_FILE_ERROR("MB0009", HttpStatus.BAD_REQUEST, "mb.read_file_error"),
     INVALID_FIELD("MB0010", HttpStatus.BAD_REQUEST, "mb.users.import.invalid_field"),
-    TOO_LARGE_FILE("MB.0010", HttpStatus.BAD_REQUEST, "mb.user.import.too_large_file")
+    TOO_LARGE_FILE("MB.0010", HttpStatus.BAD_REQUEST, "mb.user.import.too_large_file"),
+    EXPORT_ERROR("MB0011", HttpStatus.BAD_REQUEST, "mb.users.export.error"),
     ;
 
     private final String code;

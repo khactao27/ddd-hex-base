@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import tech.ibrave.metabucket.application.user.restful.facade.UserFacade;
+import tech.ibrave.metabucket.application.user.restful.request.ExportUserReq;
 import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
 import tech.ibrave.metabucket.application.user.restful.request.UpdateBulkUserReq;
+import tech.ibrave.metabucket.application.user.restful.response.GetUserExportFieldsResp;
 import tech.ibrave.metabucket.application.user.restful.response.ImportUserResp;
 import tech.ibrave.metabucket.application.user.restful.response.ResetPasswordResp;
 import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
@@ -69,5 +71,15 @@ public class UserApi {
     @PostMapping("/import")
     public ImportUserResp importUser(@RequestParam("file") MultipartFile file, HttpServletResponse response) {
         return userFacade.importUser(file, response);
+    }
+
+    @GetMapping("/export/fields")
+    public GetUserExportFieldsResp getExportedFields() {
+        return userFacade.getUserExportFields();
+    }
+
+    @PostMapping("/export")
+    public void exportUser(@RequestBody ExportUserReq req, HttpServletResponse response) {
+        userFacade.exportUser(req, response);
     }
 }
