@@ -14,5 +14,5 @@ RUN ./mvnw clean install -Dskiptests
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /opt/app
 EXPOSE 8080
-COPY --from=builder /opt/app/metabucket-infras/target/*.jar /opt/app/*.jar
+COPY --from=builder /opt/app/metabucket-application/target/*.jar /opt/app/*.jar
 ENTRYPOINT ["java", "-jar", "/opt/app/*.jar" ]
