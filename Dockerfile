@@ -8,7 +8,7 @@ RUN chmod +x mvnw
 #RUN ./mvnw dependency:purge-local-repository
 #RUN ./mvnw dependency:go-offline
 COPY . .
-RUN ./mvnw clean install -Dskiptests
+RUN ./mvnw clean install -DskipTests
 #RUN mvn clean -e -B package
 
 FROM eclipse-temurin:17-jre-jammy
