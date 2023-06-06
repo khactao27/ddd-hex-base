@@ -157,4 +157,8 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
                 content
         );
     }
+
+    public Pageable getPageable(PageReq pageRequest) {
+        return PageRequest.of(Math.max(pageRequest.getPageIndex() - 1, 0), pageRequest.getPageSize());
+    }
 }

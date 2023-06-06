@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.user.restful.facade.RoleFacade;
 import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.DeleteRoleIdBulkReq;
-import tech.ibrave.metabucket.application.user.restful.request.role.RoleLiteReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
+import tech.ibrave.metabucket.domain.user.dto.RoleSlimDto;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
 
@@ -64,7 +64,7 @@ public class RoleApi {
     }
 
     @GetMapping
-    public Page<RoleDto> getAllRole(@ModelAttribute RoleSearchReq req) {
+    public Page<RoleLiteDto> getAllRole(@ModelAttribute RoleSearchReq req) {
         return roleFacade.getAllRole(req);
     }
 
@@ -74,7 +74,7 @@ public class RoleApi {
     }
 
     @GetMapping("/short-info")
-    public Page<RoleLiteDto> getRoleShortInfo(@ModelAttribute RoleLiteReq req) {
+    public Page<RoleSlimDto> getRoleShortInfo(@ModelAttribute RoleSearchReq req) {
         return roleFacade.getRoleShortInfo(req);
     }
 }

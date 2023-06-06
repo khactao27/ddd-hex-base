@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
 import tech.ibrave.metabucket.domain.user.Role;
-import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
+import tech.ibrave.metabucket.domain.user.dto.RoleSlimDto;
 
 /**
  * author: anct
@@ -17,9 +17,7 @@ public interface RoleMapper {
 
     Role toRole(PersistRoleReq req);
 
-    void toRole(@MappingTarget Role role, PersistRoleReq req);
+    RoleSlimDto toSlimDto(RoleLiteDto roleLiteDto);
 
-    RoleDto toRoleResp(Role role);
-
-    RoleLiteDto toRoleLiteResp(RoleDto role);
+    void updateRole(@MappingTarget Role role, PersistRoleReq req);
 }

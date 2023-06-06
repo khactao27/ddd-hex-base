@@ -6,6 +6,7 @@ import org.mapstruct.Named;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.RoleEntity;
 import tech.ibrave.metabucket.domain.user.Role;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
+import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 
 /**
  * Author: anct
@@ -21,4 +22,6 @@ public interface RoleEntityMapper extends BaseEntityMapper<RoleEntity, Role> {
     @Named("roleLazy")
     @Mapping(target = "users", ignore = true)
     Role toLazyDomain(RoleEntity entity);
+
+    RoleLiteDto toLiteDto(RoleEntity entity);
 }

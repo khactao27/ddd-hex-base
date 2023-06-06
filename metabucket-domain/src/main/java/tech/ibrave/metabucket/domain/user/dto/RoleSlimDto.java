@@ -3,9 +3,6 @@ package tech.ibrave.metabucket.domain.user.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.shared.Permission;
-
-import java.util.List;
 
 /**
  * Author: nguyendinhthi
@@ -14,11 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleLiteDto {
+public class RoleSlimDto {
 
     private Long id;
     private String name;
-    private String description;
-    private boolean enable;
-    private List<Permission> permissions;
 }

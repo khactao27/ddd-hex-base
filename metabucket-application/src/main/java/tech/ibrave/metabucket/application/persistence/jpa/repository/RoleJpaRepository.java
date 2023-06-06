@@ -1,6 +1,8 @@
 package tech.ibrave.metabucket.application.persistence.jpa.repository;
 
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,7 +28,7 @@ public interface RoleJpaRepository extends QueryDslRepository<RoleEntity, Long> 
     RoleEntity findByName(String name);
 
     @EntityGraph("Role.users")
-    List<RoleEntity> findAllByNameContaining(String name);
+    Page<RoleEntity> findAllByNameContaining(String name, Pageable pageable);
 
     @EntityGraph("Role.users")
     List<RoleEntity> findAll();

@@ -59,4 +59,12 @@ public class Page<DM> {
         this.data = originPage.getContent();
         this.totalPage = originPage.getTotalPages();
     }
+
+    public Page(Page<?> page, List<DM> data) {
+        this.totalElement = page.getTotalElement();
+        this.pageIndex = page.getPageIndex();
+        this.pageSize = page.getPageSize();
+        this.data = data;
+        this.totalPage = page.getTotalPage();
+    }
 }
