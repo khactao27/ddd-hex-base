@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author: hungnm
@@ -16,5 +17,5 @@ public class UserGroup {
     private String name;
     private boolean enable;
     private String description;
-    private List<User> users;
+    private Set<User> users;
 }

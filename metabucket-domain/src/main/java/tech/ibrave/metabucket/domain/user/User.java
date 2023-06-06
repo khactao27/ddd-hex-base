@@ -5,6 +5,7 @@ import lombok.Setter;
 import tech.ibrave.metabucket.domain.shared.UserSource;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author: anct
@@ -25,7 +26,7 @@ public class User {
     private String phone;
     private String email;
     private UserSource source = UserSource.SELF_REGISTER;
-    private List<Role> roles;
-    private List<UserGroup> groups;
+    private Set<Role> roles;
+    private Set<UserGroup> groups;
     private boolean enable;
 }

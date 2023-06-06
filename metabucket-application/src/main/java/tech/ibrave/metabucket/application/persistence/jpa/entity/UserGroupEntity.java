@@ -16,6 +16,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -42,6 +43,6 @@ public class UserGroupEntity extends AbstractAuditingUserEntity {
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<UserEntity> users;
+    private Set<UserEntity> users;
 }
 

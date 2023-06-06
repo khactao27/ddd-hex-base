@@ -6,6 +6,7 @@ import tech.ibrave.metabucket.domain.user.User;
 import tech.ibrave.metabucket.domain.user.UserGroup;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -72,9 +73,9 @@ public class SecurityContext {
      * Get active group of current login user.
      */
     public List<UserGroup> getGroups() {
-        return getUser().getGroups() == null
+        return new ArrayList<>(getUser().getGroups() == null
                 ? Collections.emptyList()
-                : getUser().getGroups();
+                : getUser().getGroups());
     }
 
     /**

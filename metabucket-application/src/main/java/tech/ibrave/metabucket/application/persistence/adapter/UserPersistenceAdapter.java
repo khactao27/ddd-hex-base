@@ -1,11 +1,13 @@
 package tech.ibrave.metabucket.application.persistence.adapter;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.persistence.jpa.BaseDslRepository;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.QUserEntity;
+import tech.ibrave.metabucket.application.persistence.jpa.entity.QUserGroupEntity;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.UserEntity;
 import tech.ibrave.metabucket.application.persistence.jpa.repository.UserJpaRepository;
 import tech.ibrave.metabucket.application.persistence.mapper.UserEntityMapper;
@@ -71,9 +73,12 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
     }
 
     public Page<UserDto> searchUser(SearchUserReq req) {
-        var query = queryFactory
-                .select(QUserEntity.userEntity)
-                .from(QUserEntity.userEntity);
+        JPAQuery<UserEntity> query;
+        if (StringUtils.isNotEmpty(req.getUserGroupId())) {
+            query = buildQueryWithJoinGroup(req.getUserGroupId());
+        } else {
+            query = buildQueryWithoutJoin();
+        }
         var whereBuilder = new BooleanBuilder();
         if (StringUtils.isNotEmpty(req.getQuery())) {
             whereBuilder.and(QUserEntity.userEntity.fullName.likeIgnoreCase("%" + req.getQuery() + "%"))
@@ -82,11 +87,26 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
         if (req.getEnable() != null) {
             whereBuilder.and(QUserEntity.userEntity.enable.eq(req.getEnable()));
         }
+
         query.where(whereBuilder);
         if (StringUtils.isNotEmpty(req.getSort())) {
             query.orderBy(getSortSpecifiers(req));
         }
         return new Page(getDomainResultAsPage(query, mapper()::toDto, req));
+    }
+
+    public JPAQuery<UserEntity> buildQueryWithoutJoin() {
+        return queryFactory
+                .select(QUserEntity.userEntity)
+                .from(QUserEntity.userEntity);
+    }
+
+    public JPAQuery<UserEntity> buildQueryWithJoinGroup(String userGroupId) {
+        return queryFactory
+                .select(QUserEntity.userEntity)
+                .from(QUserEntity.userEntity)
+                .innerJoin(QUserEntity.userEntity.groups, QUserGroupEntity.userGroupEntity)
+                .where(QUserGroupEntity.userGroupEntity.id.eq(userGroupId));
     }
 
 

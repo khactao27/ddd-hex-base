@@ -21,6 +21,7 @@ import org.hibernate.annotations.FetchMode;
 import tech.ibrave.metabucket.domain.shared.UserSource;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Author: hungnm
@@ -56,13 +57,13 @@ public class UserEntity extends AbstractAuditingUserEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     @Fetch(FetchMode.SUBSELECT)
-    private List<RoleEntity> roles;
+    private Set<RoleEntity> roles;
     @ManyToMany
     @JoinTable(name = "tbl_user_group_mapping",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id")
     )
-    private List<UserGroupEntity> groups;
+    private Set<UserGroupEntity> groups;
     private boolean enable;
     private boolean enable2FA;
 }
