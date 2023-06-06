@@ -11,10 +11,14 @@ import tech.ibrave.metabucket.domain.user.dto.UserGroupDto;
  * Author: hungnm
  * Date: 25/05/2023
  */
-@Mapper
+@Mapper(uses = {UserEntityMapper.class})
 public interface UserGroupEntityMapper extends BaseEntityMapper<UserGroupEntity, UserGroup> {
 
     UserGroupDto toDto(UserGroupEntity entity);
+
+    @Override
+    @Mapping(target = "users", qualifiedByName = "userLazy")
+    UserGroup toDomainModel(UserGroupEntity entity);
 
     @Named("groupLazy")
     @Mapping(target = "users", ignore = true)

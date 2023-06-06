@@ -1,7 +1,6 @@
 package tech.ibrave.metabucket.application.persistence.jpa.repository;
 
 import jakarta.transaction.Transactional;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -28,19 +27,23 @@ public interface RoleJpaRepository extends QueryDslRepository<RoleEntity, Long> 
 
     RoleEntity findByName(String name);
 
-    @EntityGraph("Role.users")
+    @EntityGraph(value = "Role.users", type = EntityGraph.EntityGraphType.LOAD)
     Page<RoleEntity> findAllByNameContaining(String name, Pageable pageable);
 
     @Override
-    @EntityGraph("Role.users")
+    @EntityGraph(value = "Role.users", type = EntityGraph.EntityGraphType.LOAD)
     List<RoleEntity> findAll();
+
+    @Override
+    @EntityGraph(value = "Role.users", type = EntityGraph.EntityGraphType.LOAD)
+    RoleEntity save(RoleEntity entity);
 
     @Override
     @EntityGraph("Role.users")
     Page<RoleEntity> findAll(Pageable pageable);
 
     @Override
-    @EntityGraph("Role.users")
+    @EntityGraph(value = "Role.users", type = EntityGraph.EntityGraphType.LOAD)
     Optional<RoleEntity> findById(@NonNull Long id);
 
     void deleteAllByIdIn(List<Long> ids);

@@ -37,6 +37,5 @@ public interface UserJpaRepository extends QueryDslRepository<UserEntity, String
     Optional<UserEntity> findByUsername(String username);
 
     @EntityGraph(value = "User.group_roles", type = EntityGraph.EntityGraphType.LOAD)
-
     Optional<UserEntity> findByEmail(String email);
 }

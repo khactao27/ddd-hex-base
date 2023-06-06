@@ -24,14 +24,14 @@ public interface UserGroupJpaRepository extends QueryDslRepository<UserGroupEnti
 
     UserGroupEntity findByName(String name);
 
-    @EntityGraph("Group.users")
+    @EntityGraph(value = "Group.users", type = EntityGraph.EntityGraphType.LOAD)
     List<UserGroupEntity> findAllByNameContaining(String name);
 
-    @EntityGraph("Group.users")
+    @EntityGraph(value = "Group.users", type = EntityGraph.EntityGraphType.LOAD)
     List<UserGroupEntity> findAll();
 
     @Override
-    @EntityGraph("Group.users")
+    @EntityGraph(value = "Group.users")
     Optional<UserGroupEntity> findById(@NonNull String id);
 
     void deleteAllByIdIn(List<String> ids);

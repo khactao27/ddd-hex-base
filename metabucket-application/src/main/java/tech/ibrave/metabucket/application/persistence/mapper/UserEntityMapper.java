@@ -2,6 +2,7 @@ package tech.ibrave.metabucket.application.persistence.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.UserEntity;
 import tech.ibrave.metabucket.domain.user.User;
 import tech.ibrave.metabucket.domain.user.dto.UserDto;
@@ -23,4 +24,10 @@ public interface UserEntityMapper extends BaseEntityMapper<UserEntity, User> {
     User toDomainModel(UserEntity entity);
 
     List<UserLiteDto> toUserRoleLazy(List<UserEntity> users);
+
+    @Named("userLazy")
+    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "groups", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    User toLazyDomain(UserEntity entity);
 }

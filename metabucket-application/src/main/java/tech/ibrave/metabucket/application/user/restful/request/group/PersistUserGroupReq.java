@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ibrave.metabucket.domain.user.User;
+import tech.ibrave.metabucket.domain.user.dto.UserDto;
 
 import java.util.List;
 
@@ -21,5 +22,5 @@ public class PersistUserGroupReq {
     private String name;
     private String description;
     private boolean enable;
-    private List<User> users;
+    private List<UserDto> users;
 }

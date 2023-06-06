@@ -40,10 +40,10 @@ public class UserGroupApi {
         return facade.createUserGroup(req);
     }
 
-    @PutMapping("/{roleId}")
-    public SuccessResponse updateUserGroup(@PathVariable("roleId") String roleId,
+    @PutMapping("/{groupId}")
+    public SuccessResponse updateUserGroup(@PathVariable("groupId") String groupId,
                                            @Valid @RequestBody PersistUserGroupReq req) {
-        return facade.updateUserGroup(roleId, req);
+        return facade.updateUserGroup(groupId, req);
     }
 
     @PutMapping("/status")
@@ -51,9 +51,9 @@ public class UserGroupApi {
         return facade.updateUserGroupStatus(req);
     }
 
-    @DeleteMapping("/{roleId}")
-    public SuccessResponse deleteUserGroup(@PathVariable("roleId") String roleId) {
-        return facade.deleteUserGroup(roleId);
+    @DeleteMapping("/{groupId}")
+    public SuccessResponse deleteUserGroup(@PathVariable("groupId") String groupId) {
+        return facade.deleteUserGroup(groupId);
     }
 
     @DeleteMapping

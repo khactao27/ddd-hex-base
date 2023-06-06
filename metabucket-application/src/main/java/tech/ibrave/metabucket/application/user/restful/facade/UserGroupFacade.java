@@ -42,7 +42,7 @@ public class UserGroupFacade {
 
     public SuccessResponse updateUserGroup(String id, PersistUserGroupReq req) {
         var userGroup = useCase.getOrElseThrow(id);
-        validateName(userGroup.getName(), req.getName(), id);
+        validateName(userGroup.getName(), req.getName());
         mapper.toUserGroup(userGroup, req);
         useCase.save(userGroup);
         return new SuccessResponse(id, messageSource.getMessage("mb.groups.update.success"));
@@ -89,17 +89,13 @@ public class UserGroupFacade {
 
     private void validateName(String name) {
         if (useCase.existsByName(name)) {
-            throw new ErrorCodeException(ErrorCodes.ROLE_NAME_EXISTED);
+            throw new ErrorCodeException(ErrorCodes.GROUP_NAME_EXISTED);
         }
     }
 
-    private void validateName(String oldName, String newName, String id) {
-        if (!oldName.equals(newName)) {
-            throw new ErrorCodeException(ErrorCodes.ROLE_NAME_EXISTED);
-        }
-
-        if (useCase.existsByNameAndIdNot(newName, id)) {
-            throw new ErrorCodeException(ErrorCodes.ROLE_NAME_EXISTED);
+    private void validateName(String oldName, String newName) {
+        if (!oldName.equals(newName) && useCase.existsByName(newName)) {
+            throw new ErrorCodeException(ErrorCodes.GROUP_NAME_EXISTED);
         }
     }
 }

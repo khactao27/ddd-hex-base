@@ -23,7 +23,9 @@ public enum ErrorCodes implements ErrorCode {
     INVALID_FIELD("MB0010", HttpStatus.BAD_REQUEST, "mb.users.import.invalid_field"),
     TOO_LARGE_FILE("MB.0010", HttpStatus.BAD_REQUEST, "mb.user.import.too_large_file"),
     EXPORT_ERROR("MB0011", HttpStatus.BAD_REQUEST, "mb.users.export.error"),
-    INVALID_PHONE("MB0012", HttpStatus.BAD_REQUEST, "mb.users.create.invalid_phone")
+    INVALID_PHONE("MB0012", HttpStatus.BAD_REQUEST, "mb.users.create.invalid_phone"),
+    GROUP_NAME_EXISTED("MB0013", HttpStatus.BAD_REQUEST, "mb.groups.name.existed"),
+
     ;
 
     private final String code;
