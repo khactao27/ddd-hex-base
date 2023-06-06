@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.user.restful.facade.UserGroupFacade;
+import tech.ibrave.metabucket.application.user.restful.request.group.AddUserToGroupReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.DeleteUserGroupIdBulkReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.PersistUserGroupReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.UserGroupStatusBulkReq;
@@ -62,17 +63,23 @@ public class UserGroupApi {
     }
 
     @GetMapping
-    public Page<UserGroupDto> getAllRole(@ModelAttribute UserGroupSearchReq req) {
+    public Page<UserGroupDto> getAllGroup(@ModelAttribute UserGroupSearchReq req) {
         return facade.getAllUserGroup(req);
     }
 
-    @GetMapping("/{roleId}")
-    public UserGroupDto getRoleById(@PathVariable("roleId") String roleId) {
-        return facade.getUserGroupById(roleId);
+    @GetMapping("/{groupId}")
+    public UserGroupDto getRoleById(@PathVariable("groupId") String groupId) {
+        return facade.getUserGroupById(groupId);
     }
 
     @GetMapping("/short-info")
     public Page<UserGroupLiteDto> getRoleShortInfo(@ModelAttribute UserGroupSearchReq req) {
         return facade.getUserGroupShortInfo(req);
+    }
+
+    @PostMapping("/{groupId}/add-user")
+    public SuccessResponse addUser(@PathVariable String groupId,
+                                   @RequestBody AddUserToGroupReq req) {
+        return facade.addUser(groupId, req);
     }
 }

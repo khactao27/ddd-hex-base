@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.user.restful.mapper.UserGroupMapper;
+import tech.ibrave.metabucket.application.user.restful.mapper.UserMapper;
+import tech.ibrave.metabucket.application.user.restful.request.group.AddUserToGroupReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.DeleteUserGroupIdBulkReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.PersistUserGroupReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.UserGroupStatusBulkReq;
@@ -29,55 +31,56 @@ import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 @RequiredArgsConstructor
 public class UserGroupFacade {
 
-    private final UserGroupMapper mapper;
-    private final UserGroupUseCase useCase;
+    private final UserGroupMapper userGroupMapper;
+    private final UserMapper userMapper;
+    private final UserGroupUseCase userGroupUseCase;
     private final MessageSource messageSource;
 
     public SuccessResponse createUserGroup(PersistUserGroupReq req) {
         validateName(req.getName());
-        var userGroup = mapper.toUserGroup(req);
-        var id = useCase.save(userGroup).getId();
+        var userGroup = userGroupMapper.toUserGroup(req);
+        var id = userGroupUseCase.save(userGroup).getId();
         return new SuccessResponse(id, messageSource.getMessage("mb.groups.create.success"));
     }
 
     public SuccessResponse updateUserGroup(String id, PersistUserGroupReq req) {
-        var userGroup = useCase.getOrElseThrow(id);
+        var userGroup = userGroupUseCase.getOrElseThrow(id);
         validateName(userGroup.getName(), req.getName());
-        mapper.toUserGroup(userGroup, req);
-        useCase.save(userGroup);
+        userGroupMapper.toUserGroup(userGroup, req);
+        userGroupUseCase.save(userGroup);
         return new SuccessResponse(id, messageSource.getMessage("mb.groups.update.success"));
     }
 
     public SuccessResponse updateUserGroupStatus(UserGroupStatusBulkReq req) {
-        useCase.updateStatus(req.getIds(), req.isEnable());
+        userGroupUseCase.updateStatus(req.getIds(), req.isEnable());
         return new SuccessResponse(
                 req.getIds(),
                 messageSource.getMessage("mb.groups.update.success"));
     }
 
     public SuccessResponse deleteUserGroup(String id) {
-        useCase.deleteIfExist(id);
+        userGroupUseCase.deleteIfExist(id);
         return new SuccessResponse(id, messageSource.getMessage("mb.groups.delete.success"));
     }
 
     public SuccessResponse deleteUserGroups(DeleteUserGroupIdBulkReq req) {
-        useCase.deleteByIds(req.getIds());
+        userGroupUseCase.deleteByIds(req.getIds());
         return new SuccessResponse(
                 req.getIds(),
                 messageSource.getMessage("mb.groups.delete.success"));
     }
 
     public Page<UserGroupDto> getAllUserGroup(UserGroupSearchReq req) {
-        return useCase.search(req);
+        return userGroupUseCase.search(req);
     }
 
     public UserGroupDto getUserGroupById(String id) {
-        return useCase.findUserGroupDtoById(id);
+        return userGroupUseCase.findUserGroupDtoById(id);
     }
 
     public Page<UserGroupLiteDto> getUserGroupShortInfo(UserGroupSearchReq req) {
-        var roles = useCase.search(req);
-        var result = CollectionUtils.toList(roles.getData(), mapper::toUserGroupLiteResp);
+        var roles = userGroupUseCase.search(req);
+        var result = CollectionUtils.toList(roles.getData(), userGroupMapper::toUserGroupLiteResp);
         return new Page<>(
                 req.getPageIndex(),
                 req.getPageSize(),
@@ -87,14 +90,25 @@ public class UserGroupFacade {
         );
     }
 
+    public SuccessResponse addUser(String groupId,
+                                   AddUserToGroupReq req) {
+        var group = userGroupUseCase.getOrElseThrow(groupId);
+        var usersToAdd = CollectionUtils.toList(req.getUsers(), userMapper::toUser);
+        var totalUsers = group.getUsers();
+        totalUsers.addAll(usersToAdd);
+        group.setUsers(totalUsers);
+        userGroupUseCase.save(group);
+        return new SuccessResponse(groupId, messageSource.getMessage("mb.groups.update.success"));
+    }
+
     private void validateName(String name) {
-        if (useCase.existsByName(name)) {
+        if (userGroupUseCase.existsByName(name)) {
             throw new ErrorCodeException(ErrorCodes.GROUP_NAME_EXISTED);
         }
     }
 
     private void validateName(String oldName, String newName) {
-        if (!oldName.equals(newName) && useCase.existsByName(newName)) {
+        if (!oldName.equals(newName) && userGroupUseCase.existsByName(newName)) {
             throw new ErrorCodeException(ErrorCodes.GROUP_NAME_EXISTED);
         }
     }

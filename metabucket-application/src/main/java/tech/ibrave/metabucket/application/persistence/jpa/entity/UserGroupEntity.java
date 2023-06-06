@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
@@ -35,7 +37,11 @@ public class UserGroupEntity extends AbstractAuditingUserEntity {
     private String name;
     private String description;
     private boolean enable;
-    @ManyToMany(mappedBy = "groups")
+    @ManyToMany
+    @JoinTable(name = "tbl_user_group_mapping",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<UserEntity> users;
 }
 

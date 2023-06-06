@@ -22,6 +22,8 @@ public interface UserMapper {
     @Mapping(target = "password", source = "password")
     User toUser(PersistUserReq req, String password);
 
+    User toUser(UserDto userDto);
+
     @Mapping(target = "password", source = "password")
     User toUser(ConfirmRegisterReq req, String password);
 
