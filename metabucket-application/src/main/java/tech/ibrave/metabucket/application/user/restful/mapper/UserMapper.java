@@ -35,8 +35,6 @@ public interface UserMapper {
         return StringUtils.equals("Active", status);
     }
 
-    @Mapping(target = "username", ignore = true)
-    @Mapping(target = "email", ignore = true)
     void updateUser(@MappingTarget User user, PersistUserReq req);
 
     UserDto toDto(User user);

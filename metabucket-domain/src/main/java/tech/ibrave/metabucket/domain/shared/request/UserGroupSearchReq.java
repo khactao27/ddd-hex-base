@@ -14,6 +14,6 @@ import tech.ibrave.metabucket.shared.request.PageReq;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserGroupSearchReq extends PageReq {
 
-    private String query;
+    private String name;
     private Boolean enable;
 }

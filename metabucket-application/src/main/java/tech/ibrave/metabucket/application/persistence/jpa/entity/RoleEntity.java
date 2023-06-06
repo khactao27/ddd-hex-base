@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
@@ -44,6 +46,10 @@ public class RoleEntity extends AbstractAuditingUserEntity {
     @Convert(converter = Permissions2StringConverter.class)
     private List<Permission> permissions;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany
+    @JoinTable(name = "tbl_user_role_mapping",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
     private List<UserEntity> users;
 }

@@ -38,8 +38,8 @@ public class UserGroupPersistenceAdapter extends BaseDslRepository<UserGroupEnti
                 .select(QUserGroupEntity.userGroupEntity)
                 .from(QUserGroupEntity.userGroupEntity);
         var whereBuilder = new BooleanBuilder();
-        if (StringUtils.isNotEmpty(req.getQuery())) {
-            whereBuilder.and(QUserGroupEntity.userGroupEntity.name.likeIgnoreCase("%" + req.getQuery() + "%"));
+        if (StringUtils.isNotEmpty(req.getName())) {
+            whereBuilder.and(QUserGroupEntity.userGroupEntity.name.likeIgnoreCase("%" + req.getName() + "%"));
         }
         if (req.getEnable() != null) {
             whereBuilder.and(QUserGroupEntity.userGroupEntity.enable.eq(req.getEnable()));

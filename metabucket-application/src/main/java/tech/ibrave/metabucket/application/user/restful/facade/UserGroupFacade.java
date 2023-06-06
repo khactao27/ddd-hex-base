@@ -81,13 +81,7 @@ public class UserGroupFacade {
     public Page<UserGroupLiteDto> getUserGroupShortInfo(UserGroupSearchReq req) {
         var roles = userGroupUseCase.search(req);
         var result = CollectionUtils.toList(roles.getData(), userGroupMapper::toUserGroupLiteResp);
-        return new Page<>(
-                req.getPageIndex(),
-                req.getPageSize(),
-                roles.getTotalElement(),
-                roles.getTotalPage(),
-                result
-        );
+        return new Page<>(roles, result);
     }
 
     public SuccessResponse addUser(String groupId,
