@@ -265,6 +265,9 @@ public class UserFacade {
                     ExcelUtils.createCell(sheet, row, columnCount++, fieldValue, style);
                 }
             }
+            String headerKey = "Content-Disposition";
+            String headerValue = "attachment; filename=export_users.xlsx";
+            response.setHeader(headerKey, headerValue);
             ServletOutputStream outputStream = response.getOutputStream();
             workbook.write(outputStream);
             workbook.close();

@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,8 +79,8 @@ public class UserApi {
         return userFacade.getUserExportFields();
     }
 
-    @PostMapping("/export")
-    public void exportUser(@RequestBody ExportUserReq req, HttpServletResponse response) {
+    @GetMapping("/export")
+    public void exportUser(@ModelAttribute ExportUserReq req, HttpServletResponse response) {
         userFacade.exportUser(req, response);
     }
 }
