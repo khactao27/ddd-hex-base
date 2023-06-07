@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.user.restful.facade.UserGroupFacade;
-import tech.ibrave.metabucket.application.user.restful.request.group.AddUserToGroupReq;
+import tech.ibrave.metabucket.application.user.restful.request.group.AddOrDeleteUserToGroupReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.DeleteUserGroupIdBulkReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.PersistUserGroupReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.UserGroupStatusBulkReq;
@@ -68,7 +68,7 @@ public class UserGroupApi {
     }
 
     @GetMapping("/{groupId}")
-    public UserGroupDto getRoleById(@PathVariable("groupId") String groupId) {
+    public UserGroupDto getUserGroupById(@PathVariable("groupId") String groupId) {
         return facade.getUserGroupById(groupId);
     }
 
@@ -79,7 +79,13 @@ public class UserGroupApi {
 
     @PostMapping("/{groupId}/add-user")
     public SuccessResponse addUser(@PathVariable String groupId,
-                                   @RequestBody AddUserToGroupReq req) {
+                                   @RequestBody AddOrDeleteUserToGroupReq req) {
         return facade.addUser(groupId, req);
+    }
+
+    @PostMapping("/{groupId}/delete-user")
+    public SuccessResponse deleteUsers(@PathVariable String groupId,
+                                      @RequestBody AddOrDeleteUserToGroupReq req) {
+        return facade.deleteUsers(groupId, req);
     }
 }

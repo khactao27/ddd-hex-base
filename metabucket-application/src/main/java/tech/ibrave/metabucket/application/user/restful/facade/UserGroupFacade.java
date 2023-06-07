@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.user.restful.mapper.UserGroupMapper;
 import tech.ibrave.metabucket.application.user.restful.mapper.UserMapper;
-import tech.ibrave.metabucket.application.user.restful.request.group.AddUserToGroupReq;
+import tech.ibrave.metabucket.application.user.restful.request.group.AddOrDeleteUserToGroupReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.DeleteUserGroupIdBulkReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.PersistUserGroupReq;
 import tech.ibrave.metabucket.application.user.restful.request.group.UserGroupStatusBulkReq;
@@ -85,14 +85,25 @@ public class UserGroupFacade {
     }
 
     public SuccessResponse addUser(String groupId,
-                                   AddUserToGroupReq req) {
+                                   AddOrDeleteUserToGroupReq req) {
         var group = userGroupUseCase.getOrElseThrow(groupId);
         var usersToAdd = CollectionUtils.toList(req.getUsers(), userMapper::toUser);
-        var totalUsers = group.getUsers();
-        totalUsers.addAll(usersToAdd);
-        group.setUsers(totalUsers);
+        var usersInGroup = group.getUsers();
+        usersInGroup.addAll(usersToAdd);
+        group.setUsers(usersInGroup);
         userGroupUseCase.save(group);
         return new SuccessResponse(groupId, messageSource.getMessage("mb.groups.update.success"));
+    }
+
+    public SuccessResponse deleteUsers(String groupId,
+                                   AddOrDeleteUserToGroupReq req) {
+        var group = userGroupUseCase.getOrElseThrow(groupId);
+        var usersToDelete = CollectionUtils.toList(req.getUsers(), userMapper::toUser);
+        var usersInGroup = group.getUsers();
+        usersToDelete.forEach(usersInGroup::remove);
+        group.setUsers(usersInGroup);
+        userGroupUseCase.save(group);
+        return new SuccessResponse(groupId, messageSource.getMessage("mb.groups.delete.success"));
     }
 
     private void validateName(String name) {

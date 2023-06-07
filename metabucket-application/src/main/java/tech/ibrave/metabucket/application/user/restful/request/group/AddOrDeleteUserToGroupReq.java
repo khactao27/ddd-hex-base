@@ -14,6 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AddUserToGroupReq {
+public class AddOrDeleteUserToGroupReq {
     private List<UserDto> users;
 }
