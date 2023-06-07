@@ -40,6 +40,7 @@ public class UserApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('mb.users.create')")
     public SuccessResponse create(@Valid @RequestBody PersistUserReq req) {
         return userFacade.createUser(req);
     }

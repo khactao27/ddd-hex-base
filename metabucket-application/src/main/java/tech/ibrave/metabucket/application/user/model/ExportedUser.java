@@ -13,7 +13,6 @@ import tech.ibrave.metabucket.domain.shared.UserSource;
 public class ExportedUser {
     private String id;
     private String username;
-    private String password;
     private String firstName;
     private String lastName;
     private String fullName;

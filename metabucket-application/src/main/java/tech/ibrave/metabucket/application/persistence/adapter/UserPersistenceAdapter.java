@@ -73,11 +73,9 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
     }
 
     public Page<UserDto> searchUser(SearchUserReq req) {
-        JPAQuery<UserEntity> query;
+        var query = buildBasicQuery();
         if (StringUtils.isNotEmpty(req.getUserGroupId())) {
-            query = buildQueryWithJoinGroup(req.getUserGroupId());
-        } else {
-            query = buildQueryWithoutJoin();
+            buildQueryWithJoinGroup(query, req.getUserGroupId());
         }
         var whereBuilder = new BooleanBuilder();
         if (StringUtils.isNotEmpty(req.getQuery())) {
@@ -95,17 +93,14 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
         return new Page(getDomainResultAsPage(query, mapper()::toDto, req));
     }
 
-    public JPAQuery<UserEntity> buildQueryWithoutJoin() {
+    public JPAQuery<UserEntity> buildBasicQuery() {
         return queryFactory
                 .select(QUserEntity.userEntity)
                 .from(QUserEntity.userEntity);
     }
 
-    public JPAQuery<UserEntity> buildQueryWithJoinGroup(String userGroupId) {
-        return queryFactory
-                .select(QUserEntity.userEntity)
-                .from(QUserEntity.userEntity)
-                .innerJoin(QUserEntity.userEntity.groups, QUserGroupEntity.userGroupEntity)
+    public void buildQueryWithJoinGroup(JPAQuery<UserEntity> query, String userGroupId) {
+        query.innerJoin(QUserEntity.userEntity.groups, QUserGroupEntity.userGroupEntity)
                 .where(QUserGroupEntity.userGroupEntity.id.eq(userGroupId));
     }
 

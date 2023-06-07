@@ -46,6 +46,7 @@ public class JwtUtils {
         var userDetails = (UserDetails) authentication.getPrincipal();
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
+                .setHeaderParam(TARGET, JwtTarget.AUTHENTICATE)
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
                 .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(jwtExpirationMinutes).toInstant()))
                 .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))

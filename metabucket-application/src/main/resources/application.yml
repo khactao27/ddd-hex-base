@@ -32,7 +32,8 @@ spring:
     hibernate:
       ddl-auto: update
   flyway:
-    enabled: false
+    enabled: true
+    baseline-on-migrate: true
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://34.124.255.217:5431/metabucket_dev?useUnicode=yes&characterEncoding=UTF-8

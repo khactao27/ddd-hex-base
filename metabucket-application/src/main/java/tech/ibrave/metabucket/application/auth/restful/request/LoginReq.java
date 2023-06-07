@@ -12,12 +12,12 @@ import tech.ibrave.metabucket.domain.shared.UserSource;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LoginReq {
 
-    @NotBlank
-    @Size(max = 32)
+    @NotBlank(message = "{mb.users.login.required_email_or_username}")
+    @Size(min = 4, max = 80, message = "{mb.users.login.invalid_email}")
     private String username;
 
-    @NotBlank
-    @Size(max = 32)
+    @NotBlank(message = "{mb.users.login.required_password}")
+    @Size(min = 8, max = 32, message = "{mb.users.login.invalid_password}")
     private String password;
 
     private UserSource source = UserSource.SELF_REGISTER;

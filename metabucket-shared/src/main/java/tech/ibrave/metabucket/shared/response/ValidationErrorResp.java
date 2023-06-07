@@ -2,6 +2,7 @@ package tech.ibrave.metabucket.shared.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +10,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import tech.ibrave.metabucket.shared.message.Message;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Author: anct
@@ -24,7 +28,7 @@ public class ValidationErrorResp {
     private String errorCode;
     private String message;
     private String messageCode;
-    private List<FieldDetailError> fieldErrors = new ArrayList<>(3);
+    private Set<FieldDetailError> fieldErrors = new HashSet<>(3);
 
     public ValidationErrorResp(String errorCode, Message message) {
         this.id = RandomStringUtils.randomAlphabetic(6);
@@ -47,6 +51,19 @@ public class ValidationErrorResp {
 
         public static FieldDetailError of(String field, String message) {
             return new FieldDetailError(field, message);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            FieldDetailError that = (FieldDetailError) o;
+            return Objects.equals(field, that.field);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(field);
         }
     }
 }

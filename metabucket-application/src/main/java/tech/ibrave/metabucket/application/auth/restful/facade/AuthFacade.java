@@ -74,7 +74,10 @@ public class AuthFacade {
 
     private LoginSuccessResp map(Authentication authentication) {
         var userDetails = (UserRepoDetails) authentication.getPrincipal();
-        return new LoginSuccessResp(jwtUtils.generate(authentication), mapper.toDto(userDetails.getUser()));
+        var loginResp = new LoginSuccessResp(jwtUtils.generate(authentication), mapper.toDto(userDetails.getUser()));
+        loginResp.setMessageCode("mb.users.login.success");
+        loginResp.setId(userDetails.getUser().getId());
+        return loginResp;
     }
 
     public RegisterSuccessResp register(RegisterReq req) {
@@ -102,7 +105,7 @@ public class AuthFacade {
         user.setEmail(email);
         user.setEnable(true);
         var userId = userUseCase.save(user).getId();
-        return new SuccessResponse(userId, messageSource.getMessage("mb.users.create.success"));
+        return new SuccessResponse(userId, messageSource.getMessage("mb.users.confirmregister.success"));
     }
 
     public ForgotPasswordSuccessResp forgotPassword(ForgotPasswordReq req) {

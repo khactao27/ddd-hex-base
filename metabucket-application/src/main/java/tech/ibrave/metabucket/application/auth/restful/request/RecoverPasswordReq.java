@@ -1,6 +1,7 @@
 package tech.ibrave.metabucket.application.auth.restful.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RecoverPasswordReq {
-    @NotEmpty(message = "{mb.users.recoverpassword.required_password}")
-    @Length(min = 8, max = 32, message = "{mb.users.recoverpassword.invalid_passwordd}")
+    @NotBlank(message = "{mb.users.recoverpassword.required_password}")
+    @Length(min = 8, max = 32, message = "{mb.users.recoverpassword.invalid_password}")
     private String newPassword;
 }

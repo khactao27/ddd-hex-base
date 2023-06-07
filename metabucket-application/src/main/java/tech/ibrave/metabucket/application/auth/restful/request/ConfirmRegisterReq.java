@@ -1,6 +1,7 @@
 package tech.ibrave.metabucket.application.auth.restful.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -15,14 +16,21 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ConfirmRegisterReq {
-    @NotEmpty(message = "{mb.users.create.required_firstName}")
-    @Pattern(regexp = "[a-zA-Z0-9 \\\\]{0,32}", message = "{mb.users.create.invalid_firstName}")
+    @NotBlank(message = "{mb.users.verify.required_firstname}")
+    @Pattern(regexp = "[a-zA-Z0-9 \\\\]{0,32}", message = "{mb.users.verify.invalid_firstname}")
     private String firstName;
-    @NotEmpty(message = "{mb.users.create.required_lastname}")
-    @Pattern(regexp = "[a-zA-Z0-9 \\\\]{0,32}", message = "{mb.users.create.invalid_lastName}")
+
+    @NotBlank(message = "{mb.users.verify.required_lastname}")
+    @Pattern(regexp = "[a-zA-Z0-9 \\\\]{0,32}", message = "{mb.users.verify.invalid_lastname}")
     private String lastName;
-    @Length(min = 8, max = 32, message = "{mb.auth.invalid_password}")
+
+    @NotBlank(message = "{mb.users.verify.required_password}")
+    @Length(min = 8, max = 32, message = "{mb.users.verify.invalid_password}")
     private String password;
+
+    @NotBlank(message = "{mb.users.verify.required_password}")
+    @Length(min = 8, max = 32, message = "{mb.users.verify.invalid_password}")
+    private String confirmPassword;
     public String getFullName() {
         return firstName + " " + lastName;
     }

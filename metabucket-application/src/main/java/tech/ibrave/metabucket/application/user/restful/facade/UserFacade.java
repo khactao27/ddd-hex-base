@@ -149,16 +149,16 @@ public class UserFacade {
             for (var i = 1; i < numberOfRow; i++) {
                 var row = firstSheet.getRow(i);
                 var cellIterator = row.cellIterator();
-                var cell = cellIterator.next();
+                cellIterator.next(); //ignore STT cell
                 var user = ImportedUser.builder()
-                        .username(cell.getStringCellValue())
-                        .firstName(cellIterator.next().getStringCellValue())
+                        .username(cellIterator.next().getStringCellValue())
                         .lastName(cellIterator.next().getStringCellValue())
+                        .firstName(cellIterator.next().getStringCellValue())
                         .email(cellIterator.next().getStringCellValue())
-                        .phone(cellIterator.next().getStringCellValue())
-                        .location(cellIterator.next().getStringCellValue())
-                        .status(cellIterator.next().getStringCellValue())
                         .title(cellIterator.next().getStringCellValue())
+                        .location(cellIterator.next().getStringCellValue())
+                        .phone(cellIterator.next().getStringCellValue())
+                        .status(cellIterator.next().getStringCellValue())
                         .build();
                 users.add(user);
             }
