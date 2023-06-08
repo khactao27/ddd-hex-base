@@ -1,8 +1,9 @@
 package tech.ibrave.metabucket.shared.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -14,6 +15,7 @@ import java.util.List;
  * Author: hungnm
  * Date: 05/06/2023
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ExcelUtils {
 
     public static void createHeader(XSSFWorkbook workbook,
@@ -32,6 +34,7 @@ public final class ExcelUtils {
         }
     }
 
+    // todo update missing if-else case
     public static void createCell(XSSFSheet sheet,
                                   Row row,
                                   int columnCount,
@@ -39,14 +42,14 @@ public final class ExcelUtils {
                                   CellStyle style) {
         sheet.autoSizeColumn(columnCount);
         Cell cell = row.createCell(columnCount);
-        if (valueOfCell instanceof Integer) {
-            cell.setCellValue((Integer) valueOfCell);
-        } else if (valueOfCell instanceof Long) {
-            cell.setCellValue((Long) valueOfCell);
-        } else if (valueOfCell instanceof String) {
-            cell.setCellValue((String) valueOfCell);
+        if (valueOfCell instanceof Integer value) {
+            cell.setCellValue(value);
+        } else if (valueOfCell instanceof Long value) {
+            cell.setCellValue(value);
+        } else if (valueOfCell instanceof Boolean value) {
+            cell.setCellValue(value);
         } else {
-            cell.setCellValue((Boolean) valueOfCell);
+            cell.setCellValue(String.valueOf(valueOfCell));
         }
         cell.setCellStyle(style);
     }

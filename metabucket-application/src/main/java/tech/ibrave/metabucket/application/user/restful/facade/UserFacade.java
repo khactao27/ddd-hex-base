@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,24 +59,20 @@ public class UserFacade {
     private final UserUseCase userUseCase;
     private final MessageSource messageSource;
     private final PasswordEncoder passwordEncoder;
-    private static final String DEFAULT_PASSWORD = "abcd@1234";
+
+    @Value("${security.default-pwd}")
+    private String defaultPwd;
 
     public SuccessResponse createUser(PersistUserReq req) {
         validateExistEmail(req.getEmail());
         validateExistUsername(req.getUsername());
-        if (StringUtils.isNotEmpty(req.getPhone())) {
-            validatePhone(req.getPhone());
-        }
-        var passwordEncoded = passwordEncoder.encode(DEFAULT_PASSWORD);
+        var passwordEncoded = passwordEncoder.encode(defaultPwd);
         var user = userMapper.toUser(req, passwordEncoded);
         return new SuccessResponse(userUseCase.save(user).getId(),
                 messageSource.getMessage("mb.users.create.success"));
     }
 
     public SuccessResponse updateUser(String userId, PersistUserReq req) {
-        if (StringUtils.isNotEmpty(req.getPhone())) {
-            validatePhone(req.getPhone());
-        }
         var user = userUseCase.getOrElseThrow(userId);
         if (!StringUtils.equals(user.getEmail(), req.getEmail())) {
             validateExistEmail(req.getEmail());
@@ -181,7 +178,7 @@ public class UserFacade {
             }
             validateExistEmail(importedUser.getEmail());
             validateExistUsername(importedUser.getUsername());
-            var defaultPassword = passwordEncoder.encode(DEFAULT_PASSWORD);
+            var defaultPassword = passwordEncoder.encode(defaultPwd);
             userUseCase.save(userMapper.toUser(importedUser, defaultPassword));
             return new CreateUserResult(true, "");
         } catch (ConstraintViolationException e) {
@@ -219,22 +216,23 @@ public class UserFacade {
         var font = workbook.createFont();
         font.setFontHeight(14);
         style.setFont(font);
-        for (var record : importedUserResults) {
+        for (var user : importedUserResults) {
             var row = sheet.createRow(rowCount++);
             int columnCount = 0;
-            ExcelUtils.createCell(sheet, row, columnCount++, record.getUsername(), style);
-            ExcelUtils.createCell(sheet, row, columnCount++, record.getFirstName(), style);
-            ExcelUtils.createCell(sheet, row, columnCount++, record.getLastName(), style);
-            ExcelUtils.createCell(sheet, row, columnCount++, record.getEmail(), style);
-            ExcelUtils.createCell(sheet, row, columnCount++, record.getPhone(), style);
-            ExcelUtils.createCell(sheet, row, columnCount++, record.getLocation(), style);
-            ExcelUtils.createCell(sheet, row, columnCount++, record.getEmail(), style);
-            ExcelUtils.createCell(sheet, row, columnCount++, record.getTitle(), style);
-            ExcelUtils.createCell(sheet, row, columnCount, record.getMessage(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, user.getUsername(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, user.getFirstName(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, user.getLastName(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, user.getEmail(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, user.getPhone(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, user.getLocation(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, user.getEmail(), style);
+            ExcelUtils.createCell(sheet, row, columnCount++, user.getTitle(), style);
+            ExcelUtils.createCell(sheet, row, columnCount, user.getMessage(), style);
         }
     }
 
-    public void generateExcelFile(List<ImportedUserResult> importedUserResults, HttpServletResponse response) throws IOException {
+    public void generateExcelFile(List<ImportedUserResult> importedUserResults,
+                                  HttpServletResponse response) throws IOException {
         var workbook = new XSSFWorkbook();
         var sheet = workbook.createSheet("User");
         writeHeader(workbook, sheet);
@@ -297,13 +295,6 @@ public class UserFacade {
     private void validateExistEmail(String email) {
         if (userUseCase.existByEmail(email)) {
             throw new ErrorCodeException(ErrorCodes.EXISTED_EMAIL);
-        }
-    }
-
-    private void validatePhone(String phone) {
-        String regex = "[0-9]+";
-        if (!phone.matches(regex)) {
-            throw new ErrorCodeException(ErrorCodes.INVALID_PHONE);
         }
     }
 }

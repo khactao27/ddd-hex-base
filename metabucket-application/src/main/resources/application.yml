@@ -67,6 +67,7 @@ security:
     expire-in-minutes: 3000
     issuer: ibrave
     audience: metabucket
+  default-pwd: abcd@1234
 
 base-url:
   confirm-register: https://metabucket-uat.trustdatas.com/auth/register

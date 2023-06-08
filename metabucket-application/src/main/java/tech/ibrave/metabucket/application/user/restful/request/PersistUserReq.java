@@ -4,13 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
+import tech.ibrave.metabucket.application.user.validator.Phone;
 import tech.ibrave.metabucket.domain.shared.UserSource;
 import tech.ibrave.metabucket.domain.user.Role;
 import tech.ibrave.metabucket.domain.user.UserGroup;
@@ -36,6 +34,7 @@ public class PersistUserReq {
     private String lastName;
     private String fullName;
     private String title;
+    @Phone(ignoreIfEmpty = true)
     private String phone;
 
     @Size(max = 32, message = "{mb.users.update.invalid_location}")

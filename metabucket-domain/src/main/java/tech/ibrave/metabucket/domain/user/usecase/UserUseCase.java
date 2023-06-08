@@ -20,6 +20,7 @@ public interface UserUseCase extends BaseUseCase<User, String> {
     List<UserDto> findByIdsOrElseThrow(List<String> ids);
 
     UserDto findByIdUseDto(String id);
+
     User findByEmail(String email);
 
     void updateStatusBulkUser(List<String> userIds, boolean enable);

@@ -2,12 +2,11 @@ package tech.ibrave.metabucket.application.auth.restful.api;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.auth.restful.facade.AuthFacade;
 import tech.ibrave.metabucket.application.auth.restful.request.ConfirmRegisterReq;
@@ -19,6 +18,7 @@ import tech.ibrave.metabucket.application.auth.restful.response.ForgotPasswordSu
 import tech.ibrave.metabucket.application.auth.restful.response.LoginSuccessResp;
 import tech.ibrave.metabucket.application.auth.restful.response.RegisterSuccessResp;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.validation.ValidationSequence;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +37,7 @@ public class AuthApi {
     }
 
     @PostMapping("/confirm-register/{token}")
-    public SuccessResponse confirmRegister(@Valid @RequestBody ConfirmRegisterReq req,
+    public SuccessResponse confirmRegister(@Validated(ValidationSequence.class) @RequestBody ConfirmRegisterReq req,
                                            @PathVariable String token) {
         return facade.confirmRegister(req, token);
     }
