@@ -2,6 +2,7 @@ package tech.ibrave.metabucket.application.user.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.regex.Pattern;
 
@@ -26,7 +27,7 @@ public class PhoneValidator implements ConstraintValidator<Phone, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (ignoreIfEmpty) {
+        if(StringUtils.isEmpty(value) && ignoreIfEmpty) {
             return true;
         }
 

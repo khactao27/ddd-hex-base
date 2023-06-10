@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -24,13 +25,16 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersistUserReq {
     @NotBlank(message = "{mb.users.create.required_username}")
-    @Pattern(regexp = "[a-zA-Z0-9@\\\\]{6,32}", message = "{mb.users.create.invalid_username}")
+    @Pattern(regexp = "[a-zA-Z0-9@\\\\]{6,32}",
+            message = "{mb.users.create.invalid_username}")
     private String username;
     @NotBlank(message = "{mb.users.create.required_firstName}")
-    @Pattern(regexp = "[a-zA-Z0-9 \\\\]{0,32}", message = "{mb.users.create.invalid_firstName}")
+    @Pattern(regexp = "[^`0-9˜!`#$%ˆ&*()_\\-+=|\\{}\\[\\]?/:;\".,<>]{1,32}$",
+            message = "{mb.users.create.invalid_firstName}")
     private String firstName;
     @NotBlank(message = "{mb.users.create.required_lastname}")
-    @Pattern(regexp = "[a-zA-Z0-9 \\\\]{0,32}", message = "{mb.users.create.invalid_lastName}")
+    @Pattern(regexp = "[^`0-9˜!`#$%ˆ&*()_\\-+=|\\{}\\[\\]?/:;\".,<>]{1,32}$",
+            message = "{mb.users.create.invalid_lastName}")
     private String lastName;
     private String fullName;
     private String title;
@@ -46,7 +50,9 @@ public class PersistUserReq {
     private UserSource source = UserSource.SELF_REGISTER;
     private List<Role> roles;
     private List<UserGroup> groups;
-    private boolean enable;
+
+    @NotNull(message = "{mb.users.create.required_enable}")
+    private Boolean enable;
 
     public String getFullName() {
         return firstName + " " + lastName;

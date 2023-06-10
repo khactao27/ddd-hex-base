@@ -20,7 +20,6 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import tech.ibrave.metabucket.domain.shared.UserSource;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -47,6 +46,7 @@ public class UserEntity extends AbstractAuditingUserEntity {
     private String firstName;
     private String lastName;
     private String fullName;
+    private String location;
     private String title;
     private String phone;
     private String email;

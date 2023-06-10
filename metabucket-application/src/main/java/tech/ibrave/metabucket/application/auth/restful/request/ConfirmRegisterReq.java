@@ -28,13 +28,11 @@ public class ConfirmRegisterReq {
             groups = FirstOrder.class)
     private String lastName;
 
-    @NotBlank(message = "{mb.users.verify.required_password}")
-    @Length(min = 8, max = 32, message = "{mb.users.verify.invalid_password}", groups = FirstOrder.class)
+    @NotBlank(message = "{mb.users.recoverpassword.required_password}")
+    @Length(min = 8, max = 32,
+            message = "{mb.users.recoverpassword.invalid_password}",
+            groups = FirstOrder.class)
     private String password;
-
-    @NotBlank(message = "{mb.users.verify.required_password}")
-    @Length(min = 8, max = 32, message = "{mb.users.verify.invalid_password}", groups = FirstOrder.class)
-    private String confirmPassword;
 
     public String getFullName() {
         return firstName + " " + lastName;

@@ -27,12 +27,12 @@ public class AuthApi {
     private final AuthFacade facade;
 
     @PostMapping("/login")
-    public LoginSuccessResp login(@Valid @RequestBody LoginReq req) {
+    public LoginSuccessResp login(@Validated(ValidationSequence.class) @RequestBody LoginReq req) {
         return facade.login(req);
     }
 
     @PostMapping("/register")
-    public RegisterSuccessResp register(@Valid @RequestBody RegisterReq req) {
+    public RegisterSuccessResp register(@Validated(ValidationSequence.class) @RequestBody RegisterReq req) {
         return facade.register(req);
     }
 
@@ -48,7 +48,7 @@ public class AuthApi {
     }
 
     @PostMapping("/recover-password/{token}")
-    public SuccessResponse recoverPassword(@Valid @RequestBody RecoverPasswordReq req,
+    public SuccessResponse recoverPassword(@Validated(ValidationSequence.class) @RequestBody RecoverPasswordReq req,
                                            @PathVariable String token) {
         return facade.recoverPassword(req, token);
     }

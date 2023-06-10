@@ -34,8 +34,8 @@ public interface UserJpaRepository extends QueryDslRepository<UserEntity, String
     void updateStatusBulkUser(List<String> userIds, boolean enable);
 
     @EntityGraph(value = "User.group_roles", type = EntityGraph.EntityGraphType.LOAD)
-    Optional<UserEntity> findByUsername(String username);
+    Optional<UserEntity> findByUsernameIgnoreCase(String username);
 
     @EntityGraph(value = "User.group_roles", type = EntityGraph.EntityGraphType.LOAD)
-    Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByEmailIgnoreCase(String email);
 }

@@ -1,17 +1,11 @@
 package tech.ibrave.metabucket.application.auth.restful.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
-import tech.ibrave.metabucket.domain.shared.UserSource;
-import tech.ibrave.metabucket.domain.user.Role;
-import tech.ibrave.metabucket.domain.user.UserGroup;
-
-import java.util.List;
+import tech.ibrave.metabucket.shared.validation.FirstOrder;
 
 /**
  * Author: hungnm
@@ -21,8 +15,8 @@ import java.util.List;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterReq {
-    @NotEmpty(message = "{mb.users.create.required_email}")
-    @Email(message = "{mb.users.create.invalid_email}")
+    @NotBlank(message = "{mb.users.create.required_email}")
+    @Email(message = "{mb.users.create.invalid_email}", groups = FirstOrder.class)
     private String email;
 
 }

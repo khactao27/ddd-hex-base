@@ -27,10 +27,10 @@ public class UserJpaDetailsService implements UserDetailsService {
     public UserRepoDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user;
         if (isEmail(username)) {
-            user = repository.findByEmail(username)
+            user = repository.findByEmailIgnoreCase(username)
                     .orElseThrow(() -> new UsernameNotFoundException(AuthErrorCodes.EMAIL_NOT_FOUND.messageCode()));
         } else {
-            user = repository.findByUsername(username)
+            user = repository.findByUsernameIgnoreCase(username)
                     .orElseThrow(() -> new UsernameNotFoundException(AuthErrorCodes.USERNAME_NOT_FOUND.messageCode()));
         }
         return new UserRepoDetails(userEntityMapper.toDomainModel(user));

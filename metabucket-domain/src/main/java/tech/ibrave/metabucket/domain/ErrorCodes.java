@@ -24,6 +24,8 @@ public enum ErrorCodes implements ErrorCode {
     TOO_LARGE_FILE("MB.0010", HttpStatus.BAD_REQUEST, "mb.user.import.too_large_file"),
     EXPORT_ERROR("MB0011", HttpStatus.BAD_REQUEST, "mb.users.export.error"),
     GROUP_NAME_EXISTED("MB0013", HttpStatus.BAD_REQUEST, "mb.groups.name.existed"),
+    INCORRECT_PASSWORD("MB0014", HttpStatus.BAD_REQUEST, "mb.user.update.incorrect_password"),
+    DUPLICATE_PASSWORD("MB0015", HttpStatus.BAD_REQUEST, "mb.user.update.duplicated_oldpassword"),
 
     ;
 

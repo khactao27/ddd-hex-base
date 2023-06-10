@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,13 +39,14 @@ public class UserApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyAuthority('mb.users.create')")
+//    @PreAuthorize("hasAnyAuthority('mb.users.create')")
     public SuccessResponse create(@Valid @RequestBody PersistUserReq req) {
         return userFacade.createUser(req);
     }
 
     @PutMapping("/{id}")
-    public SuccessResponse update(@PathVariable String id, @Valid @RequestBody PersistUserReq req) {
+    public SuccessResponse update(@PathVariable String id,
+                                  @Valid @RequestBody PersistUserReq req) {
         return userFacade.updateUser(id, req);
     }
 
