@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.user.restful.facade.RoleFacade;
-import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.DeleteRoleIdBulkReq;
+import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
@@ -49,7 +49,7 @@ public class RoleApi {
     }
 
     @PutMapping("/status")
-    public SuccessResponse updateRoleStatus(@ModelAttribute RoleStatusBulkReq req) {
+    public SuccessResponse updateRoleStatus(@RequestBody RoleStatusBulkReq req) {
         return roleFacade.updateRoleStatus(req);
     }
 

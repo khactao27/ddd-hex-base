@@ -52,7 +52,7 @@ public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, 
 
     @Override
     public void deleteByIds(List<Long> ids) {
-        repo().deleteAllByIdIn(ids);
+        repo.deleteAllById(ids);
     }
 
     @Override

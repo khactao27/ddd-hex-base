@@ -19,7 +19,7 @@ public interface BasePersistence<DM, ID> {
     Optional<DM> findById(ID id);
 
     void deleteById(ID id);
-
+    
     List<DM> findAllById(List<ID> ids);
 
     Page<DM> findAll(PageReq pageRequest);
