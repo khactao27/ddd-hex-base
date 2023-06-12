@@ -71,8 +71,13 @@ public class UserApi {
     }
 
     @PostMapping("/import")
-    public ImportUserResp importUser(@RequestParam("file") MultipartFile file, HttpServletResponse response) {
-        return userFacade.importUser(file, response);
+    public ImportUserResp importUser(@RequestParam("file") MultipartFile file) {
+        return userFacade.importUser(file);
+    }
+
+    @GetMapping("/import/result")
+    public void getImportResult(@RequestParam String importId, HttpServletResponse response) {
+        userFacade.getImportResult(importId, response);
     }
 
     @GetMapping("/export/fields")

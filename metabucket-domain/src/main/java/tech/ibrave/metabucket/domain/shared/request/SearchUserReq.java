@@ -15,5 +15,6 @@ import tech.ibrave.metabucket.shared.request.PageReq;
 public class SearchUserReq extends PageReq {
     private String query;
     private String userGroupId;
+    private Long roleId;
     private Boolean enable;
 }

@@ -7,6 +7,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,9 +42,12 @@ import tech.ibrave.metabucket.shared.response.SuccessResponse;
 import tech.ibrave.metabucket.shared.utils.ExcelUtils;
 import tech.ibrave.metabucket.shared.utils.ObjectUtils;
 
-import java.io.IOException;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Author: hungnm
@@ -59,6 +63,9 @@ public class UserFacade {
     private final UserUseCase userUseCase;
     private final MessageSource messageSource;
     private final PasswordEncoder passwordEncoder;
+    @Value("${file.dir.import-result}")
+    private String importResultDir;
+    private static final String FILE_NAME_PREFIX = "import_result";
 
     @Value("${security.default-pwd}")
     private String defaultPwd;
@@ -112,7 +119,8 @@ public class UserFacade {
                 newPassword);
     }
 
-    public ImportUserResp importUser(MultipartFile file, HttpServletResponse response) {
+    @SneakyThrows
+    public ImportUserResp importUser(MultipartFile file) {
         var importedUsers = readExcelFile(file);
         var invalidUsers = new ArrayList<ImportedUserResult>();
         for (var user : importedUsers) {
@@ -122,15 +130,27 @@ public class UserFacade {
             }
         }
         var numOfSuccess = importedUsers.size() - invalidUsers.size();
+        var importId = UUID.randomUUID().toString();
+        var fileName = FILE_NAME_PREFIX + "_" + importId + ".xlsx";
+        var outputStream = new FileOutputStream(fileName);
+        var importResultFile = generateExcelFile(invalidUsers);
+        importResultFile.write(outputStream);
+        outputStream.close();
+        return new ImportUserResp(numOfSuccess, invalidUsers.size(), importId);
+    }
+
+    public void getImportResult(String importId, HttpServletResponse response) {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=importedResults.xlsx";
         response.setHeader(headerKey, headerValue);
         try {
-            generateExcelFile(invalidUsers, response);
+            var fileName = FILE_NAME_PREFIX + "_" + importId + ".xlsx";
+            var outputStream = response.getOutputStream();
+            outputStream.write(Files.readAllBytes(Path.of(fileName)));
+            outputStream.close();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        return new ImportUserResp(numOfSuccess, invalidUsers.size());
     }
 
     private List<ImportedUser> readExcelFile(MultipartFile file) {
@@ -231,16 +251,12 @@ public class UserFacade {
         }
     }
 
-    public void generateExcelFile(List<ImportedUserResult> importedUserResults,
-                                  HttpServletResponse response) throws IOException {
+    public XSSFWorkbook generateExcelFile(List<ImportedUserResult> importedUserResults) {
         var workbook = new XSSFWorkbook();
         var sheet = workbook.createSheet("User");
         writeHeader(workbook, sheet);
         write(workbook, sheet, importedUserResults);
-        ServletOutputStream outputStream = response.getOutputStream();
-        workbook.write(outputStream);
-        workbook.close();
-        outputStream.close();
+        return workbook;
     }
 
     public void exportUser(ExportUserReq req, HttpServletResponse response) {

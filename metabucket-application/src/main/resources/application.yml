@@ -72,3 +72,7 @@ security:
 base-url:
   confirm-register: https://metabucket-uat.trustdatas.com/auth/register
   recover-password: https://metabucket-uat.trustdatas.com/auth/register
+
+file:
+  dir:
+    import-result: import-result/

@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.persistence.jpa.BaseDslRepository;
+import tech.ibrave.metabucket.application.persistence.jpa.entity.QRoleEntity;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.QUserEntity;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.QUserGroupEntity;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.UserEntity;
@@ -77,6 +78,9 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
         if (StringUtils.isNotEmpty(req.getUserGroupId())) {
             buildQueryWithJoinGroup(query, req.getUserGroupId());
         }
+        if (req.getRoleId() != null) {
+            buildQueryWithJoinRole(query, req.getRoleId());
+        }
         var whereBuilder = new BooleanBuilder();
         if (StringUtils.isNotEmpty(req.getQuery())) {
             whereBuilder.and(QUserEntity.userEntity.fullName.likeIgnoreCase("%" + req.getQuery() + "%"))
@@ -102,6 +106,11 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
     public void buildQueryWithJoinGroup(JPAQuery<UserEntity> query, String userGroupId) {
         query.innerJoin(QUserEntity.userEntity.groups, QUserGroupEntity.userGroupEntity)
                 .where(QUserGroupEntity.userGroupEntity.id.eq(userGroupId));
+    }
+
+    public void buildQueryWithJoinRole(JPAQuery<UserEntity> query, Long roleId) {
+        query.innerJoin(QUserEntity.userEntity.roles, QRoleEntity.roleEntity)
+                .where(QRoleEntity.roleEntity.id.eq(roleId));
     }
 
 

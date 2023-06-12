@@ -16,4 +16,5 @@ import lombok.Setter;
 public class ImportUserResp {
     private int numOfSuccess;
     private int numOfFail;
+    private String importId;
 }
