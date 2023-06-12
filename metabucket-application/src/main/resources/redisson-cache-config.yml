@@ -1,5 +1,5 @@
 singleServerConfig:
-  address: "redis://34.124.255.217:6378"
+  address: "redis://34.87.124.115:6378"
   password: mysecretpassword
   idleConnectionTimeout: 10000
   connectTimeout: 10000

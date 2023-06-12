@@ -36,7 +36,7 @@ spring:
     baseline-on-migrate: true
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://34.124.255.217:5431/metabucket_dev?useUnicode=yes&characterEncoding=UTF-8
+    url: jdbc:postgresql://34.87.124.115:5431/metabucket_dev?useUnicode=yes&characterEncoding=UTF-8
     username: postgres
     password: mysecretpassword
     hikari:

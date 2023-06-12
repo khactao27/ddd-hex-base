@@ -1,6 +1,6 @@
 variables:
   IMAGE_TAG: asia-southeast1-docker.pkg.dev/$GCP_PROJECT_ID/$CI_PROJECT_NAMESPACE/metabucket-main-service:latest
-  SERVER_IP: 34.124.255.217
+  SERVER_IP: 34.87.124.115
   SERVER_USER: deployer
   CONTAINER_NAME: metabucket-main-service
   EXPOSE_PORT: 8081
