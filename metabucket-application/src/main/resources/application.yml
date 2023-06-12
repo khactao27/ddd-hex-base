@@ -4,8 +4,8 @@ server:
     context-path: /api
 
 spring:
-  profiles:
-    active: ehcache
+#  profiles:
+#    active: ehcache
   application:
     name: bucket-api
   main:
