@@ -37,7 +37,7 @@ public class AuthApi {
     }
 
     @PostMapping("/confirm-register/{token}")
-    public SuccessResponse confirmRegister(@Validated(ValidationSequence.class) @RequestBody ConfirmRegisterReq req,
+    public LoginSuccessResp confirmRegister(@Validated(ValidationSequence.class) @RequestBody ConfirmRegisterReq req,
                                            @PathVariable String token) {
         return facade.confirmRegister(req, token);
     }

@@ -92,7 +92,7 @@ public class AuthFacade {
         return new RegisterSuccessResp(registerUrl, messageSource.getMessage("mb.users.verifyemail.success"));
     }
 
-    public SuccessResponse confirmRegister(ConfirmRegisterReq req, String token) {
+    public LoginSuccessResp confirmRegister(ConfirmRegisterReq req, String token) {
         var jws = jwtUtils.validateTokenAndGetJws(token);
         if (jws.isEmpty() || !jws.get().getHeader().get("target").equals(JwtTarget.USER_REGISTRATION.name())) {
             throw new ErrorCodeException(AuthErrorCodes.TOKEN_INVALID);
@@ -104,8 +104,12 @@ public class AuthFacade {
         user.setUsername("user" + RandomStringUtils.randomAlphabetic(8));
         user.setEmail(email);
         user.setEnable(true);
-        var userId = userUseCase.save(user).getId();
-        return new SuccessResponse(userId, messageSource.getMessage("mb.users.confirmregister.success"));
+        var entity = userUseCase.save(user);
+        var jwt = jwtUtils.generateAuthenticationJwt(entity.getUsername());
+        var resp = new LoginSuccessResp(jwt, mapper.toDto(entity));
+        resp.setId(entity.getId());
+        resp.setMessageCode("mb.users.confirmregister.success");
+        return resp;
     }
 
     public ForgotPasswordSuccessResp forgotPassword(ForgotPasswordReq req) {
@@ -113,7 +117,7 @@ public class AuthFacade {
             throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
         }
         var jwtToken = jwtUtils.generateForgotPasswordJwt(req.getEmail());
-        var recoverUrl = baseRecoverPasswordUrl + jwtToken + "?token=" + jwtToken;
+        var recoverUrl = baseRecoverPasswordUrl + "?token=" + jwtToken;
         var email = new Email();
         email.setBody(recoverUrl);
         email.setTo(req.getEmail());

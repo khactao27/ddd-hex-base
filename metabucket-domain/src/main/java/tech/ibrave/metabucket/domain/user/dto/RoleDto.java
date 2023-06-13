@@ -16,7 +16,6 @@ import java.util.List;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class RoleDto extends BaseDto {
-
     private Long id;
     private String name;
     private String description;

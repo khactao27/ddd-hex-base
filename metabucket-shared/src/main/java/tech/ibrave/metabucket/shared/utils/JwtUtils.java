@@ -44,6 +44,10 @@ public class JwtUtils {
 
     public String generate(Authentication authentication) {
         var userDetails = (UserDetails) authentication.getPrincipal();
+        return generateAuthenticationJwt(userDetails.getUsername());
+    }
+
+    public String generateAuthenticationJwt(String username) {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam(TARGET, JwtTarget.AUTHENTICATE)
@@ -53,7 +57,7 @@ public class JwtUtils {
                 .setId(UUID.randomUUID().toString())
                 .setIssuer(jwtIssuer)
                 .setAudience(jwtAudience)
-                .setSubject(userDetails.getUsername())
+                .setSubject(username)
                 .compact();
     }
 
