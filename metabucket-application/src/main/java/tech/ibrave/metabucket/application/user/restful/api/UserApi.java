@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import tech.ibrave.metabucket.application.user.restful.facade.UserFacade;
+import tech.ibrave.metabucket.application.user.restful.request.ChangePasswordReq;
 import tech.ibrave.metabucket.application.user.restful.request.ExportUserReq;
 import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
 import tech.ibrave.metabucket.application.user.restful.request.UpdateBulkUserReq;
@@ -88,5 +89,15 @@ public class UserApi {
     @GetMapping("/export")
     public void exportUser(@ModelAttribute ExportUserReq req, HttpServletResponse response) {
         userFacade.exportUser(req, response);
+    }
+
+    @GetMapping("/profile")
+    public UserDto getUserProfile() {
+        return userFacade.getUserProfile();
+    }
+
+    @PutMapping("/change-password")
+    public SuccessResponse changePassword(@RequestBody ChangePasswordReq req) {
+        return userFacade.changePassword(req);
     }
 }

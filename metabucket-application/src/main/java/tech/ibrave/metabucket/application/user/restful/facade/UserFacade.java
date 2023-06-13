@@ -20,11 +20,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
+import tech.ibrave.metabucket.application.auth.base.SecurityContext;
 import tech.ibrave.metabucket.application.user.model.CreateUserResult;
 import tech.ibrave.metabucket.application.user.model.ExportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUserResult;
 import tech.ibrave.metabucket.application.user.restful.mapper.UserMapper;
+import tech.ibrave.metabucket.application.user.restful.request.ChangePasswordReq;
 import tech.ibrave.metabucket.application.user.restful.request.ExportUserReq;
 import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
 import tech.ibrave.metabucket.application.user.restful.request.UpdateBulkUserReq;
@@ -63,6 +65,7 @@ public class UserFacade {
     private final UserUseCase userUseCase;
     private final MessageSource messageSource;
     private final PasswordEncoder passwordEncoder;
+    private final SecurityContext securityContext;
     @Value("${file.dir.import-result}")
     private String importResultDir;
     private static final String FILE_NAME_PREFIX = "import_result";
@@ -292,6 +295,23 @@ public class UserFacade {
         }
     }
 
+    public UserDto getUserProfile() {
+        var user = securityContext.getUser();
+        return userMapper.toDto(user);
+    }
+
+    public SuccessResponse changePassword(ChangePasswordReq req) {
+        var user = securityContext.getUser();
+        if (!passwordEncoder.matches(req.getCurrentPassword(), user.getPassword())) {
+            throw new ErrorCodeException(ErrorCodes.INCORRECT_PASSWORD);
+        }
+        if (req.getNewPassword().equals(req.getCurrentPassword())) {
+            throw new ErrorCodeException(ErrorCodes.DUPLICATE_PASSWORD);
+        }
+        user.setPassword(passwordEncoder.encode(req.getNewPassword()));
+        var userId = userUseCase.save(user).getId();
+        return new SuccessResponse(userId, messageSource.getMessage("mb.user.update.success"));
+    }
 
     private void validateExportFields(List<String> fields) {
         var listExportFields = ObjectUtils.getFieldsString(ExportedUser.class);

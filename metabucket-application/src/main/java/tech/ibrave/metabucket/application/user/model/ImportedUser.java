@@ -1,13 +1,14 @@
 package tech.ibrave.metabucket.application.user.model;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.groups.Default;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 /**
  * Author: hungnm
@@ -19,16 +20,22 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ImportedUser {
-    @NotEmpty(message = "{mb.users.create.required_username}", groups = Default.class)
-    @Length(min = 6, max = 32, message = "{mb.users.create.invalid_username}", groups = Default.class)
+    @NotBlank(message = "{mb.users.create.required_username}", groups = Default.class)
+    @Pattern(regexp = "[a-zA-Z0-9@\\\\]{6,32}",
+            message = "{mb.users.create.invalid_username}", groups = Default.class)
     private String username;
-    @NotEmpty(message = "{mb.users.create.required_firstname}", groups = Default.class)
-    @Length(max = 32, message = "{mb.users.create.invalid_firstname}", groups = Default.class)
+    @NotBlank(message = "{mb.users.create.required_firstName}", groups = Default.class)
+    @Pattern(regexp = "[^`0-9˜!`#$%ˆ&*()_\\-+=|\\{}\\[\\]?/:;\".,<>]{1,32}$",
+            message = "{mb.users.create.invalid_firstName}",
+            groups = Default.class)
     private String firstName;
-    @NotEmpty(message = "{mb.users.create.required_lastname}", groups = Default.class)
-    @Length(max = 32, message = "{mb.users.create.invalid_lastname}", groups = Default.class)
+    @NotBlank(message = "{mb.users.create.required_lastname}", groups = Default.class)
+    @Pattern(regexp = "[^`0-9˜!`#$%ˆ&*()_\\-+=|\\{}\\[\\]?/:;\".,<>]{1,32}$",
+            message = "{mb.users.create.invalid_lastName}",
+            groups = Default.class)
     private String lastName;
-    @NotEmpty(message = "{mb.users.create.required_email}", groups = Default.class)
+    @NotBlank(message = "{mb.users.create.required_email}", groups = Default.class)
+    @Email(message = "{mb.users.create.invalid_email}", groups = Default.class)
     private String email;
     private String title;
     private String location;
