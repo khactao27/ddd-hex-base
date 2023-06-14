@@ -86,8 +86,8 @@ public class UserApi {
         return userFacade.getUserExportFields();
     }
 
-    @GetMapping("/export")
-    public void exportUser(@ModelAttribute ExportUserReq req, HttpServletResponse response) {
+    @PostMapping("/export")
+    public void exportUser(@RequestBody ExportUserReq req, HttpServletResponse response) {
         userFacade.exportUser(req, response);
     }
 

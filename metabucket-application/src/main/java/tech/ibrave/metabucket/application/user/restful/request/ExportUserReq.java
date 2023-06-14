@@ -19,4 +19,5 @@ public class ExportUserReq extends SearchUserReq {
     private Integer pageIndex = 1;
     private Integer pageSize = 2000; //Max 2000k records
     private List<String> fields;
+    private List<UserDto> users;
 }
