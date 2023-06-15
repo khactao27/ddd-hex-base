@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RoleAuditingObject extends BaseAuditingObject {
+public class RoleDto extends BaseAuditingObject {
     private Long id;
     private String name;
     private String description;

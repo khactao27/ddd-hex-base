@@ -3,7 +3,7 @@ package tech.ibrave.metabucket.application.user.restful.request.group;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.user.dto.UserAuditingObject;
+import tech.ibrave.metabucket.domain.user.dto.UserDto;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ import java.util.List;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AddOrDeleteUserToGroupReq {
-    private List<UserAuditingObject> users;
+    private List<UserDto> users;
 }

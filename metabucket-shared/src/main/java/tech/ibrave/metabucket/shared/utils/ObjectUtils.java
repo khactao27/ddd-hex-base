@@ -90,7 +90,6 @@ public final class ObjectUtils {
             throws IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException,
             SecurityException {
-
         var method = clazz.getMethod("get"
                 + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1));
         return method.invoke(instance);

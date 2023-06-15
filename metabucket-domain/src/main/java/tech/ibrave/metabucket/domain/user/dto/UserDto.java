@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class UserAuditingObject extends BaseAuditingObject {
+public class UserDto extends BaseAuditingObject {
     private String id;
     private String username;
     private String firstName;
@@ -26,5 +26,5 @@ public class UserAuditingObject extends BaseAuditingObject {
     private UserSource source = UserSource.SELF_REGISTER;
     private List<RoleLiteDto> roles;
     private List<UserGroupLiteDto> groups;
-    private boolean enable;
+    private Boolean enable;
 }

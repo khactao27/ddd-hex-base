@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.UserEntity;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.domain.user.dto.UserAuditingObject;
+import tech.ibrave.metabucket.domain.user.dto.UserDto;
 import tech.ibrave.metabucket.domain.user.dto.UserLiteDto;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Mapper(uses = {RoleEntityMapper.class, UserGroupEntityMapper.class})
 public interface UserEntityMapper extends BaseEntityMapper<UserEntity, User> {
-    UserAuditingObject toDto(UserEntity user);
+    UserDto toDto(UserEntity user);
 
     @Override
     @Mapping(target = "roles", qualifiedByName = "roleLazy")

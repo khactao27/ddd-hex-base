@@ -10,7 +10,7 @@ import tech.ibrave.metabucket.application.user.model.ImportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUserResult;
 import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.domain.user.dto.UserAuditingObject;
+import tech.ibrave.metabucket.domain.user.dto.UserDto;
 
 /**
  * Author: hungnm
@@ -22,7 +22,7 @@ public interface UserMapper {
     @Mapping(target = "password", source = "password")
     User toUser(PersistUserReq req, String password);
 
-    User toUser(UserAuditingObject userDto);
+    User toUser(UserDto userDto);
 
     @Mapping(target = "password", source = "password")
     User toUser(ConfirmRegisterReq req, String password);
@@ -37,7 +37,7 @@ public interface UserMapper {
 
     void updateUser(@MappingTarget User user, PersistUserReq req);
 
-    UserAuditingObject toDto(User user);
+    UserDto toDto(User user);
 
     ImportedUserResult toImportedResult(ImportedUser importedUser, String message);
 }

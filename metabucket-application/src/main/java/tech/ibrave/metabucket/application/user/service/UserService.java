@@ -3,7 +3,7 @@ package tech.ibrave.metabucket.application.user.service;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.domain.user.dto.UserAuditingObject;
+import tech.ibrave.metabucket.domain.user.dto.UserDto;
 import tech.ibrave.metabucket.domain.user.persistence.UserPersistence;
 import tech.ibrave.metabucket.domain.user.usecase.UserUseCase;
 import tech.ibrave.metabucket.shared.architecture.BaseApplicationService;
@@ -41,11 +41,11 @@ public class UserService extends BaseApplicationService<User, String, UserPersis
     }
 
     @Override
-    public List<UserAuditingObject> findByIdsOrElseThrow(List<String> ids) {
+    public List<UserDto> findByIdsOrElseThrow(List<String> ids) {
         return repo.findByIdsOrElseThrow(ids);
     }
 
-    public UserAuditingObject findByIdUseDto(String id) {
+    public UserDto findByIdUseDto(String id) {
         return repo.findByIdUseDto(id).orElseThrow(() -> new ErrorCodeException(notFound()));
 
     }
@@ -61,7 +61,7 @@ public class UserService extends BaseApplicationService<User, String, UserPersis
     }
 
     @Override
-    public Page<UserAuditingObject> searchUser(SearchUserReq req) {
+    public Page<UserDto> searchUser(SearchUserReq req) {
         return repo.searchUser(req);
     }
 }

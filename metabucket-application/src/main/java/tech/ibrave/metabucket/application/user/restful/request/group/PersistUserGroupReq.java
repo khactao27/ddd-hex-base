@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.user.dto.UserAuditingObject;
+import tech.ibrave.metabucket.domain.user.dto.UserDto;
 
 import java.util.List;
 
@@ -21,5 +21,5 @@ public class PersistUserGroupReq {
     private String name;
     private String description;
     private boolean enable;
-    private List<UserAuditingObject> users;
+    private List<UserDto> users;
 }

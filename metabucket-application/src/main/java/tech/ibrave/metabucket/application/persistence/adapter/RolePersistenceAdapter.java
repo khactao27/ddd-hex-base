@@ -7,7 +7,7 @@ import tech.ibrave.metabucket.application.persistence.jpa.entity.RoleEntity;
 import tech.ibrave.metabucket.application.persistence.jpa.repository.RoleJpaRepository;
 import tech.ibrave.metabucket.application.persistence.mapper.RoleEntityMapper;
 import tech.ibrave.metabucket.domain.user.Role;
-import tech.ibrave.metabucket.domain.user.dto.RoleAuditingObject;
+import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.domain.user.persistence.RolePersistence;
 import tech.ibrave.metabucket.shared.architecture.Page;
@@ -46,7 +46,7 @@ public class RolePersistenceAdapter extends BaseJpaRepository<RoleEntity, Role, 
     }
 
     @Override
-    public Optional<RoleAuditingObject> findByIdUseDto(Long id) {
+    public Optional<RoleDto> findByIdUseDto(Long id) {
         return Optional.ofNullable(mapper().toDto(repo().findById(id).orElse(null)));
     }
 

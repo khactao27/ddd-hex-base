@@ -2,8 +2,6 @@ package tech.ibrave.metabucket.application.persistence.jpa.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,7 +29,6 @@ public class MetadataDefinitionEntity extends AbstractAuditingUserEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
-    @Enumerated(EnumType.STRING)
     private ValueType valueType;
     private String description;
     @JoinColumn(name = "metadata_definition_id")

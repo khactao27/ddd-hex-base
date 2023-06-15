@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.application.user.service;
 
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.user.Role;
-import tech.ibrave.metabucket.domain.user.dto.RoleAuditingObject;
+import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.domain.user.persistence.RolePersistence;
 import tech.ibrave.metabucket.domain.user.usecase.RoleUseCase;
@@ -52,7 +52,7 @@ public class RoleService extends BaseApplicationService<Role, Long, RolePersiste
     }
 
     @Override
-    public RoleAuditingObject findByIdUseDto(Long id) {
+    public RoleDto findByIdUseDto(Long id) {
         return repo.findByIdUseDto(id).orElseThrow(() -> new ErrorCodeException(notFound()));
     }
 }
