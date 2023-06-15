@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.domain.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.shared.BaseDto;
+import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
 import tech.ibrave.metabucket.domain.shared.UserSource;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class UserDto extends BaseDto {
+public class UserAuditingObject extends BaseAuditingObject {
     private String id;
     private String username;
     private String firstName;

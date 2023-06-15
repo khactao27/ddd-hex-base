@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.domain.user.persistence;
 
 import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.domain.user.dto.UserDto;
+import tech.ibrave.metabucket.domain.user.dto.UserAuditingObject;
 import tech.ibrave.metabucket.shared.architecture.BasePersistence;
 import tech.ibrave.metabucket.shared.architecture.Page;
 
@@ -17,8 +17,8 @@ public interface UserPersistence extends BasePersistence<User, String> {
     boolean existByUsername(String username);
     boolean existByEmail(String email);
     void updateStatusBulkUser(List<String> userIds, boolean enable);
-    Optional<UserDto> findByIdUseDto(String id);
+    Optional<UserAuditingObject> findByIdUseDto(String id);
     Optional<User> findByEmail(String email);
-    List<UserDto> findByIdsOrElseThrow(List<String> ids);
-    Page<UserDto> searchUser(SearchUserReq req);
+    List<UserAuditingObject> findByIdsOrElseThrow(List<String> ids);
+    Page<UserAuditingObject> searchUser(SearchUserReq req);
 }

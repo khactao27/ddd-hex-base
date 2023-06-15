@@ -26,7 +26,8 @@ public enum ErrorCodes implements ErrorCode {
     GROUP_NAME_EXISTED("MB0013", HttpStatus.BAD_REQUEST, "mb.groups.name.existed"),
     INCORRECT_PASSWORD("MB0014", HttpStatus.BAD_REQUEST, "mb.user.update.incorrect_password"),
     DUPLICATE_PASSWORD("MB0015", HttpStatus.BAD_REQUEST, "mb.user.update.duplicated_oldpassword"),
-    DUPLICATE_METADATA_NAME("MB0016", HttpStatus.BAD_REQUEST, " mb.metadata.create.duplicated_metadataname")
+    DUPLICATE_METADATA_NAME("MB0016", HttpStatus.BAD_REQUEST, " mb.metadata.create.duplicated_metadataname"),
+    DUPLICATE_MULTI_VALUE("MB0017", HttpStatus.BAD_REQUEST, "mb.metadata.create.duplicate_multi_value")
 
     ;
 

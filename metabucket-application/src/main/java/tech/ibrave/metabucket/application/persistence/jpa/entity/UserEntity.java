@@ -1,6 +1,8 @@
 package tech.ibrave.metabucket.application.persistence.jpa.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -50,6 +52,7 @@ public class UserEntity extends AbstractAuditingUserEntity {
     private String title;
     private String phone;
     private String email;
+    @Enumerated(EnumType.STRING)
     private UserSource source = UserSource.SELF_REGISTER;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tbl_user_role_mapping",

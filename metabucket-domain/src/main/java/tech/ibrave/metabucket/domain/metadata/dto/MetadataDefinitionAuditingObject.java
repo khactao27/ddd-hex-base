@@ -3,7 +3,9 @@ package tech.ibrave.metabucket.domain.metadata.dto;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ibrave.metabucket.domain.metadata.ValueType;
-import tech.ibrave.metabucket.domain.shared.BaseDto;
+import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
+
+import java.util.Set;
 
 /**
  * Author: hungnm
@@ -11,10 +13,11 @@ import tech.ibrave.metabucket.domain.shared.BaseDto;
  */
 @Getter
 @Setter
-public class MetadataDefinitionDto extends BaseDto {
+public class MetadataDefinitionAuditingObject extends BaseAuditingObject {
     private String id;
     private String name;
     private ValueType valueType;
     private String description;
     private MetadataCategoryLiteDto category;
+    private Set<MultiValueMetadataDto> multiValues;
 }

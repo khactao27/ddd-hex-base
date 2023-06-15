@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.application.auth.restful.mapper;
 
 import org.mapstruct.Mapper;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.domain.user.dto.UserDto;
+import tech.ibrave.metabucket.domain.user.dto.UserAuditingObject;
 
 /**
  * Author: anct
@@ -12,5 +12,5 @@ import tech.ibrave.metabucket.domain.user.dto.UserDto;
 @Mapper
 public interface PrincipalMapper {
 
-    UserDto toDto(User user);
+    UserAuditingObject toDto(User user);
 }

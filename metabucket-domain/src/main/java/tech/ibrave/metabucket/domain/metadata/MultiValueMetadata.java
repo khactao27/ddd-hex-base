@@ -5,13 +5,13 @@ import lombok.Setter;
 
 /**
  * Author: hungnm
- * Date: 13/06/2023
+ * Date: 15/06/2023
  */
 @Getter
 @Setter
-public class MetadataCategory {
+public class MultiValueMetadata {
     private String id;
-    private String name;
+    private String value;
     private String description;
-    private String parentId; // category parent
+    private String metadataDefinitionId;
 }

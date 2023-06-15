@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class BaseDto {
+public class BaseAuditingObject {
     private String createdBy;
     private String updatedBy;
 

@@ -9,6 +9,8 @@ import lombok.Setter;
 import tech.ibrave.metabucket.domain.metadata.ValueType;
 import tech.ibrave.metabucket.domain.metadata.dto.MetadataCategoryLiteDto;
 
+import java.util.Set;
+
 /**
  * Author: hungnm
  * Date: 13/06/2023
@@ -23,5 +25,14 @@ public class MetadataDefinitionPersistenceReq {
     @Size(max = 100, message = "{mb.metadata.create.invalid_metadatades}")
     private String description;
     private ValueType valueType;
+    private Set<MultiValueReq> multiValues;
     private MetadataCategoryLiteDto category;
+
+    @Getter
+    @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class MultiValueReq {
+        String value;
+        String description;
+    }
 }

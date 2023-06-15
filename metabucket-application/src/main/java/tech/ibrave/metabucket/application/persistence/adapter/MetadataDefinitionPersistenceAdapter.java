@@ -12,7 +12,7 @@ import tech.ibrave.metabucket.application.persistence.jpa.entity.QMetadataDefini
 import tech.ibrave.metabucket.application.persistence.jpa.repository.MetadataDefinitionJpaRepository;
 import tech.ibrave.metabucket.application.persistence.mapper.MetadataDefinitionEntityMapper;
 import tech.ibrave.metabucket.domain.metadata.MetadataDefinition;
-import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionDto;
+import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObject;
 import tech.ibrave.metabucket.domain.metadata.persistence.MetadataDefinitionPersistence;
 import tech.ibrave.metabucket.domain.shared.request.MetadataDefinitionSearchReq;
 import tech.ibrave.metabucket.shared.architecture.Page;
@@ -43,7 +43,7 @@ public class MetadataDefinitionPersistenceAdapter
     }
 
     @Override
-    public Page<MetadataDefinitionDto> search(MetadataDefinitionSearchReq req) {
+    public Page<MetadataDefinitionAuditingObject> search(MetadataDefinitionSearchReq req) {
         var query = buildBasicQuery();
         if (StringUtils.isNotEmpty(req.getCategoryId())) {
             buildQueryWithJoinCategory(query, req.getCategoryId());

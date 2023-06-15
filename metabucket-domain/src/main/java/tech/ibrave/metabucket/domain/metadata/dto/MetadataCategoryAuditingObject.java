@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.domain.metadata.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.shared.BaseDto;
+import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
 
 /**
  * Author: hungnm
@@ -10,7 +10,7 @@ import tech.ibrave.metabucket.domain.shared.BaseDto;
  */
 @Getter
 @Setter
-public class MetadataCategoryDto extends BaseDto {
+public class MetadataCategoryAuditingObject extends BaseAuditingObject {
     private String name;
     private String description;
     private MetadataCategoryLiteDto category;

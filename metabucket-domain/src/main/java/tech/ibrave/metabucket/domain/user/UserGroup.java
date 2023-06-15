@@ -2,8 +2,8 @@ package tech.ibrave.metabucket.domain.user;
 
 import lombok.Getter;
 import lombok.Setter;
+import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class UserGroup {
+public class UserGroup extends BaseAuditingObject {
     private String id;
     private String name;
     private boolean enable;

@@ -3,8 +3,6 @@ package tech.ibrave.metabucket.domain.user.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.shared.BaseDto;
-import tech.ibrave.metabucket.domain.shared.UserSource;
 
 /**
  * author: anct

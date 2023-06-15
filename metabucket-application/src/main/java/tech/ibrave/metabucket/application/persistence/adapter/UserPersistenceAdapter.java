@@ -15,7 +15,7 @@ import tech.ibrave.metabucket.application.persistence.mapper.UserEntityMapper;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
 import tech.ibrave.metabucket.domain.user.User;
-import tech.ibrave.metabucket.domain.user.dto.UserDto;
+import tech.ibrave.metabucket.domain.user.dto.UserAuditingObject;
 import tech.ibrave.metabucket.domain.user.persistence.UserPersistence;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
@@ -49,7 +49,7 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
     }
 
     @Override
-    public List<UserDto> findByIdsOrElseThrow(List<String> ids) {
+    public List<UserAuditingObject> findByIdsOrElseThrow(List<String> ids) {
         if (!repo().existsAllByIdIn(ids)) {
             throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
         }
@@ -59,7 +59,7 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
     }
 
     @Override
-    public Optional<UserDto> findByIdUseDto(String id) {
+    public Optional<UserAuditingObject> findByIdUseDto(String id) {
         return Optional.ofNullable(mapper().toDto(repo().findById(id).orElse(null)));
     }
 
@@ -73,7 +73,7 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
         repo().updateStatusBulkUser(userIds, enable);
     }
 
-    public Page<UserDto> searchUser(SearchUserReq req) {
+    public Page<UserAuditingObject> searchUser(SearchUserReq req) {
         var query = buildBasicQuery();
         if (StringUtils.isNotEmpty(req.getUserGroupId())) {
             buildQueryWithJoinGroup(query, req.getUserGroupId());

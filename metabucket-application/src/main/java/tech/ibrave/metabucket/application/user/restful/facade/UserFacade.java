@@ -35,7 +35,7 @@ import tech.ibrave.metabucket.application.user.restful.response.ImportUserResp;
 import tech.ibrave.metabucket.application.user.restful.response.ResetPasswordResp;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
-import tech.ibrave.metabucket.domain.user.dto.UserDto;
+import tech.ibrave.metabucket.domain.user.dto.UserAuditingObject;
 import tech.ibrave.metabucket.domain.user.usecase.UserUseCase;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
@@ -103,11 +103,11 @@ public class UserFacade {
         return SuccessResponse.ofMessage("mb.users.bulk-update.success");
     }
 
-    public Page<UserDto> searchUser(SearchUserReq req) {
+    public Page<UserAuditingObject> searchUser(SearchUserReq req) {
         return userUseCase.searchUser(req);
     }
 
-    public UserDto getUser(String userId) {
+    public UserAuditingObject getUser(String userId) {
         return userUseCase.findByIdUseDto(userId);
     }
 
@@ -281,7 +281,7 @@ public class UserFacade {
                 var row = sheet.createRow(rowCount++);
                 int columnCount = 0;
                 for (var field : req.getFields()) {
-                    var fieldValue = ObjectUtils.invokeGetMethod(field, user, UserDto.class);
+                    var fieldValue = ObjectUtils.invokeGetMethod(field, user, UserAuditingObject.class);
                     ExcelUtils.createCell(sheet, row, columnCount++, fieldValue, style);
                 }
             }
@@ -298,7 +298,7 @@ public class UserFacade {
         }
     }
 
-    public UserDto getUserProfile() {
+    public UserAuditingObject getUserProfile() {
         var user = securityContext.getUser();
         return userMapper.toDto(user);
     }

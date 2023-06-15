@@ -9,7 +9,7 @@ import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleR
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
-import tech.ibrave.metabucket.domain.user.dto.RoleDto;
+import tech.ibrave.metabucket.domain.user.dto.RoleAuditingObject;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleSlimDto;
 import tech.ibrave.metabucket.domain.user.usecase.RoleUseCase;
@@ -79,7 +79,7 @@ public class RoleFacade {
         return roleUsecase.search(req.getName(), req);
     }
 
-    public RoleDto getRoleById(Long roleId) {
+    public RoleAuditingObject getRoleById(Long roleId) {
         return roleUsecase.findByIdUseDto(roleId);
     }
 

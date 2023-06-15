@@ -18,7 +18,7 @@ import tech.ibrave.metabucket.application.user.restful.request.role.DeleteRoleId
 import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
-import tech.ibrave.metabucket.domain.user.dto.RoleDto;
+import tech.ibrave.metabucket.domain.user.dto.RoleAuditingObject;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleSlimDto;
 import tech.ibrave.metabucket.shared.architecture.Page;
@@ -69,7 +69,7 @@ public class RoleApi {
     }
 
     @GetMapping("/{roleId}")
-    public RoleDto getRoleById(@PathVariable("roleId") Long roleId) {
+    public RoleAuditingObject getRoleById(@PathVariable("roleId") Long roleId) {
         return roleFacade.getRoleById(roleId);
     }
 

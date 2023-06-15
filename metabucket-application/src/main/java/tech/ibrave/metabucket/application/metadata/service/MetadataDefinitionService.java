@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.application.metadata.service;
 
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.metadata.MetadataDefinition;
-import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionDto;
+import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObject;
 import tech.ibrave.metabucket.domain.metadata.persistence.MetadataDefinitionPersistence;
 import tech.ibrave.metabucket.domain.metadata.usecase.MetadataDefinitionUseCase;
 import tech.ibrave.metabucket.domain.shared.request.MetadataDefinitionSearchReq;
@@ -28,7 +28,7 @@ public class MetadataDefinitionService
     }
 
     @Override
-    public Page<MetadataDefinitionDto> search(MetadataDefinitionSearchReq req) {
+    public Page<MetadataDefinitionAuditingObject> search(MetadataDefinitionSearchReq req) {
         return repo.search(req);
     }
 

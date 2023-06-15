@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
 import tech.ibrave.metabucket.domain.shared.Permission;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class Role extends BaseAuditingObject {
 
     private Long id;
     private String name;
