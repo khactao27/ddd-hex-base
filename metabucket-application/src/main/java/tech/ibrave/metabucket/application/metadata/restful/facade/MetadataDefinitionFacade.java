@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.metadata.restful.mapper.MetadataDefinitionMapper;
 import tech.ibrave.metabucket.application.metadata.restful.mapper.MultiValueMetadataMapper;
+import tech.ibrave.metabucket.application.metadata.restful.request.DeleteMetadataDefinitionReq;
 import tech.ibrave.metabucket.application.metadata.restful.request.MetadataDefinitionPersistenceReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.metadata.MetadataDefinition;
 import tech.ibrave.metabucket.domain.metadata.ValueType;
-import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObject;
+import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionDto;
 import tech.ibrave.metabucket.domain.metadata.usecase.MetadataDefinitionUseCase;
 import tech.ibrave.metabucket.domain.shared.request.MetadataDefinitionSearchReq;
 import tech.ibrave.metabucket.shared.architecture.Page;
@@ -52,16 +53,16 @@ public class MetadataDefinitionFacade {
         return new SuccessResponse(id, messageSource.getMessage("mb.metadata.edit.success"));
     }
 
-    public SuccessResponse delete(String id) {
-        definitionUseCase.deleteIfExist(id);
-        return new SuccessResponse(id, messageSource.getMessage("mb.Metadata.delete.success"));
+    public SuccessResponse delete(DeleteMetadataDefinitionReq req) {
+        req.getIds().forEach(definitionUseCase::deleteIfExist);
+        return SuccessResponse.ofMessageCode("mb.Metadata.delete.success");
     }
 
-    public MetadataDefinitionAuditingObject getDetail(String id) {
+    public MetadataDefinitionDto getDetail(String id) {
         return definitionMapper.toDto(definitionUseCase.getOrElseThrow(id));
     }
 
-    public Page<MetadataDefinitionAuditingObject> search(MetadataDefinitionSearchReq req) {
+    public Page<MetadataDefinitionDto> search(MetadataDefinitionSearchReq req) {
         return definitionUseCase.search(req);
     }
 

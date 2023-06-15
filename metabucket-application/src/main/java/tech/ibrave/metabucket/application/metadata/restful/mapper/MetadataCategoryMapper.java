@@ -1,9 +1,11 @@
 package tech.ibrave.metabucket.application.metadata.restful.mapper;
 
 import org.mapstruct.Mapper;
+import tech.ibrave.metabucket.application.metadata.restful.request.MetadataCategoryPersistenceReq;
+import tech.ibrave.metabucket.application.persistence.jpa.entity.MetadataCategoryEntity;
 import tech.ibrave.metabucket.domain.metadata.MetadataCategory;
+import tech.ibrave.metabucket.domain.metadata.dto.MetadataCategoryDto;
 import tech.ibrave.metabucket.domain.metadata.dto.MetadataCategoryLiteDto;
-import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObject;
 
 /**
  * Author: hungnm
@@ -11,7 +13,10 @@ import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObje
  */
 @Mapper
 public interface MetadataCategoryMapper {
-    MetadataCategory toCategory(MetadataDefinitionAuditingObject dto);
-    MetadataCategory toCategory(MetadataCategoryLiteDto dto);
+    MetadataCategory toDomain(MetadataCategoryLiteDto dto);
+    MetadataCategory toDomain(MetadataCategoryEntity dto);
+    MetadataCategoryDto toDto(MetadataCategoryEntity entity);
+    MetadataCategory toDomain(MetadataCategoryPersistenceReq req);
+
 
 }

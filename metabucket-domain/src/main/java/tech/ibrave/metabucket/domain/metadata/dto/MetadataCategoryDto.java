@@ -10,7 +10,7 @@ import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
  */
 @Getter
 @Setter
-public class MetadataCategoryAuditingObject extends BaseAuditingObject {
+public class MetadataCategoryDto extends BaseAuditingObject {
     private String name;
     private String description;
     private MetadataCategoryLiteDto category;

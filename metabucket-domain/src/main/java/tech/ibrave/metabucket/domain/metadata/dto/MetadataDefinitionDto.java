@@ -13,7 +13,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class MetadataDefinitionAuditingObject extends BaseAuditingObject {
+public class MetadataDefinitionDto extends BaseAuditingObject {
     private String id;
     private String name;
     private ValueType valueType;

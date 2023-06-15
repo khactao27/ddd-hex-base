@@ -28,7 +28,6 @@ public enum ErrorCodes implements ErrorCode {
     DUPLICATE_PASSWORD("MB0015", HttpStatus.BAD_REQUEST, "mb.user.update.duplicated_oldpassword"),
     DUPLICATE_METADATA_NAME("MB0016", HttpStatus.BAD_REQUEST, " mb.metadata.create.duplicated_metadataname"),
     DUPLICATE_MULTI_VALUE("MB0017", HttpStatus.BAD_REQUEST, "mb.metadata.create.duplicate_multi_value")
-
     ;
 
     private final String code;

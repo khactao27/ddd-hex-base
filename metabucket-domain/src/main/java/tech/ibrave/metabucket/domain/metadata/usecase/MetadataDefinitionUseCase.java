@@ -1,7 +1,7 @@
 package tech.ibrave.metabucket.domain.metadata.usecase;
 
 import tech.ibrave.metabucket.domain.metadata.MetadataDefinition;
-import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObject;
+import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionDto;
 import tech.ibrave.metabucket.domain.shared.request.MetadataDefinitionSearchReq;
 import tech.ibrave.metabucket.shared.architecture.BaseUseCase;
 import tech.ibrave.metabucket.shared.architecture.Page;
@@ -13,5 +13,5 @@ import tech.ibrave.metabucket.shared.architecture.Page;
 public interface MetadataDefinitionUseCase extends BaseUseCase<MetadataDefinition, String> {
     boolean existsByName(String name);
 
-    Page<MetadataDefinitionAuditingObject> search(MetadataDefinitionSearchReq req);
+    Page<MetadataDefinitionDto> search(MetadataDefinitionSearchReq req);
 }

@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import tech.ibrave.metabucket.application.metadata.restful.request.MetadataDefinitionPersistenceReq;
 import tech.ibrave.metabucket.domain.metadata.MetadataDefinition;
-import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObject;
+import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionDto;
 
 /**
  * Author: hungnm
@@ -12,12 +12,12 @@ import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObje
  */
 @Mapper
 public interface MetadataDefinitionMapper {
-    MetadataDefinition toDefinition(MetadataDefinitionAuditingObject dto);
+    MetadataDefinition toDefinition(MetadataDefinitionDto dto);
 
     MetadataDefinition toDefinition(MetadataDefinitionPersistenceReq req);
 
     void updateDefinition(@MappingTarget MetadataDefinition metadataDefinition,
                           MetadataDefinitionPersistenceReq req);
 
-    MetadataDefinitionAuditingObject toDto(MetadataDefinition definition);
+    MetadataDefinitionDto toDto(MetadataDefinition definition);
 }

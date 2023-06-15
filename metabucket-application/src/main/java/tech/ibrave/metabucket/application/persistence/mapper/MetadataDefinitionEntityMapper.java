@@ -3,7 +3,7 @@ package tech.ibrave.metabucket.application.persistence.mapper;
 import org.mapstruct.Mapper;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.MetadataDefinitionEntity;
 import tech.ibrave.metabucket.domain.metadata.MetadataDefinition;
-import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObject;
+import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionDto;
 
 /**
  * Author: hungnm
@@ -11,5 +11,5 @@ import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObje
  */
 @Mapper
 public interface MetadataDefinitionEntityMapper extends BaseEntityMapper<MetadataDefinitionEntity, MetadataDefinition>{
-    MetadataDefinitionAuditingObject toDto(MetadataDefinitionEntity definition);
+    MetadataDefinitionDto toDto(MetadataDefinitionEntity definition);
 }

@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.metadata.restful.facade.MetadataDefinitionFacade;
+import tech.ibrave.metabucket.application.metadata.restful.request.DeleteMetadataDefinitionReq;
 import tech.ibrave.metabucket.application.metadata.restful.request.MetadataDefinitionPersistenceReq;
-import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionAuditingObject;
+import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionDto;
 import tech.ibrave.metabucket.domain.shared.request.MetadataDefinitionSearchReq;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.response.SuccessResponse;
@@ -39,18 +40,18 @@ public class MetadataDefinitionApi {
         return definitionFacade.update(id, req);
     }
 
-    @DeleteMapping("/{id}")
-    public SuccessResponse delete(@PathVariable String id) {
-        return definitionFacade.delete(id);
+    @DeleteMapping()
+    public SuccessResponse delete(@ModelAttribute DeleteMetadataDefinitionReq req) {
+        return definitionFacade.delete(req);
     }
 
     @GetMapping("/{id}")
-    public MetadataDefinitionAuditingObject getDetail(@PathVariable String id) {
+    public MetadataDefinitionDto getDetail(@PathVariable String id) {
         return definitionFacade.getDetail(id);
     }
 
     @GetMapping
-    public Page<MetadataDefinitionAuditingObject> search(@ModelAttribute MetadataDefinitionSearchReq req) {
+    public Page<MetadataDefinitionDto> search(@ModelAttribute MetadataDefinitionSearchReq req) {
         return definitionFacade.search(req);
     }
 }
