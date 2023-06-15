@@ -37,6 +37,11 @@ public class MetadataCategoryAdapter
     }
 
     @Override
+    public boolean existsByName(String name) {
+        return repo().existsByName(name);
+    }
+
+    @Override
     public MetadataCategoryEntityMapper mapper() {
         return super.mapper();
     }

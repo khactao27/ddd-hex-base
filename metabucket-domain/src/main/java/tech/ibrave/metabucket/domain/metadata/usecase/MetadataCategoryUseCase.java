@@ -12,4 +12,5 @@ import tech.ibrave.metabucket.shared.architecture.Page;
  */
 public interface MetadataCategoryUseCase extends BaseUseCase<MetadataCategory, String> {
     Page<MetadataCategoryDto> search(SearchMetadataCategoryReq req);
+    boolean existsByName(String name);
 }

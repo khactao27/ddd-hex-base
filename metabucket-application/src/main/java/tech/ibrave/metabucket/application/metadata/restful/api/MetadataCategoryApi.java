@@ -1,9 +1,11 @@
 package tech.ibrave.metabucket.application.metadata.restful.api;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.metadata.restful.facade.MetadataCategoryFacade;
@@ -24,7 +26,7 @@ public class MetadataCategoryApi {
     private final MetadataCategoryFacade categoryFacade;
 
     @PostMapping
-    public SuccessResponse create(MetadataCategoryPersistenceReq req) {
+    public SuccessResponse create(@Valid @RequestBody MetadataCategoryPersistenceReq req) {
         return categoryFacade.create(req);
     }
 

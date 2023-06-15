@@ -13,4 +13,5 @@ import tech.ibrave.metabucket.application.persistence.jpa.entity.MetadataCategor
 @Repository
 public interface MetadataCategoryJpaRepository extends QueryDslRepository<MetadataCategoryEntity, String> {
     Page<MetadataCategoryEntity> findAllByNameContaining(String name, Pageable pageable);
+    boolean existsByName(String name);
 }

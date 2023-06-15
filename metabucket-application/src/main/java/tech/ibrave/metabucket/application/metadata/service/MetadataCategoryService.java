@@ -32,4 +32,9 @@ public class MetadataCategoryService
     public Page<MetadataCategoryDto> search(SearchMetadataCategoryReq req) {
         return repo.search(req);
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        return repo.existsByName(name);
+    }
 }

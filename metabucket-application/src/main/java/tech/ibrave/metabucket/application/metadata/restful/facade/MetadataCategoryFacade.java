@@ -27,7 +27,7 @@ public class MetadataCategoryFacade {
 
     public SuccessResponse create(MetadataCategoryPersistenceReq req) {
         if (StringUtils.isNotEmpty(req.getParentId())) {
-            validateExists(req.getParentId());
+            validateExistsById(req.getParentId());
         }
         var category = categoryMapper.toDomain(req);
         var id = categoryUseCase.save(category).getId();
@@ -38,9 +38,15 @@ public class MetadataCategoryFacade {
         return categoryUseCase.search(req);
     }
 
-    public void validateExists(String id) {
+    public void validateExistsById(String id) {
         if (!categoryUseCase.existById(id)) {
             throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
+        }
+    }
+
+    public void validateExistsByName(String name) {
+        if (categoryUseCase.existsByName(name)) {
+            throw new ErrorCodeException(ErrorCodes.DUPLICATE_CATEGORY_NAME);
         }
     }
 }
