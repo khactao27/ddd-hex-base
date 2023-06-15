@@ -11,8 +11,9 @@ import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
 @Getter
 @Setter
 public class MetadataCategoryDto extends BaseAuditingObject {
+    private String id;
     private String name;
     private String description;
-    private MetadataCategoryLiteDto category;
+    private String parentId; // category parent
 
 }

@@ -8,12 +8,14 @@ import tech.ibrave.metabucket.domain.metadata.usecase.MetadataCategoryUseCase;
 import tech.ibrave.metabucket.domain.shared.request.SearchMetadataCategoryReq;
 import tech.ibrave.metabucket.shared.architecture.BaseApplicationService;
 import tech.ibrave.metabucket.shared.architecture.Page;
+import tech.ibrave.metabucket.shared.architecture.annotation.ApplicationService;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 
 /**
  * Author: hungnm
  * Date: 15/06/2023
  */
+@ApplicationService
 public class MetadataCategoryService
         extends BaseApplicationService<MetadataCategory, String, MetadataCategoryPersistence>
         implements MetadataCategoryUseCase {
@@ -28,6 +30,6 @@ public class MetadataCategoryService
 
     @Override
     public Page<MetadataCategoryDto> search(SearchMetadataCategoryReq req) {
-        return null;
+        return repo.search(req);
     }
 }

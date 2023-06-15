@@ -1,7 +1,7 @@
 package tech.ibrave.metabucket.application.persistence.adapter;
 
 import io.micrometer.common.util.StringUtils;
-import tech.ibrave.metabucket.application.metadata.restful.mapper.MetadataCategoryMapper;
+import org.springframework.stereotype.Service;
 import tech.ibrave.metabucket.application.persistence.jpa.BaseJpaRepository;
 import tech.ibrave.metabucket.application.persistence.jpa.entity.MetadataCategoryEntity;
 import tech.ibrave.metabucket.application.persistence.jpa.repository.MetadataCategoryJpaRepository;
@@ -16,6 +16,7 @@ import tech.ibrave.metabucket.shared.architecture.Page;
  * Author: hungnm
  * Date: 15/06/2023
  */
+@Service
 public class MetadataCategoryAdapter
         extends BaseJpaRepository<MetadataCategoryEntity, MetadataCategory, String>
         implements MetadataCategoryPersistence {
@@ -36,7 +37,7 @@ public class MetadataCategoryAdapter
     }
 
     @Override
-    public MetadataCategoryMapper mapper() {
+    public MetadataCategoryEntityMapper mapper() {
         return super.mapper();
     }
 
