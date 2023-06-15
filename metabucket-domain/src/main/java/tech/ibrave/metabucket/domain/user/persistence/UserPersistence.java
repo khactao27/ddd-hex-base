@@ -21,4 +21,6 @@ public interface UserPersistence extends BasePersistence<User, String> {
     Optional<User> findByEmail(String email);
     List<UserDto> findByIdsOrElseThrow(List<String> ids);
     Page<UserDto> searchUser(SearchUserReq req);
+
+    List<UserDto> findAllByIdIn(List<String> ids);
 }

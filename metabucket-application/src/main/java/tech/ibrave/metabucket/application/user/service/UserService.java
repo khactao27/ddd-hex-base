@@ -64,4 +64,9 @@ public class UserService extends BaseApplicationService<User, String, UserPersis
     public Page<UserDto> searchUser(SearchUserReq req) {
         return repo.searchUser(req);
     }
+
+    @Override
+    public List<UserDto> findAllByIdIn(List<String> ids) {
+        return repo.findAllByIdIn(ids);
+    }
 }

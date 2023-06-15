@@ -26,4 +26,6 @@ public interface UserUseCase extends BaseUseCase<User, String> {
     void updateStatusBulkUser(List<String> userIds, boolean enable);
 
     Page<UserDto> searchUser(SearchUserReq req);
+
+    List<UserDto> findAllByIdIn(List<String> ids);
 }

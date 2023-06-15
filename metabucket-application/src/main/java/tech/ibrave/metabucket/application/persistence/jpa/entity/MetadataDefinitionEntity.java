@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -35,5 +36,9 @@ public class MetadataDefinitionEntity extends AbstractAuditingUserEntity {
     @OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<MultiValueMetadataEntity> multiValues;
     @ManyToOne
+    @JoinTable(name = "tbl_definition_category_mapping",
+            joinColumns = @JoinColumn(name = "metadata_definition_id"),
+            inverseJoinColumns = @JoinColumn(name = "metadata_category_id")
+    )
     private MetadataCategoryEntity category;
 }

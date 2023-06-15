@@ -97,6 +97,13 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
         return new Page(getDomainResultAsPage(query, mapper()::toDto, req));
     }
 
+    @Override
+    public List<UserDto> findAllByIdIn(List<String> ids) {
+        var userEntities = repo().findByIdIn(ids);
+        return CollectionUtils.toList(userEntities, mapper()::toDto);
+
+    }
+
     public JPAQuery<UserEntity> buildBasicQuery() {
         return queryFactory
                 .select(QUserEntity.userEntity)

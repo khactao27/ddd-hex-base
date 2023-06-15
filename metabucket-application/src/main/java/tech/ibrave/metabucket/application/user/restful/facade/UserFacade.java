@@ -264,9 +264,11 @@ public class UserFacade {
 
     public void exportUser(ExportUserReq req, HttpServletResponse response) {
         validateExportFields(req.getFields());
-        var usersToExport = req.getUsers();
-        if (usersToExport == null || usersToExport.isEmpty()) {
+        List<UserDto> usersToExport;
+        if (req.getUserIds() == null || req.getUserIds().isEmpty()) {
             usersToExport = userUseCase.searchUser(req).getData();
+        } else {
+            usersToExport = userUseCase.findAllByIdIn(req.getUserIds());
         }
         try {
             var workbook = new XSSFWorkbook();
