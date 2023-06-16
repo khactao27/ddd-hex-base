@@ -25,4 +25,6 @@ public interface BasePersistence<DM, ID> {
     Page<DM> findAll(PageReq pageRequest);
 
     boolean existsById(ID id);
+
+    void deleteAllByIdInBatch(List<ID> ids);
 }

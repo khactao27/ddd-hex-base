@@ -79,4 +79,9 @@ public abstract class BaseApplicationService<DM, ID, R extends BasePersistence<D
         deleteById(id);
         return model;
     }
+
+    @Override
+    public void deleteAllByIdInBatch(List<ID> ids) {
+        repo.deleteAllByIdInBatch(ids);
+    }
 }

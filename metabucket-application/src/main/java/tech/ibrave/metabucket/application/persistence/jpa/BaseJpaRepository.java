@@ -85,6 +85,11 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
         return repo.existsById(id);
     }
 
+    @Override
+    public void deleteAllByIdInBatch(List<ID> ids) {
+        repo.deleteAllByIdInBatch(ids);
+    }
+
     public <T, R> Page<R> toPage(List<T> content,
                                  Function<T, R> function,
                                  int pageIndex,

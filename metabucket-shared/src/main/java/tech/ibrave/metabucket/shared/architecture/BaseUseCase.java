@@ -3,6 +3,7 @@ package tech.ibrave.metabucket.shared.architecture;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 import tech.ibrave.metabucket.shared.request.PageReq;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -33,4 +34,6 @@ public interface BaseUseCase<DM, ID> {
     boolean existById(ID id);
 
      DM deleteIfExist(ID id);
+
+     void deleteAllByIdInBatch(List<ID> ids);
 }

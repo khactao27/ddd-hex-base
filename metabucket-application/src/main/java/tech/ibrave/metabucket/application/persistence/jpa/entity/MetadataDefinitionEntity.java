@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -24,6 +26,9 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@NamedEntityGraph(name = "Definition.category", attributeNodes = {
+        @NamedAttributeNode("category")
+})
 @Table(name = "tbl_metadata_definition")
 public class MetadataDefinitionEntity extends AbstractAuditingUserEntity {
     @Id
