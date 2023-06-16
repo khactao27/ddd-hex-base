@@ -280,10 +280,11 @@ public class UserFacade {
             style.setFont(font);
             int rowCount = 1;
             for (var user : usersToExport) {
+                var importedUser = userMapper.toExportedUser(user);
                 var row = sheet.createRow(rowCount++);
                 int columnCount = 0;
                 for (var field : req.getFields()) {
-                    var fieldValue = ObjectUtils.invokeGetMethod(field, user, UserDto.class);
+                    var fieldValue = ObjectUtils.invokeGetMethod(field, importedUser, ExportedUser.class);
                     ExcelUtils.createCell(sheet, row, columnCount++, fieldValue, style);
                 }
             }

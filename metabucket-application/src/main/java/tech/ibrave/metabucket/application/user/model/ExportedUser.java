@@ -11,7 +11,6 @@ import tech.ibrave.metabucket.domain.shared.UserSource;
 @Getter
 @Setter
 public class ExportedUser {
-    private String id;
     private String username;
     private String firstName;
     private String lastName;
@@ -20,6 +19,8 @@ public class ExportedUser {
     private String location;
     private String phone;
     private String email;
-    private UserSource source;
-    private boolean enable;
+    private UserSource source = UserSource.SELF_REGISTER;
+    private String role;
+    private String group;
+    private Boolean enable;
 }
