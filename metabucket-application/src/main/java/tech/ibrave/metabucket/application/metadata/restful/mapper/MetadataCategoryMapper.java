@@ -3,10 +3,10 @@ package tech.ibrave.metabucket.application.metadata.restful.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import tech.ibrave.metabucket.application.metadata.restful.request.MetadataCategoryPersistenceReq;
-import tech.ibrave.metabucket.application.persistence.jpa.entity.MetadataCategoryEntity;
 import tech.ibrave.metabucket.domain.metadata.MetadataCategory;
 import tech.ibrave.metabucket.domain.metadata.dto.MetadataCategoryDto;
 import tech.ibrave.metabucket.domain.metadata.dto.MetadataCategoryLiteDto;
+import tech.ibrave.metabucket.infras.persistence.jpa.entity.MetadataCategoryEntity;
 
 /**
  * Author: hungnm

@@ -1,11 +1,9 @@
 package tech.ibrave.metabucket.domain.setting;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
 /**
  * author: anct

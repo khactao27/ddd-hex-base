@@ -1,0 +1,32 @@
+spring:
+  jpa:
+    open-in-view: false
+    generate-ddl: true
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        event:
+          merge:
+            entity_copy_observer: allow
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://34.87.124.115:5431/metabucket_dev?useUnicode=yes&characterEncoding=UTF-8
+    username: postgres
+    password: mysecretpassword
+    hikari:
+      connectionTimeout: 30000
+      minimumIdle: 1
+      maximumPoolSize: 50
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      autoCommit: true
+      leakDetectionThreshold: 100000
+      poolName: bucketConnectionPool

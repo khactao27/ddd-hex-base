@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import tech.ibrave.metabucket.application.persistence.jpa.repository.EmailQueueJpaRepository;
+import tech.ibrave.metabucket.infras.persistence.jpa.repository.EmailQueueJpaRepository;
 
 import java.time.LocalDateTime;
 
