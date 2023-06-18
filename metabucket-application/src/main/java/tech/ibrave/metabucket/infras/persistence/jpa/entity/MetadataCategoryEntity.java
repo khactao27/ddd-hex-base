@@ -28,8 +28,8 @@ import java.util.Set;
 @Table(name = "tbl_metadata_category")
 public class MetadataCategoryEntity extends AbstractAuditingUserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String description;
     private String parentId; // category parent

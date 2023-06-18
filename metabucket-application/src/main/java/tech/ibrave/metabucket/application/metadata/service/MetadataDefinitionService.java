@@ -17,7 +17,7 @@ import tech.ibrave.metabucket.shared.exception.ErrorCode;
  */
 @ApplicationService
 public class MetadataDefinitionService
-        extends BaseApplicationService<MetadataDefinition, String, MetadataDefinitionPersistence>
+        extends BaseApplicationService<MetadataDefinition, Long, MetadataDefinitionPersistence>
         implements MetadataDefinitionUseCase {
     protected MetadataDefinitionService(MetadataDefinitionPersistence repo) {
         super(repo);

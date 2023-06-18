@@ -17,7 +17,7 @@ import tech.ibrave.metabucket.shared.exception.ErrorCode;
  */
 @ApplicationService
 public class MetadataCategoryService
-        extends BaseApplicationService<MetadataCategory, String, MetadataCategoryPersistence>
+        extends BaseApplicationService<MetadataCategory, Long, MetadataCategoryPersistence>
         implements MetadataCategoryUseCase {
     protected MetadataCategoryService(MetadataCategoryPersistence repo) {
         super(repo);

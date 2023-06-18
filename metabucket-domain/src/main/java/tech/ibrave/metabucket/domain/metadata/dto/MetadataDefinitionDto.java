@@ -14,10 +14,10 @@ import java.util.Set;
 @Getter
 @Setter
 public class MetadataDefinitionDto extends BaseAuditingObject {
-    private String id;
+    private Long id;
     private String name;
     private ValueType valueType;
     private String description;
     private MetadataCategoryLiteDto category;
-    private Set<MultiValueMetadataDto> multiValues;
+    private Set<MetadataOptionDto> MetadataOptions;
 }

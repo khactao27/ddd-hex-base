@@ -13,11 +13,11 @@ import java.util.Set;
 @Getter
 @Setter
 public class MetadataDefinition extends BaseAuditingObject {
-    private String id;
+    private Long id;
     private String name;
     private ValueType valueType;
     private String description;
     private MetadataCategory category;
-    private Set<MultiValueMetadata> multiValues;
+    private Set<MetadataOption> metadataOptions;
 
 }

@@ -9,8 +9,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class MultiValueMetadata {
-    private String id;
+public class MetadataOption {
+    private Long id;
     private String value;
     private String description;
     private String metadataDefinitionId;

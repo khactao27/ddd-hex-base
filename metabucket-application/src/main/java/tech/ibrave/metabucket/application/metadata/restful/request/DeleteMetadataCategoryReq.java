@@ -14,5 +14,5 @@ import java.util.List;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DeleteMetadataCategoryReq {
-    private List<String> ids;
+    private List<Long> ids;
 }

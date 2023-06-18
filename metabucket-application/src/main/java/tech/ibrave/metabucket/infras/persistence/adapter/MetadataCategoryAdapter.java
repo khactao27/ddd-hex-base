@@ -18,7 +18,7 @@ import tech.ibrave.metabucket.shared.architecture.Page;
  */
 @Service
 public class MetadataCategoryAdapter
-        extends BaseJpaRepository<MetadataCategoryEntity, MetadataCategory, String>
+        extends BaseJpaRepository<MetadataCategoryEntity, MetadataCategory, Long>
         implements MetadataCategoryPersistence {
     protected MetadataCategoryAdapter(MetadataCategoryJpaRepository repo,
                                       MetadataCategoryEntityMapper mapper) {

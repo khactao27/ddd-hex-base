@@ -1,7 +1,6 @@
 package tech.ibrave.metabucket.application.metadata.restful.facade;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.metadata.restful.mapper.MetadataCategoryMapper;
 import tech.ibrave.metabucket.application.metadata.restful.request.DeleteMetadataCategoryReq;
@@ -27,7 +26,7 @@ public class MetadataCategoryFacade {
     private final MessageSource messageSource;
 
     public SuccessResponse create(MetadataCategoryPersistenceReq req) {
-        if (StringUtils.isNotEmpty(req.getParentId())) {
+        if (req.getParentId() != null) {
             validateExistsById(req.getParentId());
         }
         validateExistsByName(req.getName());
@@ -36,9 +35,9 @@ public class MetadataCategoryFacade {
         return new SuccessResponse(id, messageSource.getMessage("mb.categories.create.success"));
     }
 
-    public SuccessResponse update(String id, MetadataCategoryPersistenceReq req) {
+    public SuccessResponse update(Long id, MetadataCategoryPersistenceReq req) {
         var category = categoryUseCase.getOrElseThrow(id);
-        if (StringUtils.isNotEmpty(req.getParentId())) {
+        if (req.getParentId() != null) {
             validateExistsById(req.getParentId());
         }
         if (!category.getName().equals(req.getName())) {
@@ -57,12 +56,12 @@ public class MetadataCategoryFacade {
         return SuccessResponse.ofMessageCode("mb.categories.delete.success");
     }
 
-    public MetadataCategoryDto getDetail(String id) {
+    public MetadataCategoryDto getDetail(Long id) {
         var category = categoryUseCase.getOrElseThrow(id);
         return categoryMapper.toDto(category);
     }
 
-    public void validateExistsById(String id) {
+    public void validateExistsById(Long id) {
         if (!categoryUseCase.existById(id)) {
             throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
         }

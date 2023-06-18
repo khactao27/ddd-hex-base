@@ -35,7 +35,7 @@ public class MetadataDefinitionApi {
     }
 
     @PutMapping("/{id}")
-    public SuccessResponse update(@PathVariable String id,
+    public SuccessResponse update(@PathVariable Long id,
                                   @Valid @RequestBody MetadataDefinitionPersistenceReq req) {
         return definitionFacade.update(id, req);
     }
@@ -46,7 +46,7 @@ public class MetadataDefinitionApi {
     }
 
     @GetMapping("/{id}")
-    public MetadataDefinitionDto getDetail(@PathVariable String id) {
+    public MetadataDefinitionDto getDetail(@PathVariable Long id) {
         return definitionFacade.getDetail(id);
     }
 

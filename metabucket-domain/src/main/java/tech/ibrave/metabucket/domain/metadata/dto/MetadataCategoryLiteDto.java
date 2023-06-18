@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MetadataCategoryLiteDto {
-    private String id;
+    private Long id;
     private String name;
     private String description;
 

@@ -25,13 +25,13 @@ public class MetadataDefinitionPersistenceReq {
     @Size(max = 100, message = "{mb.metadata.create.invalid_metadatades}")
     private String description;
     private ValueType valueType;
-    private Set<MultiValueReq> multiValues;
+    private Set<MetadataOption> metadataOptions;
     private MetadataCategoryLiteDto category;
 
     @Getter
     @Setter
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class MultiValueReq {
+    public static class MetadataOption {
         String value;
         String description;
     }

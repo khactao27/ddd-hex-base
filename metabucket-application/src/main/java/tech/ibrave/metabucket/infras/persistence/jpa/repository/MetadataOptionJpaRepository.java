@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.infras.persistence.jpa.repository;
 
 import org.springframework.stereotype.Repository;
 import tech.ibrave.metabucket.infras.persistence.jpa.QueryDslRepository;
-import tech.ibrave.metabucket.infras.persistence.jpa.entity.MultiValueMetadataEntity;
+import tech.ibrave.metabucket.infras.persistence.jpa.entity.MetadataOptionEntity;
 
 /**
  * Author: hungnm
@@ -10,5 +10,5 @@ import tech.ibrave.metabucket.infras.persistence.jpa.entity.MultiValueMetadataEn
  */
 @Repository
 @SuppressWarnings("all")
-public interface MultiValueMetadataJpaRepository extends QueryDslRepository<MultiValueMetadataEntity, String> {
+public interface MetadataOptionJpaRepository extends QueryDslRepository<MetadataOptionEntity, Long> {
 }

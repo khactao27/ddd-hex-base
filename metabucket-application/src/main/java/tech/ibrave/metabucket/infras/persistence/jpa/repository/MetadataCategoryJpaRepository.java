@@ -17,7 +17,7 @@ import java.util.Optional;
  */
 @Repository
 @SuppressWarnings("all")
-public interface MetadataCategoryJpaRepository extends QueryDslRepository<MetadataCategoryEntity, String> {
+public interface MetadataCategoryJpaRepository extends QueryDslRepository<MetadataCategoryEntity, Long> {
     Page<MetadataCategoryEntity> findAllByNameContaining(String name, Pageable pageable);
     boolean existsByName(String name);
 
@@ -35,5 +35,5 @@ public interface MetadataCategoryJpaRepository extends QueryDslRepository<Metada
 
     @Override
     @EntityGraph(value = "Category.definitions", type = EntityGraph.EntityGraphType.LOAD)
-    Optional<MetadataCategoryEntity> findById(@NonNull String id);
+    Optional<MetadataCategoryEntity> findById(@NonNull Long id);
 }

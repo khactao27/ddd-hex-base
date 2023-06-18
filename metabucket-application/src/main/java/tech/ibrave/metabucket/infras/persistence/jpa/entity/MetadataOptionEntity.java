@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * Author: hungnm
@@ -16,13 +18,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "tbl_multi_value_metadata")
-public class MultiValueMetadataEntity {
+@Table(name = "tbl_metadata_option")
+@Cache(region = "MetadataOption", usage = CacheConcurrencyStrategy.READ_WRITE)
+public class MetadataOptionEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String value;
     private String description;
     @Column(name = "metadata_definition_id")
-    private String metadataDefinitionId;
+    private Long metadataDefinitionId;
 }

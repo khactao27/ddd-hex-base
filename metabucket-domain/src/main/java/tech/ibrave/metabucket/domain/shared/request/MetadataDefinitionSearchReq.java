@@ -14,5 +14,5 @@ import tech.ibrave.metabucket.shared.request.PageReq;
 public class MetadataDefinitionSearchReq extends PageReq {
     private String name;
     private ValueType valueType;
-    private String categoryId;
+    private Long categoryId;
 }

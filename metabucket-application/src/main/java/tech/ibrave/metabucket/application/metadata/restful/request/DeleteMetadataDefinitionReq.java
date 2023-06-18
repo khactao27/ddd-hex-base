@@ -12,5 +12,5 @@ import java.util.List;
 @Getter
 @Setter
 public class DeleteMetadataDefinitionReq {
-    private List<String> ids;
+    private List<Long> ids;
 }

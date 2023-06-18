@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 public class MetadataCategory {
-    private String id;
+    private Long id;
     private String name;
     private String description;
     private String parentId; // category parent

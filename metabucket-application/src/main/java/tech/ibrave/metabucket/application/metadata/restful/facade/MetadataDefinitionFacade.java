@@ -3,7 +3,7 @@ package tech.ibrave.metabucket.application.metadata.restful.facade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.metadata.restful.mapper.MetadataDefinitionMapper;
-import tech.ibrave.metabucket.application.metadata.restful.mapper.MultiValueMetadataMapper;
+import tech.ibrave.metabucket.application.metadata.restful.mapper.MetadataOptionMapper;
 import tech.ibrave.metabucket.application.metadata.restful.request.DeleteMetadataDefinitionReq;
 import tech.ibrave.metabucket.application.metadata.restful.request.MetadataDefinitionPersistenceReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
@@ -31,24 +31,24 @@ import java.util.Set;
 public class MetadataDefinitionFacade {
     private final MetadataDefinitionUseCase definitionUseCase;
     private final MetadataDefinitionMapper definitionMapper;
-    private final MultiValueMetadataMapper multiValueMetadataMapper;
+    private final MetadataOptionMapper metadataOptionMapper;
     private final MessageSource messageSource;
 
     public SuccessResponse create(MetadataDefinitionPersistenceReq req) {
         validateExistsName(req.getName());
         var definition = definitionMapper.toDefinition(req);
-        setMultiValue(definition, req);
+        setMetadataOption(definition, req);
         var id = definitionUseCase.save(definition).getId();
         return new SuccessResponse(id, messageSource.getMessage("mb.metadata.create.success"));
     }
 
-    public SuccessResponse update(String id, MetadataDefinitionPersistenceReq req) {
+    public SuccessResponse update(Long id, MetadataDefinitionPersistenceReq req) {
         var definition = definitionUseCase.getOrElseThrow(id);
         if (!req.getName().equals(definition.getName())) {
             validateExistsName(req.getName());
         }
         definitionMapper.updateDefinition(definition, req);
-        setMultiValue(definition, req);
+        setMetadataOption(definition, req);
         definitionUseCase.save(definition);
         return new SuccessResponse(id, messageSource.getMessage("mb.metadata.edit.success"));
     }
@@ -58,7 +58,7 @@ public class MetadataDefinitionFacade {
         return SuccessResponse.ofMessageCode("mb.Metadata.delete.success");
     }
 
-    public MetadataDefinitionDto getDetail(String id) {
+    public MetadataDefinitionDto getDetail(Long id) {
         return definitionMapper.toDto(definitionUseCase.getOrElseThrow(id));
     }
 
@@ -66,20 +66,20 @@ public class MetadataDefinitionFacade {
         return definitionUseCase.search(req);
     }
 
-    public void setMultiValue(MetadataDefinition metadataDefinition, MetadataDefinitionPersistenceReq req) {
+    public void setMetadataOption(MetadataDefinition metadataDefinition, MetadataDefinitionPersistenceReq req) {
         if (Arrays.asList(ValueType.MULTI_SELECT_VALUE, ValueType.SINGLE_SELECT_VALUE).contains(req.getValueType())) {
-            validateMultiValues(req.getMultiValues());
+            validateMetadataOption(req.getMetadataOptions());
 
-            metadataDefinition.setMultiValues(CollectionUtils
-                    .toSet(req.getMultiValues(), multiValueMetadataMapper::toDomainModel));
+            metadataDefinition.setMetadataOptions(CollectionUtils
+                    .toSet(req.getMetadataOptions(), metadataOptionMapper::toDomainModel));
         }
     }
 
-    private void validateMultiValues(Set<MetadataDefinitionPersistenceReq.MultiValueReq> multiValues) {
+    private void validateMetadataOption(Set<MetadataDefinitionPersistenceReq.MetadataOption> metadataOptions) {
         // Check if multi values duplicated
         var seen = new HashSet<String>(5);
-        for (var multiValue : multiValues) {
-            if (!seen.add(multiValue.getValue())) {
+        for (var metadataOption : metadataOptions) {
+            if (!seen.add(metadataOption.getValue())) {
                 throw new ErrorCodeException(ErrorCodes.DUPLICATE_MULTI_VALUE);
             }
         }

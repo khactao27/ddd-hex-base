@@ -24,7 +24,7 @@ import tech.ibrave.metabucket.shared.architecture.Page;
 @Component
 @SuppressWarnings("all")
 public class MetadataDefinitionPersistenceAdapter
-        extends BaseDslRepository<MetadataDefinitionEntity, MetadataDefinition, String>
+        extends BaseDslRepository<MetadataDefinitionEntity, MetadataDefinition, Long>
         implements MetadataDefinitionPersistence {
     protected MetadataDefinitionPersistenceAdapter(MetadataDefinitionJpaRepository repo,
                                                    MetadataDefinitionEntityMapper mapper,
@@ -45,7 +45,7 @@ public class MetadataDefinitionPersistenceAdapter
     @Override
     public Page<MetadataDefinitionDto> search(MetadataDefinitionSearchReq req) {
         var query = buildBasicQuery();
-        if (StringUtils.isNotEmpty(req.getCategoryId())) {
+        if (req.getCategoryId() != null) {
             buildQueryWithJoinCategory(query, req.getCategoryId());
         }
         var whereBuilder = new BooleanBuilder();
@@ -69,7 +69,7 @@ public class MetadataDefinitionPersistenceAdapter
                 .from(QMetadataDefinitionEntity.metadataDefinitionEntity);
     }
 
-    public void buildQueryWithJoinCategory(JPAQuery<MetadataDefinitionEntity> query, String getCategoryId) {
+    public void buildQueryWithJoinCategory(JPAQuery<MetadataDefinitionEntity> query, Long getCategoryId) {
         query.innerJoin(QMetadataDefinitionEntity.metadataDefinitionEntity.category, QMetadataCategoryEntity.metadataCategoryEntity)
                 .where(QMetadataCategoryEntity.metadataCategoryEntity.id.eq(getCategoryId));
     }

@@ -10,7 +10,7 @@ import tech.ibrave.metabucket.shared.architecture.Page;
  * Author: hungnm
  * Date: 15/06/2023
  */
-public interface MetadataCategoryPersistence extends BasePersistence<MetadataCategory, String> {
+public interface MetadataCategoryPersistence extends BasePersistence<MetadataCategory, Long> {
     Page<MetadataCategoryDto> search(SearchMetadataCategoryReq req);
     boolean existsByName(String name);
 }

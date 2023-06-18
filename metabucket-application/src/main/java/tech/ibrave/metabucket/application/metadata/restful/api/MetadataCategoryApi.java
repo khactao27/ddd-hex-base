@@ -35,7 +35,7 @@ public class MetadataCategoryApi {
     }
 
     @PutMapping("/{id}")
-    public SuccessResponse update(@PathVariable String id,
+    public SuccessResponse update(@PathVariable Long id,
                                   @Valid @RequestBody MetadataCategoryPersistenceReq req) {
         return categoryFacade.update(id, req);
     }
@@ -46,7 +46,7 @@ public class MetadataCategoryApi {
     }
 
     @GetMapping("/{id}")
-    public MetadataCategoryDto getDetail(@PathVariable String id) {
+    public MetadataCategoryDto getDetail(@PathVariable Long id) {
         return categoryFacade.getDetail(id);
     }
 

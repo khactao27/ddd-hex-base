@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MetaDataDefinitionLiteDto {
-    private String id;
+    private Long id;
     private String name;
     private String description;
 }
