@@ -8,7 +8,8 @@ import tech.ibrave.metabucket.application.auth.restful.request.ConfirmRegisterRe
 import tech.ibrave.metabucket.application.user.model.ExportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUserResult;
-import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.PersistUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.UpdateProfileReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.user.User;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
@@ -49,6 +50,8 @@ public interface UserMapper {
     }
 
     void updateUser(@MappingTarget User user, PersistUserReq req);
+
+    void updateUser(@MappingTarget User user, UpdateProfileReq req);
 
     UserDto toDto(User user);
 

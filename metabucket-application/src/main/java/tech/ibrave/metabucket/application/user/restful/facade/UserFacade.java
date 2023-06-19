@@ -28,10 +28,11 @@ import tech.ibrave.metabucket.application.user.model.ExportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUserResult;
 import tech.ibrave.metabucket.application.user.restful.mapper.UserMapper;
-import tech.ibrave.metabucket.application.user.restful.request.ChangePasswordReq;
-import tech.ibrave.metabucket.application.user.restful.request.ExportUserReq;
-import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
-import tech.ibrave.metabucket.application.user.restful.request.UpdateBulkUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.ChangePasswordReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.ExportUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.PersistUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.UpdateBulkUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.UpdateProfileReq;
 import tech.ibrave.metabucket.application.user.restful.response.GetUserExportFieldsResp;
 import tech.ibrave.metabucket.application.user.restful.response.ImportUserResp;
 import tech.ibrave.metabucket.application.user.restful.response.ResetPasswordResp;
@@ -337,6 +338,13 @@ public class UserFacade {
     public UserDto getUserProfile() {
         var user = securityContext.getUser();
         return userMapper.toDto(user);
+    }
+
+    public SuccessResponse updateProfile(UpdateProfileReq req) {
+        var user = securityContext.getUser();
+        userMapper.updateUser(user, req);
+        userUseCase.save(user);
+        return SuccessResponse.ofMessageCode("mb.users.update.success");
     }
 
     public SuccessResponse changePassword(ChangePasswordReq req) {

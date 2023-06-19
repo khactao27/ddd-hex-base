@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.application.user.restful.request;
+package tech.ibrave.metabucket.application.user.restful.request.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

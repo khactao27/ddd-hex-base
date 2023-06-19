@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import tech.ibrave.metabucket.application.user.restful.facade.UserFacade;
-import tech.ibrave.metabucket.application.user.restful.request.ChangePasswordReq;
-import tech.ibrave.metabucket.application.user.restful.request.ExportUserReq;
-import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
-import tech.ibrave.metabucket.application.user.restful.request.UpdateBulkUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.ChangePasswordReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.ExportUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.PersistUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.UpdateBulkUserReq;
+import tech.ibrave.metabucket.application.user.restful.request.user.UpdateProfileReq;
 import tech.ibrave.metabucket.application.user.restful.response.GetUserExportFieldsResp;
 import tech.ibrave.metabucket.application.user.restful.response.ImportUserResp;
 import tech.ibrave.metabucket.application.user.restful.response.ResetPasswordResp;
@@ -94,6 +95,11 @@ public class UserApi {
     @GetMapping("/profile")
     public UserDto getUserProfile() {
         return userFacade.getUserProfile();
+    }
+
+    @PutMapping("/profile")
+    public SuccessResponse updateUserProfile (@Valid @RequestBody UpdateProfileReq req) {
+        return userFacade.updateProfile(req);
     }
 
     @PutMapping("/change-password")
