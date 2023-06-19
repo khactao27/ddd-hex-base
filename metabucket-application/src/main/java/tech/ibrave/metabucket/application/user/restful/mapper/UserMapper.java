@@ -1,6 +1,5 @@
 package tech.ibrave.metabucket.application.user.restful.mapper;
 
-import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -10,10 +9,12 @@ import tech.ibrave.metabucket.application.user.model.ExportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUser;
 import tech.ibrave.metabucket.application.user.model.ImportedUserResult;
 import tech.ibrave.metabucket.application.user.restful.request.PersistUserReq;
+import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.user.User;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.domain.user.dto.UserDto;
 import tech.ibrave.metabucket.domain.user.dto.UserGroupLiteDto;
+import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.List;
@@ -38,7 +39,13 @@ public interface UserMapper {
 
     @Named("mapStatus")
     default boolean mapStatus(String status) {
-        return StringUtils.equals("Active", status);
+        if ("Active".equals(status)) {
+            return true;
+        }
+        if ("Inactive".equals(status)) {
+            return false;
+        }
+        throw new ErrorCodeException(ErrorCodes.INVALID_STATUS);
     }
 
     void updateUser(@MappingTarget User user, PersistUserReq req);

@@ -11,7 +11,9 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -48,6 +50,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -166,19 +169,26 @@ public class UserFacade {
             if (numberOfRow > 1000) {
                 throw new ErrorCodeException(ErrorCodes.TOO_LARGE_FILE);
             }
-            for (var i = 1; i < numberOfRow; i++) {
-                var row = firstSheet.getRow(i);
+            var rowIterator = firstSheet.rowIterator();
+            rowIterator.next(); // ignore header
+            while (rowIterator.hasNext()) {
+                var row = rowIterator.next();
+                if (checkIfRowIsEmpty(row)) {
+                    continue;
+                }
                 var cellIterator = row.cellIterator();
-                cellIterator.next(); //ignore STT cell
+                if (cellIterator.hasNext()) {
+                    cellIterator.next(); //ignore STT cell
+                }
                 var user = ImportedUser.builder()
-                        .username(cellIterator.next().getStringCellValue())
-                        .lastName(cellIterator.next().getStringCellValue())
-                        .firstName(cellIterator.next().getStringCellValue())
-                        .email(cellIterator.next().getStringCellValue())
-                        .title(cellIterator.next().getStringCellValue())
-                        .location(cellIterator.next().getStringCellValue())
-                        .phone(cellIterator.next().getStringCellValue())
-                        .status(cellIterator.next().getStringCellValue())
+                        .username(getFromIterator(cellIterator))
+                        .lastName(getFromIterator(cellIterator))
+                        .firstName(getFromIterator(cellIterator))
+                        .email(getFromIterator(cellIterator))
+                        .title(getFromIterator(cellIterator))
+                        .location(getFromIterator(cellIterator))
+                        .phone(getFromIterator(cellIterator))
+                        .status(getFromIterator(cellIterator))
                         .build();
                 users.add(user);
             }
@@ -187,6 +197,29 @@ public class UserFacade {
             log.error(e.getMessage());
             throw new ErrorCodeException(ErrorCodes.READ_FILE_ERROR);
         }
+    }
+
+    private String getFromIterator(Iterator<Cell> cellIterator) {
+        if (cellIterator.hasNext()) {
+            return ExcelUtils.getStringValue(cellIterator.next());
+        }
+        return null;
+    }
+
+    private boolean checkIfRowIsEmpty(Row row) {
+        if (row == null) {
+            return true;
+        }
+        if (row.getLastCellNum() <= 0) {
+            return true;
+        }
+        for (int cellNum = row.getFirstCellNum(); cellNum < row.getLastCellNum(); cellNum++) {
+            Cell cell = row.getCell(cellNum);
+            if (cell != null && cell.getCellType() != CellType.BLANK && StringUtils.isNotBlank(cell.toString())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public GetUserExportFieldsResp getUserExportFields() {
