@@ -21,7 +21,7 @@ public abstract class TreeViewResp<DM extends TreeNode> {
     private Set<DM> children;
     @JsonIgnore
     private Set<DM> roots;
-    private List<DM> collections = new ArrayList<>();
+    private List<DM> trees = new ArrayList<>();
 
     public TreeViewResp(List<DM> nodes) {
 
@@ -31,7 +31,7 @@ public abstract class TreeViewResp<DM extends TreeNode> {
         for (var root : roots) {
             var rootNode = buildRoot(root);
             buildTree(rootNode);
-            collections.add((DM) rootNode);
+            trees.add((DM) rootNode);
         }
     }
 
