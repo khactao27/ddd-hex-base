@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.metadata.restful.facade.MetadataCategoryFacade;
 import tech.ibrave.metabucket.application.metadata.restful.request.DeleteMetadataCategoryReq;
 import tech.ibrave.metabucket.application.metadata.restful.request.MetadataCategoryPersistenceReq;
+import tech.ibrave.metabucket.application.metadata.restful.response.MetadataCategoryTreeViewResp;
 import tech.ibrave.metabucket.domain.metadata.dto.MetadataCategoryDto;
 import tech.ibrave.metabucket.domain.shared.request.SearchMetadataCategoryReq;
-import tech.ibrave.metabucket.shared.architecture.Page;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 
 /**
  * Author: hungnm
@@ -51,7 +51,7 @@ public class MetadataCategoryApi {
     }
 
     @GetMapping
-    public Page<MetadataCategoryDto> search(@ModelAttribute SearchMetadataCategoryReq req) {
+    public MetadataCategoryTreeViewResp search(@ModelAttribute SearchMetadataCategoryReq req) {
         return categoryFacade.search(req);
     }
 }

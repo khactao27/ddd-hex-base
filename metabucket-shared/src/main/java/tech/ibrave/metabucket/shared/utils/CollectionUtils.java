@@ -119,6 +119,13 @@ public final class CollectionUtils {
     }
 
     /**
+     * collect to set with filter from collection.
+     */
+    public static <T> Set<T> toFilterSet(Collection<T> collection, Predicate<T> predicate) {
+        return isEmpty(collection) ? Collections.emptySet() : toSet(collection.spliterator(), predicate);
+    }
+
+    /**
      * collect to list with distinct by <code> keyExtractor</code>  from collection.
      */
     public static <T> List<T> toDistinctList(Collection<T> collection, Function<? super T, ?> keyExtractor) {

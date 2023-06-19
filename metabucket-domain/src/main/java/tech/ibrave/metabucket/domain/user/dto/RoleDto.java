@@ -3,8 +3,8 @@ package tech.ibrave.metabucket.domain.user.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
 import tech.ibrave.metabucket.domain.shared.Permission;
+import tech.ibrave.metabucket.shared.model.BaseAuditingObject;
 
 import java.util.List;
 

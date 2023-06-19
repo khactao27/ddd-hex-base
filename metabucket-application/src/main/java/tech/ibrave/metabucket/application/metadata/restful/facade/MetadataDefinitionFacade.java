@@ -15,7 +15,7 @@ import tech.ibrave.metabucket.domain.shared.request.MetadataDefinitionSearchReq;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class MetadataDefinitionFacade {
     }
 
     public SuccessResponse delete(DeleteMetadataDefinitionReq req) {
-        req.getIds().forEach(definitionUseCase::deleteIfExist);
+        definitionUseCase.deleteAllByIdInBatch(req.getIds());
         return SuccessResponse.ofMessageCode("mb.Metadata.delete.success");
     }
 

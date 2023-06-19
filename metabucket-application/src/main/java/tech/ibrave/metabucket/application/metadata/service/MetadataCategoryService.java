@@ -11,6 +11,8 @@ import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.architecture.annotation.ApplicationService;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 
+import java.util.List;
+
 /**
  * Author: hungnm
  * Date: 15/06/2023
@@ -37,4 +39,20 @@ public class MetadataCategoryService
     public boolean existsByName(String name) {
         return repo.existsByName(name);
     }
+
+    @Override
+    public List<Long> getAllChildrenIds(Long parentId) {
+        return repo.getAllChildrenId(parentId);
+    }
+
+    @Override
+    public List<MetadataCategoryDto> getAllChildren(Long parentId) {
+        return repo.getAllChildren(parentId);
+    }
+
+    @Override
+    public List<MetadataCategoryDto> getAllRelation(Long id) {
+        return repo.getAllRelation(id);
+    }
+
 }

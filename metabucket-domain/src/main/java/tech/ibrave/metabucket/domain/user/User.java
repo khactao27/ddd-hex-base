@@ -2,8 +2,8 @@ package tech.ibrave.metabucket.domain.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
 import tech.ibrave.metabucket.domain.shared.UserSource;
+import tech.ibrave.metabucket.shared.model.BaseAuditingObject;
 
 import java.util.Objects;
 import java.util.Set;

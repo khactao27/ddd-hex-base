@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.shared.request;
+package tech.ibrave.metabucket.shared.model.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

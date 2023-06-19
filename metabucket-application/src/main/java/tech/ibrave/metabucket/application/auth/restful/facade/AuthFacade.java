@@ -29,7 +29,7 @@ import tech.ibrave.metabucket.domain.user.usecase.UserUseCase;
 import tech.ibrave.metabucket.shared.constant.JwtTarget;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 import tech.ibrave.metabucket.shared.utils.JwtUtils;
 
 /**

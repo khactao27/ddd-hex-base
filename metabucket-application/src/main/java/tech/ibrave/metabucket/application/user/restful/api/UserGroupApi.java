@@ -22,7 +22,7 @@ import tech.ibrave.metabucket.domain.shared.request.UserGroupSearchReq;
 import tech.ibrave.metabucket.domain.user.dto.UserGroupDto;
 import tech.ibrave.metabucket.domain.user.dto.UserGroupLiteDto;
 import tech.ibrave.metabucket.shared.architecture.Page;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 
 /**
  * Author: nguyendinhthi

@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
 import tech.ibrave.metabucket.domain.shared.Permission;
+import tech.ibrave.metabucket.shared.model.BaseAuditingObject;
 
 import java.util.List;
 

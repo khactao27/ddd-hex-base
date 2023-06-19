@@ -15,6 +15,6 @@ public class MetadataCategory {
     private Long id;
     private String name;
     private String description;
-    private String parentId; // category parent
+    private Long parentId; // category parent
     private Set<MetadataDefinition> metadataDefinitions;
 }

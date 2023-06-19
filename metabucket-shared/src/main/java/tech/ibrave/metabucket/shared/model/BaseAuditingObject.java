@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.domain.shared;
+package tech.ibrave.metabucket.shared.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -20,10 +20,10 @@ public class BaseAuditingObject {
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdDate;
+    private LocalDateTime createdTime;
 
     @JsonFormat(
             shape = JsonFormat.Shape.STRING,
             pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedDate;
+    private LocalDateTime updatedTime;
 }

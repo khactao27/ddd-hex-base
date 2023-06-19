@@ -1,11 +1,10 @@
 package tech.ibrave.metabucket.application.auth.restful.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tech.ibrave.metabucket.shared.message.Message;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 
 /**
  * Author: hungnm

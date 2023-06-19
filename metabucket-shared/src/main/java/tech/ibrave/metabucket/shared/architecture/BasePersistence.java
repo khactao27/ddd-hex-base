@@ -1,6 +1,6 @@
 package tech.ibrave.metabucket.shared.architecture;
 
-import tech.ibrave.metabucket.shared.request.PageReq;
+import tech.ibrave.metabucket.shared.model.request.PageReq;
 
 import java.util.List;
 import java.util.Optional;

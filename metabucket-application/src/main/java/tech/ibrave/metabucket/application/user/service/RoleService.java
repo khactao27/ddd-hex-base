@@ -11,7 +11,7 @@ import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.architecture.annotation.ApplicationService;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
-import tech.ibrave.metabucket.shared.request.PageReq;
+import tech.ibrave.metabucket.shared.model.request.PageReq;
 
 import java.util.List;
 

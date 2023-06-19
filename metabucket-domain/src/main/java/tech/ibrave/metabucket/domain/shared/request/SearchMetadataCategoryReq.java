@@ -3,7 +3,7 @@ package tech.ibrave.metabucket.domain.shared.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.shared.request.PageReq;
+import tech.ibrave.metabucket.shared.model.request.PageReq;
 
 /**
  * Author: hungnm
@@ -14,4 +14,6 @@ import tech.ibrave.metabucket.shared.request.PageReq;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SearchMetadataCategoryReq extends PageReq {
     private String name;
+
+    private Integer pageSize = 100000;
 }

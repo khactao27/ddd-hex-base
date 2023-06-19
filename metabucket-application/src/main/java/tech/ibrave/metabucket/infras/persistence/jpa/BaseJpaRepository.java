@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import tech.ibrave.metabucket.infras.persistence.mapper.BaseEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.BasePersistence;
 import tech.ibrave.metabucket.shared.architecture.Page;
-import tech.ibrave.metabucket.shared.request.PageReq;
+import tech.ibrave.metabucket.shared.model.request.PageReq;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.ArrayList;

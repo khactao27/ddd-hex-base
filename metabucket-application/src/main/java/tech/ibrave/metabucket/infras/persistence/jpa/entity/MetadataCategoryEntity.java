@@ -32,7 +32,7 @@ public class MetadataCategoryEntity extends AbstractAuditingUserEntity {
     private Long id;
     private String name;
     private String description;
-    private String parentId; // category parent
+    private Long parentId; // category parent
     @OneToMany
     @JoinTable(name = "tbl_definition_category_mapping",
             joinColumns = @JoinColumn(name = "metadata_category_id"),

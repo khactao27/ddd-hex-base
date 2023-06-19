@@ -1,13 +1,12 @@
 package tech.ibrave.metabucket.application.setting.restful.facade;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.domain.setting.SMTPMailSetting;
 import tech.ibrave.metabucket.domain.setting.usecase.SettingUseCase;
 import tech.ibrave.metabucket.shared.message.MessageSource;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 
 /**
  * Author: anct

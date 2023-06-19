@@ -3,7 +3,7 @@ package tech.ibrave.metabucket.application.user.restful.request.role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.shared.request.PageReq;
+import tech.ibrave.metabucket.shared.model.request.PageReq;
 
 /**
  * Author: nguyendinhthi

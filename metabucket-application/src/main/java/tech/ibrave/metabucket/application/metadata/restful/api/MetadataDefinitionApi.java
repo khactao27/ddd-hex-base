@@ -17,7 +17,7 @@ import tech.ibrave.metabucket.application.metadata.restful.request.MetadataDefin
 import tech.ibrave.metabucket.domain.metadata.dto.MetadataDefinitionDto;
 import tech.ibrave.metabucket.domain.shared.request.MetadataDefinitionSearchReq;
 import tech.ibrave.metabucket.shared.architecture.Page;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 
 /**
  * Author: hungnm

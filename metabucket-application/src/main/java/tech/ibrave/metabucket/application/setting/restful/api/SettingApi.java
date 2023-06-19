@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.setting.restful.facade.SettingFacade;
 import tech.ibrave.metabucket.domain.setting.SMTPMailSetting;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 
 /**
  * Author: anct

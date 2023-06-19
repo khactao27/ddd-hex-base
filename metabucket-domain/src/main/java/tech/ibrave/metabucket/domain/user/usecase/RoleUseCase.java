@@ -5,7 +5,7 @@ import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.shared.architecture.BaseUseCase;
 import tech.ibrave.metabucket.shared.architecture.Page;
-import tech.ibrave.metabucket.shared.request.PageReq;
+import tech.ibrave.metabucket.shared.model.request.PageReq;
 
 import java.util.List;
 

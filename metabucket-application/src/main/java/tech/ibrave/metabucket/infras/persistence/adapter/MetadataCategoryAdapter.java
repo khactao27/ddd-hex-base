@@ -11,6 +11,9 @@ import tech.ibrave.metabucket.infras.persistence.jpa.entity.MetadataCategoryEnti
 import tech.ibrave.metabucket.infras.persistence.jpa.repository.MetadataCategoryJpaRepository;
 import tech.ibrave.metabucket.infras.persistence.mapper.MetadataCategoryEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.Page;
+import tech.ibrave.metabucket.shared.utils.CollectionUtils;
+
+import java.util.List;
 
 /**
  * Author: hungnm
@@ -39,6 +42,22 @@ public class MetadataCategoryAdapter
     @Override
     public boolean existsByName(String name) {
         return repo().existsByName(name);
+    }
+
+    @Override
+    public List<Long> getAllChildrenId(Long parentId) {
+        return repo().findAllChildrenId(parentId);
+    }
+
+    @Override
+    public List<MetadataCategoryDto> getAllChildren(Long parentId) {
+        var entities = repo().findAllChildren(parentId);
+        return CollectionUtils.toList(entities, mapper()::toDto);
+    }
+
+    @Override
+    public List<MetadataCategoryDto> getAllRelation(Long id) {
+        return null; //Todo
     }
 
     @Override

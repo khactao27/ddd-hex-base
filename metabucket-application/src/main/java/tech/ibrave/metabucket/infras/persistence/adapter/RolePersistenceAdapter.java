@@ -11,7 +11,7 @@ import tech.ibrave.metabucket.infras.persistence.jpa.entity.RoleEntity;
 import tech.ibrave.metabucket.infras.persistence.jpa.repository.RoleJpaRepository;
 import tech.ibrave.metabucket.infras.persistence.mapper.RoleEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.Page;
-import tech.ibrave.metabucket.shared.request.PageReq;
+import tech.ibrave.metabucket.shared.model.request.PageReq;
 
 import java.util.List;
 import java.util.Optional;

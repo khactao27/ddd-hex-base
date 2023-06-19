@@ -3,6 +3,7 @@ package tech.ibrave.metabucket.infras.persistence.jpa.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 import tech.ibrave.metabucket.infras.persistence.jpa.QueryDslRepository;
@@ -36,4 +37,10 @@ public interface MetadataCategoryJpaRepository extends QueryDslRepository<Metada
     @Override
     @EntityGraph(value = "Category.definitions", type = EntityGraph.EntityGraphType.LOAD)
     Optional<MetadataCategoryEntity> findById(@NonNull Long id);
+
+    @Query("SELECT f.id FROM MetadataCategoryEntity f where f.parentId = ?1")
+    List<Long> findAllChildrenId(Long parentId);
+
+    @Query("SELECT f FROM MetadataCategoryEntity f where f.parentId = ?1")
+    List<MetadataCategoryEntity> findAllChildren(Long parentId);
 }

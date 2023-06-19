@@ -17,7 +17,7 @@ import tech.ibrave.metabucket.application.auth.restful.request.RegisterReq;
 import tech.ibrave.metabucket.application.auth.restful.response.ForgotPasswordSuccessResp;
 import tech.ibrave.metabucket.application.auth.restful.response.LoginSuccessResp;
 import tech.ibrave.metabucket.application.auth.restful.response.RegisterSuccessResp;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 import tech.ibrave.metabucket.shared.validation.ValidationSequence;
 
 @RestController

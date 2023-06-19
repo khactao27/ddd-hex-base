@@ -15,8 +15,8 @@ import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
-import tech.ibrave.metabucket.shared.response.ErrorResp;
-import tech.ibrave.metabucket.shared.response.ValidationErrorResp;
+import tech.ibrave.metabucket.shared.model.response.ErrorResp;
+import tech.ibrave.metabucket.shared.model.response.ValidationErrorResp;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.io.IOException;

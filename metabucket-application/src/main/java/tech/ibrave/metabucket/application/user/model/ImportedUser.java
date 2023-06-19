@@ -21,7 +21,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ImportedUser {
     @NotBlank(message = "{mb.users.create.required_username}", groups = Default.class)
-    @Pattern(regexp = "[a-zA-Z0-9@\\\\]{6,32}",
+    @Pattern(regexp = "[a-zA-Z0-9\\\\]{6,32}",
             message = "{mb.users.create.invalid_username}", groups = Default.class)
     private String username;
     @NotBlank(message = "{mb.users.create.required_firstName}", groups = Default.class)

@@ -25,7 +25,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersistUserReq {
     @NotBlank(message = "{mb.users.create.required_username}")
-    @Pattern(regexp = "[a-zA-Z0-9@\\\\]{6,32}",
+    @Pattern(regexp = "[a-zA-Z0-9\\\\]{6,32}",
             message = "{mb.users.create.invalid_username}")
     private String username;
     @NotBlank(message = "{mb.users.create.required_firstName}")

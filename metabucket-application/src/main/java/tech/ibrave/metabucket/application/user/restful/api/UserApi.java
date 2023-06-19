@@ -26,7 +26,7 @@ import tech.ibrave.metabucket.application.user.restful.response.ResetPasswordRes
 import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
 import tech.ibrave.metabucket.domain.user.dto.UserDto;
 import tech.ibrave.metabucket.shared.architecture.Page;
-import tech.ibrave.metabucket.shared.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 
 /**
  * Author: hungnm

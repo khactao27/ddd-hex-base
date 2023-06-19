@@ -2,7 +2,7 @@ package tech.ibrave.metabucket.domain.metadata.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.shared.BaseAuditingObject;
+import tech.ibrave.metabucket.shared.model.BaseAuditingObject;
 
 /**
  * Author: hungnm
@@ -14,6 +14,6 @@ public class MetadataCategoryDto extends BaseAuditingObject {
     private Long id;
     private String name;
     private String description;
-    private String parentId; // category parent
+    private Long parentId; // category parent
 
 }

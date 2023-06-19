@@ -1,4 +1,4 @@
-package tech.ibrave.metabucket.shared.response;
+package tech.ibrave.metabucket.shared.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

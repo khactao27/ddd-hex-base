@@ -1,6 +1,8 @@
 package tech.ibrave.metabucket.infras.persistence.adapter;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import org.apache.commons.lang3.StringUtils;
@@ -94,6 +96,8 @@ public class UserPersistenceAdapter extends BaseDslRepository<UserEntity, User, 
         if (StringUtils.isNotEmpty(req.getSort())) {
             query.orderBy(getSortSpecifiers(req));
         }
+        var defaultSort = new OrderSpecifier<>(Order.DESC, QUserEntity.userEntity.createdTime);
+        query.orderBy(defaultSort);
         return new Page(getDomainResultAsPage(query, mapper()::toDto, req));
     }
 

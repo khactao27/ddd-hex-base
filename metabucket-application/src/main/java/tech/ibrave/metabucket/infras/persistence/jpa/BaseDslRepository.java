@@ -17,7 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import tech.ibrave.metabucket.infras.persistence.mapper.BaseEntityMapper;
-import tech.ibrave.metabucket.shared.request.PageReq;
+import tech.ibrave.metabucket.shared.model.request.PageReq;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.util.ArrayList;
