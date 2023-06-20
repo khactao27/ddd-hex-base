@@ -78,7 +78,12 @@ public class MetadataCategoryFacade {
     }
 
     public SuccessResponse delete(DeleteMetadataCategoryReq req) {
-        categoryUseCase.deleteAllByIdInBatch(req.getIds());
+        var totalCategory = new ArrayList<Long>();
+        for (var id : req.getIds()) {
+            totalCategory.addAll(categoryUseCase.getAllChildrenIds(id));
+        }
+        totalCategory.addAll(req.getIds());
+        categoryUseCase.deleteAllByIdInBatch(totalCategory);
         return SuccessResponse.ofMessageCode("mb.categories.delete.success");
     }
 
