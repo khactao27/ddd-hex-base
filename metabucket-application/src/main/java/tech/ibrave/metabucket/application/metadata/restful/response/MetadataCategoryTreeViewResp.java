@@ -26,6 +26,7 @@ public class MetadataCategoryTreeViewResp extends TreeViewResp<MetadataCategoryT
         node.setDescription(reference.getDescription());
         node.setParentId(reference.getParentId());
         node.setId(reference.getId());
+        node.setMetadataDefinitions(reference.getMetadataDefinitions());
         return node;
     }
 }

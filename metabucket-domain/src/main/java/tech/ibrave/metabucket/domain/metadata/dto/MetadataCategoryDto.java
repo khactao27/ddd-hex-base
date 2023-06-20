@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import tech.ibrave.metabucket.shared.model.BaseAuditingObject;
 
+import java.util.Set;
+
 /**
  * Author: hungnm
  * Date: 14/06/2023
@@ -15,5 +17,7 @@ public class MetadataCategoryDto extends BaseAuditingObject {
     private String name;
     private String description;
     private Long parentId; // category parent
+    private Set<MetaDataDefinitionLiteDto> metadataDefinitions;
+
 
 }

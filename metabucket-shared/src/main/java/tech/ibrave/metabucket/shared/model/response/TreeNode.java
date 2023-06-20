@@ -1,7 +1,6 @@
 package tech.ibrave.metabucket.shared.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,19 +18,21 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TreeNode<T> extends BaseAuditingObject {
     private T id;
     private T parentId;
     @JsonIgnore
     private TreeNode parent;
+    @JsonIgnore
     private Boolean forceRootNode;
     private List<TreeNode> children = new ArrayList<>(5);
 
+    @JsonIgnore
     public boolean isChildFolder() {
         return parentId != null;
     }
 
+    @JsonIgnore
     public boolean isRootFolder() {
         if (forceRootNode != null) {
             return forceRootNode;
@@ -39,6 +40,7 @@ public class TreeNode<T> extends BaseAuditingObject {
         return parentId == null;
     }
 
+    @JsonIgnore
     public boolean isYourParent(T id) {
         return this.parentId.equals(id);
     }

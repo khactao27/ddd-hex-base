@@ -19,6 +19,7 @@ import java.util.Optional;
 @Repository
 @SuppressWarnings("all")
 public interface MetadataCategoryJpaRepository extends QueryDslRepository<MetadataCategoryEntity, Long> {
+    @EntityGraph(value = "Category.definitions", type = EntityGraph.EntityGraphType.LOAD)
     Page<MetadataCategoryEntity> findAllByNameContaining(String name, Pageable pageable);
     boolean existsByName(String name);
 
@@ -31,7 +32,7 @@ public interface MetadataCategoryJpaRepository extends QueryDslRepository<Metada
     MetadataCategoryEntity save(MetadataCategoryEntity entity);
 
     @Override
-    @EntityGraph("Category.definitions")
+    @EntityGraph(value = "Category.definitions", type = EntityGraph.EntityGraphType.LOAD)
     Page<MetadataCategoryEntity> findAll(Pageable pageable);
 
     @Override
@@ -42,5 +43,6 @@ public interface MetadataCategoryJpaRepository extends QueryDslRepository<Metada
     List<Long> findAllChildrenId(Long parentId);
 
     @Query("SELECT f FROM MetadataCategoryEntity f where f.parentId = ?1")
+    @EntityGraph(value = "Category.definitions", type = EntityGraph.EntityGraphType.LOAD)
     List<MetadataCategoryEntity> findAllChildren(Long parentId);
 }
