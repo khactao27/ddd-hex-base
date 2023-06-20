@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.Map;
  * Date: 25/05/2023
  * #YWNA
  */
+@Slf4j
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,10 +42,11 @@ public class PageReq {
                 var splits = sort.split(",");
                 for (var sortStr : splits) {
                     var values = sortStr.split(":");
-                    sorts.put(values[0], values[1].equals("asc") ? Order.ASC : Order.DESC);
+                    sorts.put(values[0], Order.from(values[1]));
                 }
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            log.warn("Invalid sort {}", sort);
         }
 
         return sorts;
@@ -51,6 +54,16 @@ public class PageReq {
 
     public enum Order {
         ASC,
-        DESC
+        DESC,
+        NONE;
+
+        public static Order from(String name) {
+            if ("asc".equalsIgnoreCase(name)) {
+                return ASC;
+            } else if ("desc".equalsIgnoreCase(name)) {
+                return DESC;
+            }
+            return NONE;
+        }
     }
 }

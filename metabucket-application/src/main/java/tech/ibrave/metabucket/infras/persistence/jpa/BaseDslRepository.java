@@ -2,7 +2,6 @@ package tech.ibrave.metabucket.infras.persistence.jpa;
 
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.EntityPathBase;
 import com.querydsl.core.types.dsl.Expressions;
@@ -156,8 +155,15 @@ public abstract class BaseDslRepository<E, DM, ID> extends BaseJpaRepository<E, 
 
         try {
             for (var sort : req.getSorts().entrySet()) {
-                Path<Object> fieldPath = Expressions.path(Object.class, entityPath(), sort.getKey());
-                orders.add(new OrderSpecifier(sort.getValue() == PageReq.Order.ASC ? Order.ASC : Order.DESC, fieldPath));
+                if (isSortable(sort.getKey())) {
+                    var fieldPath = Expressions.path(Object.class, entityPath(), sort.getKey());
+
+                    if (sort.getValue() == PageReq.Order.ASC) {
+                        orders.add(new OrderSpecifier(Order.ASC, fieldPath));
+                    } else if (sort.getValue() == PageReq.Order.DESC) {
+                        orders.add(new OrderSpecifier(Order.DESC, fieldPath));
+                    }
+                }
             }
 
             return orders.toArray(new OrderSpecifier[]{});

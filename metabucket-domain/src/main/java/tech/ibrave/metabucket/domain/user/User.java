@@ -3,6 +3,7 @@ package tech.ibrave.metabucket.domain.user;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ibrave.metabucket.domain.shared.UserSource;
+import tech.ibrave.metabucket.shared.architecture.annotation.SortableField;
 import tech.ibrave.metabucket.shared.model.BaseAuditingObject;
 
 import java.util.Objects;
@@ -17,6 +18,7 @@ import java.util.Set;
 @Setter
 public class User extends BaseAuditingObject {
     private String id;
+    @SortableField
     private String username;
     private String password;
     private String firstName;

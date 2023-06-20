@@ -1,6 +1,8 @@
 package tech.ibrave.metabucket.infras.persistence.jpa;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -9,11 +11,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import tech.ibrave.metabucket.infras.persistence.mapper.BaseEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.BasePersistence;
 import tech.ibrave.metabucket.shared.architecture.Page;
+import tech.ibrave.metabucket.shared.architecture.annotation.SortableField;
 import tech.ibrave.metabucket.shared.model.request.PageReq;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
+import java.lang.reflect.AnnotatedParameterizedType;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -28,6 +34,7 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
 
     protected final JpaRepository<E, ID> repo;
     protected final BaseEntityMapper<E, DM> mapper;
+    protected Map<String, Boolean> sortableFields;
 
     protected BaseJpaRepository(JpaRepository<E, ID> repo,
                                 BaseEntityMapper<E, DM> mapper) {
@@ -41,6 +48,24 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
 
     public <M> M mapper() {
         return (M) mapper;
+    }
+
+    public Class<DM> domainClass() {
+        var genericInterface = ((AnnotatedParameterizedType) this.getClass().getAnnotatedSuperclass())
+                .getAnnotatedActualTypeArguments()[1];
+        return (Class<DM>) genericInterface.getType();
+    }
+
+    @EventListener(ApplicationStartedEvent.class)
+    public void initSortableFields() {
+        this.sortableFields = new HashMap<>(5);
+        var dmClass = domainClass();
+        log.info("Init sortable fields, start scan dm {}", dmClass.getCanonicalName());
+        for (var field : dmClass.getDeclaredFields()) {
+            if (field.isAnnotationPresent(SortableField.class)) {
+                this.sortableFields.put(field.getName(), true);
+            }
+        }
     }
 
     @Override
@@ -123,10 +148,12 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
         try {
             var orders = new ArrayList<Sort.Order>();
             for (var sort : req.getSorts().entrySet()) {
-                if (sort.getValue() == PageReq.Order.ASC) {
-                    orders.add(Sort.Order.asc(sort.getKey()));
-                } else {
-                    orders.add(Sort.Order.desc(sort.getKey()));
+                if (isSortable(sort.getKey())) {
+                    if (sort.getValue() == PageReq.Order.ASC) {
+                        orders.add(Sort.Order.asc(sort.getKey()));
+                    } else if (sort.getValue() == PageReq.Order.DESC) {
+                        orders.add(Sort.Order.desc(sort.getKey()));
+                    }
                 }
             }
             return Sort.by(orders);
@@ -136,6 +163,11 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
         }
 
         return Sort.unsorted();
+    }
+
+    public boolean isSortable(String field) {
+        return CollectionUtils.isNotEmpty(sortableFields)
+                && this.sortableFields.containsKey(field);
     }
 
     public <T, R> Page<R> toPage(List<T> content,
