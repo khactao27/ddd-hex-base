@@ -59,12 +59,15 @@ public abstract class BaseJpaRepository<E, DM, ID> implements BasePersistence<DM
     @EventListener(ApplicationStartedEvent.class)
     public void initSortableFields() {
         this.sortableFields = new HashMap<>(5);
-        var dmClass = domainClass();
-        log.info("Init sortable fields, start scan dm {}", dmClass.getCanonicalName());
-        for (var field : dmClass.getDeclaredFields()) {
-            if (field.isAnnotationPresent(SortableField.class)) {
-                this.sortableFields.put(field.getName(), true);
+        Class<?> dmClass = domainClass();
+        log.info("Init sortable fields on domain model {}", dmClass.getSimpleName());
+        while (dmClass != null) {
+            for (var field : dmClass.getDeclaredFields()) {
+                if (field.isAnnotationPresent(SortableField.class)) {
+                    this.sortableFields.put(field.getName(), true);
+                }
             }
+            dmClass = dmClass.getSuperclass();
         }
     }
 
