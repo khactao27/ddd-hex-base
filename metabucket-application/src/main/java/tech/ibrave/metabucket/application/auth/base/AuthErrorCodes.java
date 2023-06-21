@@ -14,6 +14,9 @@ public enum AuthErrorCodes implements ErrorCode {
     INVALID_PASSWORD("MB1003", HttpStatus.BAD_REQUEST, "mb.auth.invalid_password"),
     USERNAME_NOT_FOUND("MB1004", HttpStatus.NOT_FOUND, "mb.auth.user_not_found"),
     EMAIL_NOT_FOUND("MB1005", HttpStatus.NOT_FOUND, "mb.auth.email_not_found"),
+    INVALID_OTP("MB1006", HttpStatus.BAD_REQUEST, "mb.auth.invalid_otp"),
+    INVALID_TOKEN("MB1007", HttpStatus.BAD_REQUEST, "mb.auth.invalid_token"),
+    ALREADY_ENABLE_2FA("MB1008", HttpStatus.BAD_REQUEST, "mb.auth.already_enable_2fa"),
 
     ;
 

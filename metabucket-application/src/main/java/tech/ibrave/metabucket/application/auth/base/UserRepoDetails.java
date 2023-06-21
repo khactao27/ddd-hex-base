@@ -33,6 +33,10 @@ public class UserRepoDetails implements UserDetails {
         }
     }
 
+    public boolean isEnable2FA() {
+        return user.isEnable2FA();
+    }
+
     @Override
     public Set<UserGrantedAuthority> getAuthorities() {
         return authorities;

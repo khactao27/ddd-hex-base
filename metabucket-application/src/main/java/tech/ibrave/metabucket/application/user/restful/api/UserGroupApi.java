@@ -85,7 +85,7 @@ public class UserGroupApi {
 
     @PostMapping("/{groupId}/delete-user")
     public SuccessResponse deleteUsers(@PathVariable String groupId,
-                                      @RequestBody AddOrDeleteUserToGroupReq req) {
+                                       @RequestBody AddOrDeleteUserToGroupReq req) {
         return facade.deleteUsers(groupId, req);
     }
 }

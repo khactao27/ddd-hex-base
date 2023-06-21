@@ -64,4 +64,5 @@ public class UserEntity extends AbstractAuditingUserEntity implements Serializab
     private Set<UserGroupEntity> groups;
     private boolean enable;
     private boolean enable2FA;
+    private String secretKey;
 }

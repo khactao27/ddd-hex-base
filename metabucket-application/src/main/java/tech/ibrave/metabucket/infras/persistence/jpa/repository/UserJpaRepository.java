@@ -38,4 +38,8 @@ public interface UserJpaRepository extends QueryDslRepository<UserEntity, String
 
     @EntityGraph(value = "User.group_roles", type = EntityGraph.EntityGraphType.LOAD)
     Optional<UserEntity> findByEmailIgnoreCase(String email);
+
+    @Override
+    @EntityGraph(value = "User.group_roles", type = EntityGraph.EntityGraphType.LOAD)
+    Optional<UserEntity> findById(String id);
 }

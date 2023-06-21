@@ -32,6 +32,8 @@ public class User extends BaseAuditingObject {
     private Set<Role> roles;
     private Set<UserGroup> groups;
     private boolean enable;
+    private boolean enable2FA;
+    private String secretKey;
 
     @Override
     public boolean equals(Object o) {

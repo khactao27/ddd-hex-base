@@ -48,6 +48,10 @@ public class SecurityContext {
         return getAuthentication().getUser().getUsername();
     }
 
+    public String getEmail() {
+        return getAuthentication().getUser().getEmail();
+    }
+
     /**
      * Get current login user id.
      */

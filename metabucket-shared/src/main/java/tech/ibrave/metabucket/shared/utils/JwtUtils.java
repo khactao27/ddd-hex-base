@@ -12,8 +12,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import tech.ibrave.metabucket.shared.constant.JwtTarget;
 
+import java.lang.annotation.Target;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -61,49 +64,50 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String generateWithExpiredTime(String username, Date expiredDate) {
-        return Jwts.builder()
-                .setHeaderParam("typ", "JWT")
-                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
-                .setExpiration(expiredDate)
-                .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
-                .setId(UUID.randomUUID().toString())
-                .setIssuer(jwtIssuer)
-                .setAudience(jwtAudience)
-                .setSubject(username)
-                .compact();
+    public String generateVerify2FAJwt(String userId, long jwtExpirationMinutes) {
+        return generateWith(userId,
+                Map.of("userId", userId),
+                Map.of(TARGET, JwtTarget.VERIFY_2FA));
     }
 
-    @SneakyThrows
     public String generateRegisterUserJwt(String email) {
+        return generateWithEmail(email, JwtTarget.USER_REGISTRATION);
+    }
+
+    public String generateForgotPasswordJwt(String email) {
+        return generateWithEmail(email, JwtTarget.FORGOT_PASSWORD);
+    }
+
+    public String generateWithEmail(String email, JwtTarget target) {
+        return generateWith(email, Map.of("email", email), Map.of(TARGET, target));
+    }
+
+    public String generateWith(String subject,
+                               Map<String, Object> claims,
+                               Map<String, Object> headers,
+                               long jwtExpirationMinutes) {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .setHeaderParam(TARGET, JwtTarget.USER_REGISTRATION)
+                .setHeaderParams(headers)
                 .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
                 .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(jwtExpirationMinutes).toInstant()))
                 .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
                 .setId(UUID.randomUUID().toString())
-                .claim("email", email)
+                .addClaims(claims)
                 .setIssuer(jwtIssuer)
                 .setAudience(jwtAudience)
-                .setSubject(email)
+                .setSubject(subject)
                 .compact();
     }
 
-    @SneakyThrows
-    public String generateForgotPasswordJwt(String email) {
-        return Jwts.builder()
-                .setHeaderParam("typ", "JWT")
-                .setHeaderParam(TARGET, JwtTarget.FORGOT_PASSWORD)
-                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
-                .setExpiration(Date.from(ZonedDateTime.now().plusMinutes(jwtExpirationMinutes).toInstant()))
-                .setIssuedAt(Date.from(ZonedDateTime.now().toInstant()))
-                .setId(UUID.randomUUID().toString())
-                .claim("email", email)
-                .setIssuer(jwtIssuer)
-                .setAudience(jwtAudience)
-                .setSubject(email)
-                .compact();
+    public String generateWith(String subject,
+                               Map<String, Object> claims,
+                               Map<String, Object> headers) {
+        return generateWith(subject, claims, headers, jwtExpirationMinutes);
+    }
+
+    public String generateWith(String subject, Map<String, Object> claims) {
+        return generateWith(subject, claims, null);
     }
 
     public Optional<Jws<Claims>> validateTokenAndGetJws(String token) {

@@ -6,7 +6,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.auth.base.AuthErrorCodes;
@@ -17,6 +16,7 @@ import tech.ibrave.metabucket.application.auth.restful.request.ForgotPasswordReq
 import tech.ibrave.metabucket.application.auth.restful.request.LoginReq;
 import tech.ibrave.metabucket.application.auth.restful.request.RecoverPasswordReq;
 import tech.ibrave.metabucket.application.auth.restful.request.RegisterReq;
+import tech.ibrave.metabucket.application.auth.restful.request.Verify2FAReq;
 import tech.ibrave.metabucket.application.auth.restful.response.ForgotPasswordSuccessResp;
 import tech.ibrave.metabucket.application.auth.restful.response.LoginSuccessResp;
 import tech.ibrave.metabucket.application.auth.restful.response.RegisterSuccessResp;
@@ -30,6 +30,7 @@ import tech.ibrave.metabucket.shared.constant.JwtTarget;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
 import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.totp.TOTP;
 import tech.ibrave.metabucket.shared.utils.JwtUtils;
 
 /**
@@ -57,12 +58,24 @@ public class AuthFacade {
 
     private static final String CREATE_USER_SUBJECT = "Create user confirm email";
 
+    @SuppressWarnings("all")
     public LoginSuccessResp login(LoginReq req) {
         if (req.getSource() == UserSource.SELF_REGISTER) {
             try {
                 var basicAuth = new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword());
-                var authentication =  authenticationManager.authenticate(basicAuth);
-                return map(authentication);
+                var authentication = authenticationManager.authenticate(basicAuth);
+                var userDetails = (UserRepoDetails) authentication.getPrincipal();
+
+                if (userDetails.isEnable2FA()) {
+                    // Generate token valid in 2 minutes
+                    return LoginSuccessResp.to2FAResponse(
+                            jwtUtils.generateVerify2FAJwt(userDetails.getUser().getId(), 2));
+                }
+
+                return new LoginSuccessResp(userDetails.getUser().getId(),
+                        messageSource.getMessage("mb.users.login.success"),
+                        jwtUtils.generate(authentication),
+                        mapper.toDto(userDetails.getUser()));
             } catch (Exception e) {
                 log.debug(e.getMessage(), e);
                 throw new ErrorCodeException(AuthErrorCodes.INVALID_USERNAME_OR_PW);
@@ -72,12 +85,19 @@ public class AuthFacade {
         return null;
     }
 
-    private LoginSuccessResp map(Authentication authentication) {
-        var userDetails = (UserRepoDetails) authentication.getPrincipal();
-        var loginResp = new LoginSuccessResp(jwtUtils.generate(authentication), mapper.toDto(userDetails.getUser()));
-        loginResp.setMessageCode("mb.users.login.success");
-        loginResp.setId(userDetails.getUser().getId());
-        return loginResp;
+    public LoginSuccessResp verify2FA(Verify2FAReq req) {
+        var claimsJws = jwtUtils.validateTokenAndGetJws(req.getToken())
+                .orElseThrow(() -> new ErrorCodeException(AuthErrorCodes.INVALID_TOKEN));
+        var userId = claimsJws.getBody().getSubject();
+        var optionalUser = userUseCase.getById(userId);
+
+        if (optionalUser.isEmpty() || !TOTP.validate(optionalUser.get().getSecretKey(), req.getOtp())) {
+            throw new ErrorCodeException(AuthErrorCodes.INVALID_OTP);
+        }
+
+        return new LoginSuccessResp(userId, messageSource.getMessage("mb.users.login.success"),
+                jwtUtils.generateAuthenticationJwt(optionalUser.get().getUsername()),
+                mapper.toDto(optionalUser.get()));
     }
 
     public RegisterSuccessResp register(RegisterReq req) {
@@ -99,17 +119,18 @@ public class AuthFacade {
         }
         var email = jws.get().getBody().getSubject();
         validateExistedEmail(email);
-        var encodedPassword = passwordEncoder.encode(req.getPassword());
-        var user = userMapper.toUser(req, encodedPassword);
+
+        var user = userMapper.toUser(req, passwordEncoder.encode(req.getPassword()));
         user.setUsername("user" + RandomStringUtils.randomAlphabetic(8));
         user.setEmail(email);
         user.setEnable(true);
-        var entity = userUseCase.save(user);
-        var jwt = jwtUtils.generateAuthenticationJwt(entity.getUsername());
-        var resp = new LoginSuccessResp(jwt, mapper.toDto(entity));
-        resp.setId(entity.getId());
-        resp.setMessageCode("mb.users.confirmregister.success");
-        return resp;
+
+        var savedUser = userUseCase.save(user);
+
+        return  new LoginSuccessResp(savedUser.getId(),
+                messageSource.getMessage("mb.users.confirmregister.success"),
+                jwtUtils.generateAuthenticationJwt(savedUser.getUsername()),
+                mapper.toDto(savedUser));
     }
 
     public ForgotPasswordSuccessResp forgotPassword(ForgotPasswordReq req) {
@@ -144,12 +165,6 @@ public class AuthFacade {
     private void validateExistedEmail(String email) {
         if (userUseCase.existByEmail(email)) {
             throw new ErrorCodeException(ErrorCodes.EXISTED_EMAIL);
-        }
-    }
-
-    private void validateExistedUsername(String username) {
-        if (userUseCase.existByUsername(username)) {
-            throw new ErrorCodeException(ErrorCodes.EXISTED_USERNAME);
         }
     }
 }
