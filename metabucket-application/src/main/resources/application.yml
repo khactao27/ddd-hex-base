@@ -28,7 +28,7 @@ logging:
 
 security:
   request-log: true
-  permit-all-for-dev: true #only open for dev purpose
+  permit-all-for-dev: false #only open for dev purpose
   cors:
     enabled: false
   jwt:

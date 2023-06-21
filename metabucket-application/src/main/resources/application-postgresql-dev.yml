@@ -14,8 +14,8 @@ spring:
     hibernate:
       ddl-auto: update
   flyway:
-    enabled: true
-    baseline-on-migrate: true
+    enabled: false
+    baseline-on-migrate: false
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://34.87.124.115:5431/metabucket_dev?useUnicode=yes&characterEncoding=UTF-8
@@ -24,9 +24,9 @@ spring:
     hikari:
       connectionTimeout: 30000
       minimumIdle: 1
-      maximumPoolSize: 50
-      idleTimeout: 600000
-      maxLifetime: 1800000
+      maximumPoolSize: 10
+      idleTimeout: 10000
+      maxLifetime: 30000
       autoCommit: true
-      leakDetectionThreshold: 100000
+      leakDetectionThreshold: 10000
       poolName: bucketConnectionPool
