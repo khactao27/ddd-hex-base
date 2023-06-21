@@ -23,6 +23,7 @@ public class User extends BaseAuditingObject {
     private String password;
     private String firstName;
     private String lastName;
+    @SortableField
     private String fullName;
     private String title;
     private String location;

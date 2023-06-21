@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tech.ibrave.metabucket.domain.shared.Permission;
+import tech.ibrave.metabucket.shared.architecture.annotation.SortableField;
 import tech.ibrave.metabucket.shared.model.BaseAuditingObject;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.List;
 public class Role extends BaseAuditingObject {
 
     private Long id;
+    @SortableField
     private String name;
     private String description;
     private boolean enable;
