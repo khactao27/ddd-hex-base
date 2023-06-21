@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ibrave.metabucket.application.auth.restful.facade.TwoFactorAuthFacade;
+import tech.ibrave.metabucket.application.auth.restful.request.TurnOff2FAReq;
 import tech.ibrave.metabucket.application.auth.restful.request.VerifyEnable2FAReq;
 import tech.ibrave.metabucket.application.auth.restful.response.QRCodeResp;
 import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
@@ -31,5 +32,10 @@ public class TwoFactorAuthApi {
     @PutMapping("/enable-2fa")
     public SuccessResponse enable2FA(@Valid @RequestBody VerifyEnable2FAReq req) {
         return facade.verifyEnable2FA(req);
+    }
+
+    @PutMapping("/turn-off")
+    public SuccessResponse turnOff2FA(@Valid @RequestBody TurnOff2FAReq req) {
+        return facade.turnOff2FA(req);
     }
 }

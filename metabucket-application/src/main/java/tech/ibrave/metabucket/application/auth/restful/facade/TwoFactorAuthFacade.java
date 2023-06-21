@@ -2,9 +2,12 @@ package tech.ibrave.metabucket.application.auth.restful.facade;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 import tech.ibrave.metabucket.application.auth.base.AuthErrorCodes;
 import tech.ibrave.metabucket.application.auth.base.SecurityContext;
+import tech.ibrave.metabucket.application.auth.restful.request.TurnOff2FAReq;
 import tech.ibrave.metabucket.application.auth.restful.request.VerifyEnable2FAReq;
 import tech.ibrave.metabucket.application.auth.restful.response.QRCodeResp;
 import tech.ibrave.metabucket.domain.ErrorCodes;
@@ -27,6 +30,7 @@ public class TwoFactorAuthFacade {
     private final UserUseCase userUseCase;
     private final MessageSource messageSource;
     private final SecurityContext securityContext;
+    private final AuthenticationManager authenticationManager;
 
     public QRCodeResp getGoogleAuthenticatorQrCode() {
         try {
@@ -57,4 +61,21 @@ public class TwoFactorAuthFacade {
         }
         throw new ErrorCodeException(AuthErrorCodes.INVALID_OTP);
     }
+
+    public SuccessResponse turnOff2FA(TurnOff2FAReq req) {
+        try {
+            var basicAuth = new UsernamePasswordAuthenticationToken(securityContext.getLoginUsername(), req.getPassword());
+            authenticationManager.authenticate(basicAuth);
+
+            userUseCase.update(securityContext.getUserId(), user -> {
+                user.setEnable2FA(false);
+                user.setSecretKey(null);
+            });
+
+            return new SuccessResponse(securityContext.getUserId(), messageSource.getMessage("mb.users.2fa.turnoff_success"));
+        } catch (Exception e) {
+            throw new ErrorCodeException(AuthErrorCodes.INVALID_PASSWORD);
+        }
+    }
+
 }
