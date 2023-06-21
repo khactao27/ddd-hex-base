@@ -29,7 +29,9 @@ public enum ErrorCodes implements ErrorCode {
     DUPLICATE_METADATA_NAME("MB0016", HttpStatus.BAD_REQUEST, " mb.metadata.create.duplicated_metadataname"),
     DUPLICATE_MULTI_VALUE("MB0017", HttpStatus.BAD_REQUEST, "mb.metadata.create.duplicate_multi_value"),
     DUPLICATE_CATEGORY_NAME("MB0018", HttpStatus.BAD_REQUEST, "mb.categories.create.duplicated_categoryname"),
-    INVALID_STATUS("MB0019", HttpStatus.BAD_REQUEST, "mb.users.create.invalid_status")
+    INVALID_STATUS("MB0019", HttpStatus.BAD_REQUEST, "mb.users.create.invalid_status"),
+    STORAGE_NOT_FOUND("MB0020", HttpStatus.NOT_FOUND, "mb.storage.notfound"),
+    DUPLICATE_STORAGE_NAME("MB0021", HttpStatus.BAD_REQUEST, "mb.storage.validate.duplicated_metadataname")
     ;
 
     private final String code;
