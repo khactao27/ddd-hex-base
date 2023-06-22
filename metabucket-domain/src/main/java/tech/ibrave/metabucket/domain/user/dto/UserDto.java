@@ -27,4 +27,5 @@ public class UserDto extends BaseAuditingObject {
     private List<RoleLiteDto> roles;
     private List<UserGroupLiteDto> groups;
     private Boolean enable;
+    private boolean enable2FA;
 }
