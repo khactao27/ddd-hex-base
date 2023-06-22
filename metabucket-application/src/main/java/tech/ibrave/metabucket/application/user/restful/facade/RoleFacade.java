@@ -9,6 +9,7 @@ import tech.ibrave.metabucket.application.user.restful.request.role.PersistRoleR
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleSearchReq;
 import tech.ibrave.metabucket.application.user.restful.request.role.RoleStatusBulkReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
+import tech.ibrave.metabucket.domain.shared.Permission;
 import tech.ibrave.metabucket.domain.user.dto.RoleDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleLiteDto;
 import tech.ibrave.metabucket.domain.user.dto.RoleSlimDto;
@@ -18,6 +19,9 @@ import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
 import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: anct
@@ -37,20 +41,20 @@ public class RoleFacade {
         if (roleUsecase.existsByName(req.getName())) {
             throw new ErrorCodeException(ErrorCodes.ROLE_NAME_EXISTED);
         }
-
-        var role = mapper.toRole(req);
+        var permissionEnums = validateAndGetPermission(req.getPermissions());
+        var role = mapper.toRole(req, permissionEnums);
         var roleId = roleUsecase.save(role).getId();
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.create.success"));
     }
 
     public SuccessResponse updateRole(Long roleId, PersistRoleReq req) {
         var role = roleUsecase.getOrElseThrow(roleId);
-
+        var permissionEnums = validateAndGetPermission(req.getPermissions());
         if (!role.getName().equals(req.getName() ) && roleUsecase.existsByName(req.getName())) {
             throw new ErrorCodeException(ErrorCodes.ROLE_NAME_EXISTED);
         }
 
-        mapper.updateRole(role, req);
+        mapper.updateRole(role, req, permissionEnums);
         roleUsecase.save(role);
 
         return new SuccessResponse(roleId, messageSource.getMessage("mb.roles.update.success"));
@@ -87,4 +91,17 @@ public class RoleFacade {
         var page = roleUsecase.search(req.getName(), req);
         return new Page<>(page, CollectionUtils.toList(page.getData(), mapper::toSlimDto));
     }
+
+    private List<Permission> validateAndGetPermission(List<String> permissions) {
+        var permissionEnums = new ArrayList<Permission>();
+        permissions.forEach(permission -> {
+            var permissionEnum = Permission.of(permission);
+            if (permissionEnum.isEmpty()) {
+                throw new ErrorCodeException(ErrorCodes.PERMISSION_NOT_EXIST);
+            }
+            permissionEnums.add(permissionEnum.get());
+        });
+        return permissionEnums;
+    }
+
 }

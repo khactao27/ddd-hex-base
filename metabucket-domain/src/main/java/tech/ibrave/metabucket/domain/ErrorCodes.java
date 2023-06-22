@@ -33,7 +33,8 @@ public enum ErrorCodes implements ErrorCode {
     STORAGE_NOT_FOUND("MB0020", HttpStatus.NOT_FOUND, "mb.storage.notfound"),
     DUPLICATE_STORAGE_NAME("MB0021", HttpStatus.BAD_REQUEST, "mb.storage.validate.duplicated_metadataname"),
     INVALID_TOTAL_CAPACITY("MB0022", HttpStatus.BAD_REQUEST, "mb.storage.validate.invalid_totalcapacity"),
-    INVALID_PASSWORD("MB0023", HttpStatus.BAD_REQUEST, "mb.users.login.invalid_password");
+    INVALID_PASSWORD("MB0023", HttpStatus.BAD_REQUEST, "mb.users.login.invalid_password"),
+    PERMISSION_NOT_EXIST("MB0024", HttpStatus.BAD_REQUEST, "mb.roles.create.notexist_permissioncode");
     ;
 
     private final String code;

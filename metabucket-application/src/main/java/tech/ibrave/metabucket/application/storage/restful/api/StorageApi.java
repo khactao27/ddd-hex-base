@@ -3,6 +3,7 @@ package tech.ibrave.metabucket.application.storage.restful.api;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,27 +33,32 @@ public class StorageApi {
     private final StorageFacade storageFacade;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('mb.storage.create')")
     SuccessResponse create(@Valid @RequestBody StoragePersistenceReq req) {
         return storageFacade.create(req);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('mb.storage.update')")
     SuccessResponse update(@PathVariable Integer id,
                            @Valid @RequestBody StoragePersistenceReq req) {
         return storageFacade.update(id, req);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('mb.storage.view')")
     StorageDto getDetail(@PathVariable Integer id) {
         return storageFacade.getDetail(id);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('mb.storage.view')")
     Page<StorageDto> search(@ModelAttribute SearchStorageReq req) {
         return storageFacade.search(req);
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('mb.storage.delete')")
     SuccessResponse delete(@Valid @ModelAttribute DeleteStorageReq req) {
         return storageFacade.delete(req);
     }

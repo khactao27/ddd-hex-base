@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,53 +42,62 @@ public class UserApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAnyAuthority('mb.users.create')")
+    @PreAuthorize("hasAnyAuthority('mb.users.create')")
     public SuccessResponse create(@Valid @RequestBody PersistUserReq req) {
         return userFacade.createUser(req);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('mb.users.update')")
     public SuccessResponse update(@PathVariable String id,
                                   @Valid @RequestBody PersistUserReq req) {
         return userFacade.updateUser(id, req);
     }
 
     @PostMapping("/update-bulk")
+    @PreAuthorize("hasAnyAuthority('mb.users.update')")
     public SuccessResponse updateBulk(@RequestBody UpdateBulkUserReq req) {
         return userFacade.updateBulkUser(req);
     }
 
     @PostMapping("/{id}/reset-password")
+    @PreAuthorize("hasAnyAuthority('mb.users.resetpassword')")
     public ResetPasswordResp resetPassword(@PathVariable String id) {
         return userFacade.resetPassword(id);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('mb.users.view')")
     public Page<UserDto> getListUser(@ModelAttribute SearchUserReq req) {
         return userFacade.searchUser(req);
     }
 
     @GetMapping("/{userId}")
+    @PreAuthorize("hasAnyAuthority('mb.users.view')")
     public UserDto getUser(@PathVariable("userId") String userId) {
         return userFacade.getUser(userId);
     }
 
     @PostMapping("/import")
+    @PreAuthorize("hasAnyAuthority('mb.users.update')")
     public ImportUserResp importUser(@RequestParam("file") MultipartFile file) {
         return userFacade.importUser(file);
     }
 
     @GetMapping("/import/result")
+    @PreAuthorize("hasAnyAuthority('mb.users.update')")
     public void getImportResult(@RequestParam String importId, HttpServletResponse response) {
         userFacade.getImportResult(importId, response);
     }
 
     @GetMapping("/export/fields")
+    @PreAuthorize("hasAnyAuthority('mb.users.view')")
     public GetUserExportFieldsResp getExportedFields() {
         return userFacade.getUserExportFields();
     }
 
     @PostMapping("/export")
+    @PreAuthorize("hasAnyAuthority('mb.users.view')")
     public void exportUser(@RequestBody ExportUserReq req, HttpServletResponse response) {
         userFacade.exportUser(req, response);
     }

@@ -3,6 +3,7 @@ package tech.ibrave.metabucket.application.user.restful.api;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,42 +34,48 @@ import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
 @RequiredArgsConstructor
 @RequestMapping("/v1/roles")
 public class RoleApi {
-
     private final RoleFacade roleFacade;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+//    @PreAuthorize("hasAnyAuthority('mb.roles.create')")
     public SuccessResponse createRole(@Valid @RequestBody PersistRoleReq req) {
         return roleFacade.createRole(req);
     }
 
     @PutMapping("/{roleId}")
+//    @PreAuthorize("hasAnyAuthority('mb.roles.update')")
     public SuccessResponse updateRole(@PathVariable("roleId") Long roleId,
                                       @Valid @RequestBody PersistRoleReq req) {
         return roleFacade.updateRole(roleId, req);
     }
 
     @PutMapping("/status")
+    @PreAuthorize("hasAnyAuthority('mb.roles.update')")
     public SuccessResponse updateRoleStatus(@RequestBody RoleStatusBulkReq req) {
         return roleFacade.updateRoleStatus(req);
     }
 
     @DeleteMapping("/{roleId}")
+    @PreAuthorize("hasAnyAuthority('mb.roles.delete')")
     public SuccessResponse deleteRole(@PathVariable("roleId") Long roleId) {
         return roleFacade.deleteRole(roleId);
     }
 
     @DeleteMapping
+    @PreAuthorize("hasAnyAuthority('mb.roles.delete')")
     public SuccessResponse deleteRoles(@ModelAttribute DeleteRoleIdBulkReq ids) {
         return roleFacade.deleteRoles(ids);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('mb.roles.view')")
     public Page<RoleLiteDto> getAllRole(@ModelAttribute RoleSearchReq req) {
         return roleFacade.getAllRole(req);
     }
 
     @GetMapping("/{roleId}")
+    @PreAuthorize("hasAnyAuthority('mb.roles.view')")
     public RoleDto getRoleById(@PathVariable("roleId") Long roleId) {
         return roleFacade.getRoleById(roleId);
     }

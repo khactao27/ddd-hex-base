@@ -1,5 +1,6 @@
 package tech.ibrave.metabucket.infras.persistence.jpa.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,6 +45,7 @@ public class RoleEntity extends AbstractAuditingUserEntity implements Serializab
     private boolean enable;
 
     @Convert(converter = Permissions2StringConverter.class)
+    @Column(length = 5000)
     private List<Permission> permissions;
 
     @ManyToMany

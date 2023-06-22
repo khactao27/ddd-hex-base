@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ibrave.metabucket.domain.shared.Permission;
 import tech.ibrave.metabucket.domain.user.User;
 
 import java.util.List;
@@ -23,6 +22,6 @@ public class PersistRoleReq {
     private String name;
     private String description;
     private boolean enable;
-    private List<Permission> permissions;
+    private List<String> permissions;
     private List<User> users;
 }

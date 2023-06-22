@@ -17,6 +17,8 @@ public enum Permission {
     CREATE_USER("mb.users.create"),
     UPDATE_USER("mb.users.update"),
     DELETE_USER("mb.users.delete"),
+    RESET_PASSWORD("mb.users.delete.resetpassword"),
+
 
     // manage group
     VIEW_GROUP("mb.groups.view"),
@@ -28,7 +30,26 @@ public enum Permission {
     VIEW_ROLE("mb.roles.view"),
     CREATE_ROLE("mb.roles.create"),
     UPDATE_ROLE("mb.roles.update"),
-    DELETE_ROLE("mb.roles.delete");
+    DELETE_ROLE("mb.roles.delete"),
+
+    // manage category
+    VIEW_CATEGORY("mb.category.view"),
+    CREATE_CATEGORY("mb.category.create"),
+    UPDATE_CATEGORY("mb.category.update"),
+    DELETE_CATEGORY("mb.category.delete"),
+
+    // manage metadata definition
+    VIEW_METADATA("mb.metadata.view"),
+    CREATE_METADATA("mb.metadata.create"),
+    UPDATE_METADATA("mb.metadata.update"),
+    DELETE_METADATA("mb.metadata.delete"),
+
+    // manage storage
+    VIEW_STORAGE("mb.storage.view"),
+    CREATE_STORAGE("mb.storage.create"),
+    UPDATE_STORAGE("mb.storage.update"),
+    DELETE_STORAGE("mb.storage.delete");
+
 
     private final String value;
 
