@@ -1,12 +1,15 @@
 package tech.ibrave.metabucket.application.storage.restful.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ibrave.metabucket.domain.storage.StorageType;
+import tech.ibrave.metabucket.shared.constant.DataUnit;
 
 /**
  * Author: hungnm
@@ -22,12 +25,13 @@ public class StoragePersistenceReq {
     private String name;
     @Size(max = 1000, message = "{mb.properties.validate.invalid_storagedes}")
     private String description;
-    @NotBlank(message = "mb.storage.validate.required_type")
+    @NotNull(message = "mb.storage.validate.required_type")
     private StorageType type;
-    @NotBlank(message = "{mb.storage.validate.required_totalcapacity}")
-    @Pattern(regexp = "[0-9\\\\]{1,10}",
-            message = "{mb.storage.validate.invalid_totalcapacity}")
-    private int totalCapacity;
+    @NotNull(message = "{mb.storage.validate.required_totalcapacity}")
+    @Max(value = 999999999, message = "{mb.storage.validate.invalid_totalcapacity}")
+    private Long totalCapacity;
+    @NotNull(message = "mb.storage.validate.required_unit")
+    private DataUnit unit;
     private String accessToken;
     private String refreshToken;
 }

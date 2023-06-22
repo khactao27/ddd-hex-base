@@ -45,3 +45,9 @@ base-url:
 file:
   dir:
     import-result: import-result/
+
+integration:
+  google:
+    client-id: 1037815302930-ub1ai3bcld16quurv7bpktipc1gnkm8b.apps.googleusercontent.com
+    secret-id: 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
+    token-server: https://www.googleapis.com/oauth2/v3/token

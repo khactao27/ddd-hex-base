@@ -35,8 +35,8 @@ public class StorageEntity extends AbstractAuditingUserEntity implements Seriali
     private String description;
     @Enumerated(EnumType.STRING)
     private StorageType type;
-    private int totalCapacity;
-    private int currentCapacity;
+    private long totalCapacity;
+    private long currentCapacity;
     @Enumerated(EnumType.STRING)
     private StorageStatus status;
     private String accessToken;

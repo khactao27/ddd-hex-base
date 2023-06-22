@@ -15,8 +15,8 @@ public class Storage extends BaseAuditingObject {
     private String name;
     private String description;
     private StorageType type;
-    private int totalCapacity;
-    private int currentCapacity;
+    private long totalCapacity;
+    private long currentCapacity;
     private StorageStatus status;
     private String accessToken;
     private String refreshToken;

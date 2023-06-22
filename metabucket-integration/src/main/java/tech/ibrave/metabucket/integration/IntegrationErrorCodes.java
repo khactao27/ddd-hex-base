@@ -11,7 +11,9 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
  */
 public enum IntegrationErrorCodes implements ErrorCode {
 
-    INTEGRATION_NOT_FOUND("I0001", NOT_FOUND, "");
+    INTEGRATION_NOT_FOUND("I0001", NOT_FOUND, ""),
+    INTEGRATE_SECURITY_ERROR("I0002", HttpStatus.BAD_REQUEST, "mb.integrate.security.error")
+    ;
 
     private final String code;
     private final HttpStatus status;

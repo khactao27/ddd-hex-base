@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import tech.ibrave.metabucket.domain.ErrorCodes;
+import tech.ibrave.metabucket.integration.IntegrationErrorCodes;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
 import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 import tech.ibrave.metabucket.shared.message.MessageSource;
@@ -20,6 +21,7 @@ import tech.ibrave.metabucket.shared.model.response.ValidationErrorResp;
 import tech.ibrave.metabucket.shared.utils.CollectionUtils;
 
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Optional;
 
 @Slf4j
@@ -78,6 +80,11 @@ public class GlobalExceptionHandler {
         }
 
         return toResponseEntity(errorResp, errorCode.status());
+    }
+
+    @ExceptionHandler(GeneralSecurityException.class)
+    public ResponseEntity<ErrorResp> handleAccessDeniedException(GeneralSecurityException ex) {
+        return toErrorResp(IntegrationErrorCodes.INTEGRATE_SECURITY_ERROR, ex);
     }
 
     @SuppressWarnings("all")

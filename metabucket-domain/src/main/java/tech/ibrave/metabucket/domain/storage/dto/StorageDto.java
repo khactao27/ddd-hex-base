@@ -15,7 +15,7 @@ public class StorageDto {
     private String name;
     private String description;
     private StorageType type;
-    private int totalCapacity;
-    private int currentCapacity;
+    private long totalCapacity;
+    private long currentCapacity;
     private StorageStatus status;
 }
