@@ -55,7 +55,7 @@ public class MetadataDefinitionFacade {
 
     public SuccessResponse delete(DeleteMetadataDefinitionReq req) {
         definitionUseCase.deleteAllByIdInBatch(req.getIds());
-        return SuccessResponse.ofMessageCode("mb.Metadata.delete.success");
+        return SuccessResponse.ofMessageCode("mb.metadata.delete.success");
     }
 
     public MetadataDefinitionDto getDetail(Long id) {

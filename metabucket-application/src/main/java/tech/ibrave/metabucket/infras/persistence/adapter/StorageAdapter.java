@@ -52,6 +52,7 @@ public class StorageAdapter extends BaseDslRepository<StorageEntity, Storage, In
         if (req.getStatus() != null) {
             whereBuilder.and(QStorageEntity.storageEntity.status.eq(req.getStatus()));
         }
+        query.where(whereBuilder);
         return new Page(getDomainResultAsPage(query, mapper()::toDto, req));
     }
 

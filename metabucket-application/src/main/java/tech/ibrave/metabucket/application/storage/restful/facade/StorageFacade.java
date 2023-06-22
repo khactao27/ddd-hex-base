@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import tech.ibrave.metabucket.application.auth.base.SecurityContext;
 import tech.ibrave.metabucket.application.storage.restful.mapper.StorageMapper;
+import tech.ibrave.metabucket.application.storage.restful.request.DeleteStorageReq;
 import tech.ibrave.metabucket.application.storage.restful.request.StoragePersistenceReq;
 import tech.ibrave.metabucket.domain.ErrorCodes;
 import tech.ibrave.metabucket.domain.shared.request.SearchStorageReq;
@@ -32,6 +35,8 @@ public class StorageFacade {
     private final StorageMapper storageMapper;
     private final MessageSource messageSource;
     private final GoogleDriveConfig driveConfig;
+    private final SecurityContext securityContext;
+    private final PasswordEncoder passwordEncoder;
 
     public SuccessResponse create(StoragePersistenceReq req) {
         var storage = storageMapper.toDomain(req);
@@ -53,6 +58,7 @@ public class StorageFacade {
             validateStorage(req);
         }
         storageMapper.update(storage, req);
+        storageUseCase.save(storage);
         return new SuccessResponse(id, messageSource.getMessage("{mb.storage.update.success}"));
     }
 
@@ -63,6 +69,15 @@ public class StorageFacade {
 
     public Page<StorageDto> search(SearchStorageReq req) {
         return storageUseCase.search(req);
+    }
+
+    public SuccessResponse delete(DeleteStorageReq req) {
+        var user = securityContext.getUser();
+        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            throw new ErrorCodeException(ErrorCodes.INVALID_PASSWORD);
+        }
+        storageUseCase.deleteAllByIdInBatch(req.getIds());
+        return SuccessResponse.ofMessageCode("mb.storage.delete.success");
     }
 
     @SneakyThrows

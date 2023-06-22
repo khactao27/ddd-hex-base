@@ -12,6 +12,7 @@ import tech.ibrave.metabucket.domain.storage.StorageType;
 @Getter
 @Setter
 public class StorageDto {
+    private Integer id;
     private String name;
     private String description;
     private StorageType type;
