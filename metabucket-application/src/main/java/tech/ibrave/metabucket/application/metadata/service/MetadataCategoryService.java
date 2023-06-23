@@ -27,7 +27,7 @@ public class MetadataCategoryService
 
     @Override
     public ErrorCode notFound() {
-        return ErrorCodes.NOT_FOUND;
+        return ErrorCodes.CATEGORY_NOT_FOUND;
     }
 
     @Override

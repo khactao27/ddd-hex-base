@@ -27,7 +27,7 @@ public class UserService extends BaseApplicationService<User, String, UserPersis
 
     @Override
     public ErrorCode notFound() {
-        return ErrorCodes.NOT_FOUND;
+        return ErrorCodes.USER_NOT_FOUND;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class PermissionApi {
     @Cacheable("default")
     public List<PermissionResp> getAllPermissions() {
         return Arrays.stream(Permission.values())
-                .map(permission -> new PermissionResp(permissionsSource.getRawMessage(permission.getValue()), permission.toString()))
+                .map(permission -> new PermissionResp(permissionsSource.getRawMessage(permission.getValue()), permission.getValue().toString()))
                 .toList();
     }
 }

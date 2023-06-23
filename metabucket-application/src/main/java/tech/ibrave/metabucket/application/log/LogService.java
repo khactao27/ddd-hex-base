@@ -40,7 +40,7 @@ public class LogService extends BaseApplicationService<Log, String, LogPersisten
 
     @Override
     public ErrorCode notFound() {
-        return ErrorCodes.NOT_FOUND;
+        return ErrorCodes.LOG_NOT_FOUND;
     }
 
     public void persist() {

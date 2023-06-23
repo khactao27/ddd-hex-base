@@ -27,7 +27,7 @@ public class UserGroupService extends BaseApplicationService<UserGroup, String, 
 
     @Override
     public ErrorCode notFound() {
-        return ErrorCodes.NOT_FOUND;
+        return ErrorCodes.USER_GROUP_NOT_FOUND;
     }
 
     @Override

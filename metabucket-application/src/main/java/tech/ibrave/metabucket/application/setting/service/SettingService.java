@@ -1,6 +1,5 @@
 package tech.ibrave.metabucket.application.setting.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import tech.ibrave.metabucket.domain.ErrorCodes;
@@ -11,7 +10,6 @@ import tech.ibrave.metabucket.domain.setting.usecase.SettingUseCase;
 import tech.ibrave.metabucket.shared.architecture.BaseApplicationService;
 import tech.ibrave.metabucket.shared.architecture.annotation.ApplicationService;
 import tech.ibrave.metabucket.shared.exception.ErrorCode;
-import tech.ibrave.metabucket.shared.exception.ErrorCodeException;
 
 import java.util.Optional;
 
@@ -60,6 +58,6 @@ public class SettingService extends BaseApplicationService<Setting, Integer, Set
 
     @Override
     public ErrorCode notFound() {
-        return ErrorCodes.NOT_FOUND;
+        return ErrorCodes.SETTING_NOT_FOUND;
     }
 }

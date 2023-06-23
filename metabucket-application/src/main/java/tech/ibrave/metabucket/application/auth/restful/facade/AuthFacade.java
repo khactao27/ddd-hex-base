@@ -135,7 +135,7 @@ public class AuthFacade {
 
     public ForgotPasswordSuccessResp forgotPassword(ForgotPasswordReq req) {
         if (!userUseCase.existByEmail(req.getEmail())) {
-            throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
+            throw new ErrorCodeException(ErrorCodes.USER_NOT_FOUND);
         }
         var jwtToken = jwtUtils.generateForgotPasswordJwt(req.getEmail());
         var recoverUrl = baseRecoverPasswordUrl + "?token=" + jwtToken;

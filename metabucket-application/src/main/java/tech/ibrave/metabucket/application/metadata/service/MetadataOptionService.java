@@ -22,6 +22,6 @@ public class MetadataOptionService
 
     @Override
     public ErrorCode notFound() {
-        return ErrorCodes.NOT_FOUND;
+        return ErrorCodes.METADATA_OPTION_NOT_FOUND;
     }
 }

@@ -34,7 +34,15 @@ public enum ErrorCodes implements ErrorCode {
     DUPLICATE_STORAGE_NAME("MB0021", HttpStatus.BAD_REQUEST, "mb.storage.validate.duplicated_metadataname"),
     INVALID_TOTAL_CAPACITY("MB0022", HttpStatus.BAD_REQUEST, "mb.storage.validate.invalid_totalcapacity"),
     INVALID_PASSWORD("MB0023", HttpStatus.BAD_REQUEST, "mb.users.login.invalid_password"),
-    PERMISSION_NOT_EXIST("MB0024", HttpStatus.BAD_REQUEST, "mb.roles.create.notexist_permissioncode");
+    PERMISSION_NOT_EXIST("MB0024", HttpStatus.BAD_REQUEST, "mb.roles.create.notexist_permissioncode"),
+    USER_NOT_FOUND("MB0025", HttpStatus.NOT_FOUND, "mb.users.not_found"),
+    ROLE_NOT_FOUND("MB0026", HttpStatus.NOT_FOUND, "mb.roles.not_found"),
+    USER_GROUP_NOT_FOUND("MB0027", HttpStatus.NOT_FOUND, "mb.groups.not_found"),
+    METADATA_OPTION_NOT_FOUND("MB0028", HttpStatus.NOT_FOUND, "mb.option.not_found"),
+    LOG_NOT_FOUND("MB0029", HttpStatus.NOT_FOUND, "mb.logs.not_found"),
+    CATEGORY_NOT_FOUND("MB0030", HttpStatus.NOT_FOUND, "mb.category.not_found"),
+    SETTING_NOT_FOUND("MB0031", HttpStatus.NOT_FOUND, "mb.settings.not_found"),
+    METADATA_DEFINITION_NOT_FOUND("MB0032", HttpStatus.NOT_FOUND, "mb.definition.not_found")
     ;
 
     private final String code;

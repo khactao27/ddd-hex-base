@@ -94,7 +94,7 @@ public class MetadataCategoryFacade {
 
     public void validateExistsById(Long id) {
         if (!categoryUseCase.existById(id)) {
-            throw new ErrorCodeException(ErrorCodes.NOT_FOUND);
+            throw new ErrorCodeException(ErrorCodes.CATEGORY_NOT_FOUND);
         }
     }
 

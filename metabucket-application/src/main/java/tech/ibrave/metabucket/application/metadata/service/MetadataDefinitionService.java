@@ -34,6 +34,6 @@ public class MetadataDefinitionService
 
     @Override
     public ErrorCode notFound() {
-        return ErrorCodes.NOT_FOUND;
+        return ErrorCodes.METADATA_DEFINITION_NOT_FOUND;
     }
 }

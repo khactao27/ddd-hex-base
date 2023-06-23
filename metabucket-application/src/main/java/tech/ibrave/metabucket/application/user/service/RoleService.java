@@ -29,7 +29,7 @@ public class RoleService extends BaseApplicationService<Role, Long, RolePersiste
 
     @Override
     public ErrorCode notFound() {
-        return ErrorCodes.NOT_FOUND;
+        return ErrorCodes.ROLE_NOT_FOUND;
     }
 
     public boolean existsByName(String name) {
