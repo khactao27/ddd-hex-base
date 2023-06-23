@@ -6,6 +6,7 @@ import com.google.api.services.drive.model.About;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.Permission;
+import lombok.SneakyThrows;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -192,7 +193,8 @@ public class GoogleDriveUtils {
     /**
      * Get storage quota
      */
-    public static About.StorageQuota getStorageQuota(Drive drive) throws IOException {
+    @SneakyThrows
+    public static About.StorageQuota getStorageQuota(Drive drive) {
         return drive.about().get().setFields("storageQuota").execute().getStorageQuota();
     }
 }

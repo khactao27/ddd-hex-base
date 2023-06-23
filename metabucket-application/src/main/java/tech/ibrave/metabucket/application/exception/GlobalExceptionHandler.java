@@ -2,6 +2,7 @@ package tech.ibrave.metabucket.application.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.google.api.client.http.HttpResponseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.codec.DecodingException;
@@ -86,6 +87,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResp> handleAccessDeniedException(GeneralSecurityException ex) {
         return toErrorResp(IntegrationErrorCodes.INTEGRATE_SECURITY_ERROR, ex);
     }
+
+    /**
+     * Handle exception from Google
+     */
+    @ExceptionHandler(HttpResponseException.class)
+    public ResponseEntity<ErrorResp> handleHttpResponseException(HttpResponseException ex) {
+        //Todo: check detail exception
+        return toErrorResp(IntegrationErrorCodes.GOOGLE_INTEGRATE_ERROR, ex);
+    }
+
 
     @SuppressWarnings("all")
     public ResponseEntity<ErrorResp> toErrorResp(ErrorCodeException ex) {
