@@ -4,6 +4,7 @@ import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.util.StringUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import tech.ibrave.metabucket.domain.setting.SMTPMailSetting;
+import tech.ibrave.metabucket.domain.setting.usecase.SettingUseCase;
 import tech.ibrave.metabucket.infras.persistence.jpa.entity.EmailQueueEntity;
 import tech.ibrave.metabucket.infras.persistence.jpa.repository.EmailQueueJpaRepository;
 import tech.ibrave.metabucket.shared.lock.LockManager;
@@ -38,26 +40,47 @@ public class SMTPMailSender implements DisposableBean {
     private JavaMailSenderImpl mailSender;
     private boolean active;
     private ScheduledExecutorService scheduler;
+    private final SettingUseCase settingUseCase;
     private final LockManager lockManager;
     private final TemplateEngine emailTemplateEngine;
     private static final int MAX_QUEUE = 50;
-    private final Queue<EmailQueueEntity> temporaryQueue = new PriorityQueue<>(MAX_QUEUE,
-            Comparator.comparing(EmailQueueEntity::getCreatedTime));
+    private final Queue<EmailQueueEntity> temporaryQueue =
+            new PriorityQueue<>(MAX_QUEUE, Comparator.comparing(EmailQueueEntity::getCreatedTime));
     private final EmailQueueJpaRepository emailQueueJpaRepo;
 
-    public void init(SMTPMailSetting smtpConfig) {
-        this.initSMTP(smtpConfig);
-        this.initScheduler();
+    @EventListener(ApplicationStartedEvent.class)
+    public void init() {
+        try {
+            log.info(">>>>>>>>Init mail sender<<<<<<<<<");
+            var mailSetting = settingUseCase.getMailSetting();
+
+            if (mailSetting == null) {
+                log.warn("Not found smtp mail configuration");
+                return;
+            }
+
+            this.smtpConfig = mailSetting;
+            this.initSMTP(smtpConfig);
+            this.initScheduler();
+            this.start();
+
+            log.info(">>>>>>>Init mail sender done<<<<<<<<<");
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
     }
 
     @EventListener
     public void applyChanges(SMTPMailSetting smtpConfig) {
         try {
-            log.info("Apply change on SMTP setting.");
+            log.info(">>>>>>>Apply change on SMTP setting<<<<<<<<<");
             this.pause();
-            this.init(smtpConfig);
+
+            this.initSMTP(smtpConfig);
+            this.initScheduler();
             this.start();
-            log.info("Mail sender restarted.");
+
+            log.info(">>>>>>>>Mail sender restarted<<<<<<");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -81,7 +104,7 @@ public class SMTPMailSender implements DisposableBean {
         props.put("mail.smtp.trust", "*");
         props.put("mail.smtp.ssl.checkserveridentity", smtpConfig.isCheckserveridentity());
 
-        log.info("Mail sender ready.");
+        log.info(">>>>>>>>>>Mail sender ready<<<<<<<<");
     }
 
     private void initScheduler() {

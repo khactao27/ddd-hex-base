@@ -11,7 +11,7 @@ import tech.ibrave.metabucket.domain.storage.persistence.StoragePersistence;
 import tech.ibrave.metabucket.infras.persistence.jpa.BaseDslRepository;
 import tech.ibrave.metabucket.infras.persistence.jpa.entity.QStorageEntity;
 import tech.ibrave.metabucket.infras.persistence.jpa.entity.StorageEntity;
-import tech.ibrave.metabucket.infras.persistence.jpa.repository.StorageEntityJpaRepository;
+import tech.ibrave.metabucket.infras.persistence.jpa.repository.StorageJpaRepository;
 import tech.ibrave.metabucket.infras.persistence.mapper.StorageEntityMapper;
 import tech.ibrave.metabucket.shared.architecture.Page;
 
@@ -22,7 +22,7 @@ import tech.ibrave.metabucket.shared.architecture.Page;
 @Component
 @SuppressWarnings("ALL")
 public class StorageAdapter extends BaseDslRepository<StorageEntity, Storage, Integer> implements StoragePersistence {
-    protected StorageAdapter(StorageEntityJpaRepository repo,
+    protected StorageAdapter(StorageJpaRepository repo,
                              StorageEntityMapper mapper,
                              EntityManager em) {
         super(repo, mapper, em);
@@ -57,7 +57,7 @@ public class StorageAdapter extends BaseDslRepository<StorageEntity, Storage, In
     }
 
     @Override
-    public StorageEntityJpaRepository repo() {
+    public StorageJpaRepository repo() {
         return super.repo();
     }
 
