@@ -42,7 +42,10 @@ public enum ErrorCodes implements ErrorCode {
     LOG_NOT_FOUND("MB0029", HttpStatus.NOT_FOUND, "mb.logs.not_found"),
     CATEGORY_NOT_FOUND("MB0030", HttpStatus.NOT_FOUND, "mb.category.not_found"),
     SETTING_NOT_FOUND("MB0031", HttpStatus.NOT_FOUND, "mb.settings.not_found"),
-    METADATA_DEFINITION_NOT_FOUND("MB0032", HttpStatus.NOT_FOUND, "mb.definition.not_found")
+    METADATA_DEFINITION_NOT_FOUND("MB0032", HttpStatus.NOT_FOUND, "mb.definition.not_found"),
+    UPDATE_USER_NOT_FOUND("MB0033", HttpStatus.NOT_FOUND, "mb.users.update.notexist_userid"),
+    DETAIL_USER_NOT_FOUND("MB0033", HttpStatus.NOT_FOUND, "mb.users.getdetail.notexist_userid"),
+
     ;
 
     private final String code;

@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import tech.ibrave.metabucket.domain.shared.request.SearchUserReq;
 import tech.ibrave.metabucket.domain.user.dto.UserDto;
 import tech.ibrave.metabucket.shared.architecture.Page;
 import tech.ibrave.metabucket.shared.model.response.SuccessResponse;
+import tech.ibrave.metabucket.shared.validation.ValidationSequence;
 
 /**
  * Author: hungnm
@@ -43,14 +45,14 @@ public class UserApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAnyAuthority('mb.users.create')")
-    public SuccessResponse create(@Valid @RequestBody PersistUserReq req) {
+    public SuccessResponse create(@Validated(ValidationSequence.class) @RequestBody PersistUserReq req) {
         return userFacade.createUser(req);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('mb.users.update')")
     public SuccessResponse update(@PathVariable String id,
-                                  @Valid @RequestBody PersistUserReq req) {
+                                  @Validated(ValidationSequence.class) @RequestBody PersistUserReq req) {
         return userFacade.updateUser(id, req);
     }
 

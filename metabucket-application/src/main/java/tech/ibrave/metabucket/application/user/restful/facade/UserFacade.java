@@ -87,7 +87,7 @@ public class UserFacade {
     }
 
     public SuccessResponse updateUser(String userId, PersistUserReq req) {
-        var user = userUseCase.getOrElseThrow(userId);
+        var user = userUseCase.getById(userId).orElseThrow(() -> new ErrorCodeException(ErrorCodes.UPDATE_USER_NOT_FOUND));
         if (!StringUtils.equals(user.getEmail(), req.getEmail())) {
             validateExistEmail(req.getEmail());
         }
@@ -112,16 +112,18 @@ public class UserFacade {
     }
 
     public UserDto getUser(String userId) {
-        return userUseCase.findByIdUseDto(userId);
+        var user = userUseCase.getById(userId).orElseThrow(() -> new ErrorCodeException(ErrorCodes.DETAIL_USER_NOT_FOUND));
+        return userMapper.toDto(user);
     }
 
     public ResetPasswordResp resetPassword(String userId) {
         // todo Check if use can edit
 
         var newPassword = RandomStringUtils.randomAlphabetic(8);
-        var updatedUser = userUseCase.update(userId, updateUser -> updateUser.setPassword(passwordEncoder.encode(newPassword)));
-
-        return new ResetPasswordResp(updatedUser.getId(),
+        var user = userUseCase.getById(userId).orElseThrow(() -> new ErrorCodeException(ErrorCodes.UPDATE_USER_NOT_FOUND));
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userUseCase.save(user);
+        return new ResetPasswordResp(userId,
                 messageSource.getMessage("mb.users.reset_pw.success"),
                 newPassword);
     }
