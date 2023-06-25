@@ -38,13 +38,13 @@ public class RoleApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-//    @PreAuthorize("hasAnyAuthority('mb.roles.create')")
+    @PreAuthorize("hasAnyAuthority('mb.roles.create')")
     public SuccessResponse createRole(@Valid @RequestBody PersistRoleReq req) {
         return roleFacade.createRole(req);
     }
 
     @PutMapping("/{roleId}")
-//    @PreAuthorize("hasAnyAuthority('mb.roles.update')")
+    @PreAuthorize("hasAnyAuthority('mb.roles.update')")
     public SuccessResponse updateRole(@PathVariable("roleId") Long roleId,
                                       @Valid @RequestBody PersistRoleReq req) {
         return roleFacade.updateRole(roleId, req);

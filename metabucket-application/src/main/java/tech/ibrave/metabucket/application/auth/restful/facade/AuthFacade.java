@@ -155,6 +155,9 @@ public class AuthFacade {
         }
         var email = jws.get().getBody().getSubject();
         var user = userUseCase.findByEmail(email);
+        if (passwordEncoder.matches(req.getNewPassword(), user.getPassword())) {
+            throw new ErrorCodeException(ErrorCodes.DUPLICATE_PASSWORD);
+        }
 
         user.setPassword(passwordEncoder.encode(req.getNewPassword()));
         var userId = userUseCase.save(user).getId();

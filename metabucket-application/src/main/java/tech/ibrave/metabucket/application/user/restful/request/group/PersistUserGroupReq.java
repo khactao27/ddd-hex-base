@@ -20,7 +20,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersistUserGroupReq {
     @NotBlank(message = "{mb.groups.create.required_groupname}")
-    @Pattern(regexp = "[^`0-9˜!`#$%ˆ&*()_\\-+=|\\{}\\[\\]?/:;\".,<>]{0,32}$",
+    @Pattern(regexp = "[^`˜!`#$%ˆ&*()_\\-+=|\\{}\\[\\]?/:;\".,<>]{0,32}$",
             message = "{mb.groups.create.invalid_groupname}")
     private String name;
     @Size(max = 500, message = "{mb.groups.create.invalid_description}")

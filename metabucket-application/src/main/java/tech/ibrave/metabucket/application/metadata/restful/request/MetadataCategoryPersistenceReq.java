@@ -22,7 +22,7 @@ public class MetadataCategoryPersistenceReq {
             message = "{mb.categories.create.invalid_categoryname}")
     private String name;
     @Pattern(regexp = "[a-zA-Z0-9 \\\\]{1,2000}",
-            message = "{mb.categories.create.invalid_categoryname}")
+            message = "{mb.category.validate.invalid_cateogrydes}")
     private String description;
     private Long parentId; // category parent
     private List<MetaDataDefinitionLiteDto> metadataDefinitions;

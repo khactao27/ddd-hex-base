@@ -35,6 +35,6 @@ public class UpdateProfileReq {
             message = "{mb.users.update.invalid_location}")
     private String location;
 
-    @NotNull
-    private boolean enable2FA;
+    @NotNull(message = "{mb.user.update.required_2fastatus}")
+    private Boolean enable2FA;
 }

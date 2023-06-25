@@ -22,7 +22,7 @@ import java.util.List;
 public class PersistRoleReq {
 
     @NotBlank(message = "{mb.roles.create.required_rolename}")
-    @Pattern(regexp = "[^`0-9˜!`#$%ˆ&*()_\\-+=|\\{}\\[\\]?/:;\".,<>]{0,32}$",
+    @Pattern(regexp = "[^`˜!`#$%ˆ&*()_\\-+=|\\{}\\[\\]?/:;\".,<>]{0,32}$",
             message = "{mb.roles.create.invalid_rolename}")
     private String name;
     @Size(max = 500, message = "{mb.roles.create.invalid_description}")

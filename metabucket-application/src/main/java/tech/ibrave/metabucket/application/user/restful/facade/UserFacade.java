@@ -359,7 +359,7 @@ public class UserFacade {
         }
         user.setPassword(passwordEncoder.encode(req.getNewPassword()));
         var userId = userUseCase.save(user).getId();
-        return new SuccessResponse(userId, messageSource.getMessage("mb.user.update.success"));
+        return new SuccessResponse(userId, messageSource.getMessage("mb.users.update.success"));
     }
 
     private void validateExportFields(List<String> fields) {
